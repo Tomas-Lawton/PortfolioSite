@@ -17,6 +17,14 @@ body {
   background: white;
 }
 
+.bg-accent {
+ background: rgb(37 99 235); 
+}
+
+.text-accent {
+  color: rgb(37 99 235); 
+}
+
 .gradient-circle {
   position: absolute;
   pointer-events: none;

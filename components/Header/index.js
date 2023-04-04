@@ -25,7 +25,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
             <div className="flex items-center justify-between p-2 laptop:p-0">
               <h1
                 onClick={() => router.push("/")}
-                className="font-medium p-2 laptop:p-0 link"
+                className="text-accent font-bold text-xl p-2 laptop:p-0 link"
               >
                 {name}.
               </h1>
@@ -49,12 +49,12 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                   <img
                     className="h-5"
                     src={`/images/${!open
-                        ? theme === "dark"
-                          ? "menu-white.svg"
-                          : "menu.svg"
-                        : theme === "light"
-                          ? "cancel.svg"
-                          : "cancel-white.svg"
+                      ? theme === "dark"
+                        ? "menu-white.svg"
+                        : "menu.svg"
+                      : theme === "light"
+                        ? "cancel.svg"
+                        : "cancel-white.svg"
                       }`}
                   ></img>
                 </Popover.Button>
@@ -119,7 +119,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
       >
         <h1
           onClick={() => router.push("/")}
-          className="font-medium cursor-pointer mob:p-2 laptop:p-0"
+          className="text-accent font-bold text-xl p-2 laptop:p-0 link"
         >
           {name}.
         </h1>
@@ -127,10 +127,8 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
           <div className="flex">
             <Button onClick={handleWorkScroll}>Work</Button>
             <Button onClick={handleAboutScroll}>About</Button>
-            <Button
-                    onClick={() => router.replace("/https://drive.google.com/file/d/1n8kzQYPbDqfPCZZLrL7gUV7R1uPAphK9/view?usp=sharing")}
-                  >
-                    Curriculum
+            <Button onClick={() => window.open("https://drive.google.com/file/d/17fBnqxIrOSQxnBAhswSuIDsS1OJKWqJF/view?usp=sharing", "_blank")}>
+              Curriculum
             </Button>
             {showBlog && (
               <Button onClick={() => router.push("/blog")}>Blog</Button>

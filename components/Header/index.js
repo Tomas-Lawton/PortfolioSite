@@ -127,7 +127,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
           <div className="flex">
             <Button onClick={handleWorkScroll}>Work</Button>
             <Button onClick={handleAboutScroll}>About</Button>
-            <Button onClick={() => window.open("https://drive.google.com/file/d/17fBnqxIrOSQxnBAhswSuIDsS1OJKWqJF/view?usp=sharing", "_blank")}>
+            <Button onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
               Curriculum
             </Button>
             {showBlog && (

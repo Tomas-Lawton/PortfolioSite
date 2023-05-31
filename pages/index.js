@@ -83,12 +83,6 @@ export default function Home() {
             >
               {data.headerTaglineThree}
             </h1>
-            <h1
-              ref={textFour}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
-            >
-              {data.headerTaglineFour}
-            </h1>
           </div>
 
           <Socials className="mt-2 laptop:mt-5" />

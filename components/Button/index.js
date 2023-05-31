@@ -9,7 +9,7 @@ const Button = ({ children, type, onClick, classes }) => {
       <button
         onClick={onClick}
         type="button"
-        className={`text-sm tablet:text-base rounded-xl my-10 p-4 ${
+        className={`text-sm tablet:text-base rounded-full my-10 py-4 px-6 m-2 font-bold ${
           theme === "dark" ? "bg-white text-black" : "bg-accent text-white"
         }  transition-all duration-300 ease-out hover:scale-105 active:scale-100 link ${
           data.showCursor && "cursor-none"
@@ -23,10 +23,10 @@ const Button = ({ children, type, onClick, classes }) => {
     <button
       onClick={onClick}
       type="button"
-      className={`text-sm tablet:text-base p-1 laptop:p-2 m-1 laptop:m-2 rounded-lg flex items-center transition-all ease-out duration-300 ${
+      className={`custom-button text-sm tablet:text-base py-2 px-4 m-2 rounded-full flex items-center transition-all ease-out duration-300 ${
         theme === "dark"
-          ? "hover:bg-slate-600 text-white"
-          : "hover:bg-slate-100"
+          ? "hover:text-accent text-white"
+          : "hover:bg-slate-100 text-black"
       } hover:scale-105 active:scale-100  tablet:first:ml-0  ${
         data.showCursor && "cursor-none"
       } ${classes} link`}

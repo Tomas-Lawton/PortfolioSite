@@ -24,6 +24,17 @@ body {
     color: rgb(37 99 235);
 }
 
+.custom-button {
+    font-size: 1.2em !important;
+    color: #7c7c7c;
+    font-weight: 500;
+}
+
+.custom-icon  {
+    font-size: 2em;
+    font-weight: 500; 
+}
+
 .gradient-circle {
     position: absolute;
     pointer-events: none;

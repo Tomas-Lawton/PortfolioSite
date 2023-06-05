@@ -18,6 +18,7 @@ export default function Home() {
   // Ref
   const workRef = useRef();
   const aboutRef = useRef();
+  const contactRef = useRef();
   const textOne = useRef();
   const textTwo = useRef();
   const textThree = useRef();
@@ -35,6 +36,14 @@ export default function Home() {
   const handleAboutScroll = () => {
     window.scrollTo({
       top: aboutRef.current.offsetTop,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleContactScroll = () => {
+    window.scrollTo({
+      top: contactRef.current.offsetTop,
       left: 0,
       behavior: "smooth",
     });
@@ -62,30 +71,31 @@ export default function Home() {
         <Header
           handleWorkScroll={handleWorkScroll}
           handleAboutScroll={handleAboutScroll}
+          handleContactScroll={handleContactScroll}
         />
         <div className="laptop:mt-20 mt-10">
           <div className="mt-5">
             <h1
               ref={textOne}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
+              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl pt-1 tablet:pt-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
             >
               {data.headerTaglineOne}
             </h1>
             <h1
               ref={textTwo}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl pt-1 tablet:pt-2 text-bold w-full laptop:w-4/5"
             >
               {data.headerTaglineTwo}
             </h1>
             <h1
               ref={textThree}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl pt-1 tablet:pt-2 text-bold w-full laptop:w-4/5"
             >
               {data.headerTaglineThree}
             </h1>
           </div>
 
-          <Socials className="mt-2 laptop:mt-5" />
+          <Socials className="mt-6 laptop:mt-5" />
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
           <h1 className="text-4xl text-bold my-10">Projects</h1>
@@ -105,7 +115,7 @@ export default function Home() {
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
           <h1 className="text-4xl text-bold my-10">Services</h1>
-          <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 p-12 rounded-lg">
+          <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
               <ServiceCard
                 key={index}
@@ -128,9 +138,9 @@ export default function Home() {
           <p className="mt-2 text-2xl w-full">{data.aboutpara}</p>
         </div>
 
-        <div className="mt-12 p-2">
-        <h1 className="text-4xl text-bold my-10">Contact</h1>
-        <Footer />
+        <div className="mt-10 laptop:mt-40 p-2 tablet:p-2 laptop:p-0">
+          <h1 className="text-4xl text-bold my-10" ref={contactRef}>Contact</h1>
+          <Footer />
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import Button from "../Button";
 // Local Data
 import data from "../../data/portfolio.json";
 
-const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
+const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBlog }) => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -82,7 +82,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                     </Button>
                   )}
                   <Button
-                    onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")}
+                    onClick={handleContactScroll}
                   >
                     Contact
                   </Button>
@@ -104,8 +104,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                     </Button>
                   )}
                   <Button
-                    onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")}
-                  >
+                  onClick={handleContactScroll}>
                     Contact
                   </Button>
                 </div>
@@ -132,7 +131,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
             <Button onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
               Resume
             </Button>
-            <Button onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")}>
+            <Button onClick={handleContactScroll}>
               Contact
             </Button>
 
@@ -152,7 +151,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")}>
+            <Button onClick={handleContactScroll}>
               Contact
             </Button>
 

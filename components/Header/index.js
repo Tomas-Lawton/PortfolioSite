@@ -19,7 +19,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
 
   return (
     <>
-      <Popover className="block tablet:hidden mt-5">
+      <Popover className="block tablet:hidden mt-10">
         {({ open }) => (
           <>
             <div className="flex items-center justify-between p-0">

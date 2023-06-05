@@ -61,7 +61,7 @@ export default function Home() {
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
       {data.showCursor && <Cursor />}
       <Head>
-        <title></title>
+        <title>Tomas Lawton Projects Portfolio</title>
       </Head>
 
       <div className="gradient-circle"></div>
@@ -73,7 +73,7 @@ export default function Home() {
           handleAboutScroll={handleAboutScroll}
           handleContactScroll={handleContactScroll}
         />
-        <div className="laptop:mt-20 mt-10">
+        <div className="laptop:mt-20 mt-10 p-2 tablet:p-2 laptop:p-0">
           <div className="mt-5">
             <h1
               ref={textOne}

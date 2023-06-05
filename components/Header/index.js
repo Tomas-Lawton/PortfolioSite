@@ -19,7 +19,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
 
   return (
     <>
-      <Popover className="block tablet:hidden mt-10">
+      <Popover className="block tablet:hidden mt-10 p-2 tablet:p-2 laptop:p-0">
         {({ open }) => (
           <>
             <div className="flex items-center justify-between p-0">
@@ -27,7 +27,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
               <img
                 className="profile-icon link"
                 src={`/images/profile.jpeg`}
-                onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}
+                onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
               ></img>
 
 
@@ -65,50 +65,24 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
               className={`absolute right-0 z-10 w-11/12 p-4 ${theme === "dark" ? "bg-slate-800" : "bg-white"
                 } shadow-md rounded-md`}
             >
-              {!isBlog ? (
-                <div className="grid grid-cols-1">
-                  <Button onClick={handleWorkScroll}>Work</Button>
-                  <Button onClick={handleAboutScroll}>About</Button>
-                  {showBlog && (
-                    <Button onClick={() => router.push("/blog")}>Blog</Button>
-                  )}
-                  {showResume && (
-                    <Button
-                      onClick={() =>
-                        window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")
-                      }
-                    >
-                      Resume
-                    </Button>
-                  )}
-                  <Button
-                    onClick={handleContactScroll}
-                  >
-                    Contact
-                  </Button>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1">
-                  <Button onClick={() => router.push("/")} classes="first:ml-1">
-                    Home
-                  </Button>
-                  {showBlog && (
-                    <Button onClick={() => router.push("/blog")}>Blog</Button>
-                  )}
-                  {showResume && (
-                    <Button
-                      onClick={() => router.push("/resume")}
-                      classes="first:ml-1"
-                    >
-                      Resume
-                    </Button>
-                  )}
-                  <Button
-                  onClick={handleContactScroll}>
-                    Contact
-                  </Button>
-                </div>
-              )}
+              <div className="grid grid-cols-1">
+                <Button onClick={handleWorkScroll}>Work</Button>
+                <Button onClick={handleAboutScroll}>About</Button>
+                {showBlog && (
+                  <Button onClick={() => router.push("/blog")}>Blog</Button>
+                )}
+                <Button
+                  onClick={handleContactScroll}
+                >
+                  Contact
+                </Button>
+                <Button
+                  onClick={() =>
+                    window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")
+                  }>
+                  Resume
+                </Button>
+              </div>
             </Popover.Panel>
           </>
         )}
@@ -121,20 +95,19 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
         <img
           className="profile-icon link"
           src={`/images/profile.jpeg`}
-          onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}
+          onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
         ></img>
-        
+
         {!isBlog ? (
           <div className="flex">
             <Button onClick={handleWorkScroll}>Work</Button>
             <Button onClick={handleAboutScroll}>About</Button>
-            <Button onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
-              Resume
-            </Button>
             <Button onClick={handleContactScroll}>
               Contact
             </Button>
-
+            <Button onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
+              Resume
+            </Button>
           </div>
         ) : (
           <div className="flex">

@@ -16,8 +16,8 @@ const Footer = ({}) => {
             </h2>
             <Button classes={"m-0 my-0 mt-5"} onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")} type="primary">Contact Now</Button>
            
-            <div className="mt-10">
-              <Socials className={"justify-end"}/>
+            <div className="mt-10 hidden tablet:block">
+              <Socials />
             </div>
           </div>
       </div>

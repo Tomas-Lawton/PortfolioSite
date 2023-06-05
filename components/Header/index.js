@@ -23,12 +23,13 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         {({ open }) => (
           <>
             <div className="flex items-center justify-between p-0">
-              <h1
-                onClick={() => router.push("/")}
-                className="text-accent font-bold text-xl p-2 laptop:p-0 link"
-              >
-                🚀
-              </h1>
+
+              <img
+                className="profile-icon link"
+                src={`/images/profile.jpeg`}
+                onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}
+              ></img>
+
 
               <div className="flex items-center">
                 {data.darkMode && (
@@ -117,12 +118,13 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         className={`background-white mt-10 hidden flex-row items-center justify-between sticky ${theme === "light" && "bg-white"
           } dark:text-white top-0 z-10 tablet:flex`}
       >
-        <h1
-          onClick={() => router.push("/")}
-          className="custom-icon text-accent font-bold text-xl p-2 laptop:p-0 link"
-        >
-         🚀
-        </h1>
+
+        <img
+          className="profile-icon link"
+          src={`/images/profile.jpeg`}
+          onClick={() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}
+        ></img>
+        
         {!isBlog ? (
           <div className="flex">
             <Button onClick={handleWorkScroll}>Work</Button>
@@ -130,10 +132,10 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
             <Button onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
               Resume
             </Button>
-            <Button  onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")}>
+            <Button onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")}>
               Contact
             </Button>
-           
+
           </div>
         ) : (
           <div className="flex">

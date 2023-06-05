@@ -27,7 +27,6 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                 onClick={() => router.push("/")}
                 className="text-accent font-bold text-xl p-2 laptop:p-0 link"
               >
-                {name}
               </h1>
 
               <div className="flex items-center">

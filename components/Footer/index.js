@@ -5,7 +5,6 @@ import Button from "../Button";
 const Footer = ({}) => {
   return (
     <>
-      <div className="mt-12 p-2">
         <div>
           <div className="mt-10 bg-slate-100 p-2 laptop:p-14 tablet:p-12 rounded-lg">
             <h1 className="text-3xl tablet:text-4xl laptop:text-4xl laptopl:text-5xl text-bold">
@@ -21,7 +20,6 @@ const Footer = ({}) => {
               <Socials className={"justify-end"}/>
             </div>
           </div>
-        </div>
       </div>
     </>
   );

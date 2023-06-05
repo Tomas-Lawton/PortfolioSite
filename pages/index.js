@@ -127,7 +127,11 @@ export default function Home() {
           <h1 className="text-4xl text-bold my-10">About</h1>
           <p className="mt-2 text-2xl w-full">{data.aboutpara}</p>
         </div>
+
+        <div className="mt-12 p-2">
+        <h1 className="text-4xl text-bold my-10">Contact</h1>
         <Footer />
+        </div>
       </div>
     </div>
   );

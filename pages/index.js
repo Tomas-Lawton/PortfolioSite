@@ -61,7 +61,7 @@ export default function Home() {
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
       {data.showCursor && <Cursor />}
       <Head>
-        <title>Tomas Lawton Projects Portfolio</title>
+        <title>Projects by Tomas Lawton</title>
       </Head>
 
       <div className="gradient-circle"></div>

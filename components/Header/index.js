@@ -77,9 +77,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
                   Contact
                 </Button>
                 <Button
-                  onClick={() =>
-                    window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")
-                  }>
+                  onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
                   Resume
                 </Button>
               </div>
@@ -117,7 +115,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
             )}
             {showResume && (
               <Button
-                onClick={() => router.push("/resume")}
+              onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}
                 classes="first:ml-1"
               >
                 Resume

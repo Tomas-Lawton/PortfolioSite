@@ -10,9 +10,12 @@ import Head from "next/head";
 import Button from "../components/Button";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
+import CustomAlert from "../components/CustomAlert"
 
 // Local Data
 import data from "../data/portfolio.json";
+
+
 
 export default function Home() {
   // Ref
@@ -64,10 +67,10 @@ export default function Home() {
         <title>Projects by Tomas Lawton</title>
       </Head>
 
-      <div className="gradient-circle"></div>
-      <div className="gradient-circle-bottom"></div>
-
       <div id="main-view" className="container mx-auto mb-10">
+      
+        <CustomAlert handleContactScroll={handleContactScroll}/>
+
         <Header
           handleWorkScroll={handleWorkScroll}
           handleAboutScroll={handleAboutScroll}

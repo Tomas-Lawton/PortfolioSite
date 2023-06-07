@@ -102,7 +102,7 @@ export default function Home() {
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
           <h1 className="text-4xl text-bold my-10">Projects</h1>
-
+          <h1 class="text-2xl text-slate-600 mt-2">All projects designed and coded by me!</h1>
           <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4">
             {data.projects.map((project) => (
               <WorkCard

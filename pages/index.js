@@ -112,6 +112,7 @@ export default function Home() {
                 name={project.title}
                 description={project.description}
                 onClick={() => project.url !== "" && window.open(project.url)}
+                url={project.url}
               />
             ))}
           </div>

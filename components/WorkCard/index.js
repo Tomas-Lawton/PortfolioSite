@@ -1,9 +1,9 @@
 import React from "react";
 
-const WorkCard = ({ img, name, description, onClick }) => {
+const WorkCard = ({ img, name, description, onClick, url }) => {
   return (
     <div
-      className="overflow-hidden rounded-lg p-2 laptop:p-4 first:ml-0 link hover:scale-105 transition-all ease-out duration-500"
+      className={`${url !== "" && `hover:scale-105`} overflow-hidden rounded-lg p-2 laptop:p-4 first:ml-0 link transition-all ease-out duration-500`}
       onClick={onClick}
     >
       <div
@@ -12,9 +12,20 @@ const WorkCard = ({ img, name, description, onClick }) => {
       >
         <img alt={name} className="h-full w-full object-cover" src={img}></img>
       </div>
-      <h1 className="mt-5 text-3xl font-medium">
+
+<div className="mt-5 flex items-center">
+<h1 className="text-3xl font-medium align-middle">
         {name ? name : "Project Name"}
       </h1>
+{url !== "" &&
+        <img
+          className="w-6 h-6 -mt-1 ml-2"
+          src={`/images/link.svg`}
+          alt="link-icon"
+        ></img>}
+   
+
+        </div>
       <h2 className="text-xl opacity-50">
         {description ? description : "Description"}
       </h2>

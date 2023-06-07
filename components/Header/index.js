@@ -27,6 +27,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
               <img
                 className="profile-icon link"
                 src={`/images/profile.jpeg`}
+                alt="profile-icon"
                 onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
               ></img>
 

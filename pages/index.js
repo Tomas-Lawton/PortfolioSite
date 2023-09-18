@@ -77,19 +77,19 @@ export default function Home() {
           <div className="mt-5">
             <h1
               ref={textOne}
-              className="text-center text-3xl tablet:text-3xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
+              className="text-center text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineOne}
             </h1>
             <h1
               ref={textTwo}
-              className="text-center text-3xl tablet:text-3xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
+              className="text-center text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineTwo}
             </h1>
             <h1
               ref={textThree}
-              className="text-center text-3xl tablet:text-3xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
+              className="text-center text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineThree}
             </h1>
@@ -98,7 +98,9 @@ export default function Home() {
           <Socials className="mt-6 laptop:mt-5" />
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="text-5xl font-medium text-bold my-10">Projects</h1>
+          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+            Projects
+          </h1>
           <h1 className="text-2xl text-slate-600 mt-2">
             From concept to code, each project was crafted by me.
           </h1>
@@ -118,7 +120,9 @@ export default function Home() {
         </div>
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
-          <h1 className="text-5xl font-medium text-bold my-10">Services</h1>
+          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+            Services
+          </h1>
           <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
               <ServiceCard
@@ -138,12 +142,17 @@ export default function Home() {
           </div>
         )}
         <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={aboutRef}>
-          <h1 className="text-5xl font-medium text-bold my-10">About</h1>
-          <p className="mt-2 text-2xl w-full">{data.aboutpara}</p>
+          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+            About
+          </h1>
+          <p className="mt-2 text-2xl w-full opacity-50">{data.aboutpara}</p>
         </div>
 
         <div className="mt-10 laptop:mt-40 p-2 tablet:p-2 laptop:p-0">
-          <h1 className="text-5xl font-medium text-bold my-10" ref={contactRef}>
+          <h1
+            className="text-3xl tablet:text-5xl font-medium text-bold my-10"
+            ref={contactRef}
+          >
             Let's work together!
           </h1>
           <Footer />

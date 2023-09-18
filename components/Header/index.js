@@ -6,7 +6,12 @@ import Button from "../Button";
 // Local Data
 import data from "../../data/portfolio.json";
 
-const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBlog }) => {
+const Header = ({
+  handleWorkScroll,
+  handleAboutScroll,
+  handleContactScroll,
+  isBlog,
+}) => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -23,14 +28,14 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
         {({ open }) => (
           <>
             <div className="flex items-center justify-between p-0">
-
               <img
                 className="profile-icon link"
                 src={`/images/profile.jpeg`}
                 alt="profile-icon"
-                onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+                onClick={() =>
+                  window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+                }
               ></img>
-
 
               <div className="flex items-center">
                 {data.darkMode && (
@@ -41,8 +46,9 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
                   >
                     <img
                       className="h-6"
-                      src={`/images/${theme === "dark" ? "moon.svg" : "sun.svg"
-                        }`}
+                      src={`/images/${
+                        theme === "dark" ? "moon.svg" : "sun.svg"
+                      }`}
                     ></img>
                   </Button>
                 )}
@@ -50,21 +56,23 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
                 <Popover.Button>
                   <img
                     className="h-5"
-                    src={`/images/${!open
-                      ? theme === "dark"
-                        ? "menu-white.svg"
-                        : "menu.svg"
-                      : theme === "light"
+                    src={`/images/${
+                      !open
+                        ? theme === "dark"
+                          ? "menu-white.svg"
+                          : "menu.svg"
+                        : theme === "light"
                         ? "cancel.svg"
                         : "cancel-white.svg"
-                      }`}
+                    }`}
                   ></img>
                 </Popover.Button>
               </div>
             </div>
             <Popover.Panel
-              className={`absolute right-0 z-10 w-11/12 p-4 ${theme === "dark" ? "bg-slate-800" : "bg-white"
-                } shadow-md rounded-md`}
+              className={`absolute right-0 z-10 w-11/12 p-4 ${
+                theme === "dark" ? "bg-slate-800" : "bg-white"
+              } shadow-md rounded-md`}
             >
               <div className="grid grid-cols-1">
                 <Button onClick={handleWorkScroll}>Work</Button>
@@ -72,41 +80,30 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
                 {showBlog && (
                   <Button onClick={() => router.push("/blog")}>Blog</Button>
                 )}
-                <Button
-                  onClick={handleContactScroll}
-                >
-                  Contact
-                </Button>
-                <Button
-                  onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
-                  Resume
-                </Button>
+                <Button onClick={handleContactScroll}>Contact</Button>
               </div>
             </Popover.Panel>
           </>
         )}
       </Popover>
       <div
-        className={`background-white mt-10 hidden flex-row items-center justify-between sticky ${theme === "light" && "bg-white"
-          } dark:text-white top-0 z-10 tablet:flex`}
+        className={`background-white mt-10 hidden flex-row items-center justify-between sticky ${
+          theme === "light" && "bg-white"
+        } dark:text-white top-0 z-10 tablet:flex`}
       >
-
         <img
           className="profile-icon link"
           src={`/images/profile.jpeg`}
-          onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+          onClick={() =>
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+          }
         ></img>
 
         {!isBlog ? (
           <div className="flex">
             <Button onClick={handleWorkScroll}>Work</Button>
             <Button onClick={handleAboutScroll}>About</Button>
-            <Button onClick={handleContactScroll}>
-              Contact
-            </Button>
-            <Button onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}>
-              Resume
-            </Button>
+            <Button onClick={handleContactScroll}>Contact</Button>
           </div>
         ) : (
           <div className="flex">
@@ -114,18 +111,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, handleContactScroll, isBl
             {showBlog && (
               <Button onClick={() => router.push("/blog")}>Blog</Button>
             )}
-            {showResume && (
-              <Button
-              onClick={() => window.open("https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link", "_blank")}
-                classes="first:ml-1"
-              >
-                Resume
-              </Button>
-            )}
-
-            <Button onClick={handleContactScroll}>
-              Contact
-            </Button>
+            <Button onClick={handleContactScroll}>Contact</Button>
 
             {mounted && theme && data.darkMode && (
               <Button

@@ -1,25 +1,27 @@
 import React from "react";
-import Socials from "../Socials";
 import Button from "../Button";
 
 const Footer = ({}) => {
   return (
     <>
-        <div>
-          <div className="mt-10 bg-slate-100 p-6 laptop:p-14 tablet:p-12 rounded-lg">
-            <h1 className="text-3xl tablet:text-4xl laptop:text-4xl laptopl:text-5xl text-bold">
-              Let&apos;s work together!
-            </h1>
-
-            <h2 className="text-xl text-bold text-slate-500 mt-5">
+      <div>
+        <div className="gradient mt-10 bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-center">
+          <h2 className="text-3xl p-3 tablet:text-3xl laptop:text-5xl text-bold mt-6 w-full text-center">
             tomaslawton@gmail.com
-            </h2>
-            <Button classes={"m-0 my-0 mt-5"} onClick={() => window.open("mailto:tomaslawton@gmail.com?subject=Interview&body=Dear%20Tomas...")} type="primary">Contact Now</Button>
-           
-            <div className="mt-10 hidden tablet:block">
-              <Socials />
-            </div>
-          </div>
+          </h2>
+          <Button
+            classes={"m-0 my-5 mt-5"}
+            onClick={() =>
+              window.open(
+                "mailto:tomaslawton@gmail.com?subject=Hello&body=Hello%20Tomas%2C%0D%0A%0D%0A"
+              )
+            }
+            target="_blank"
+            type="primary"
+          >
+            Email
+          </Button>
+        </div>
       </div>
     </>
   );

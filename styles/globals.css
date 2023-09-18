@@ -21,7 +21,7 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .profile-icon:hover {
@@ -30,7 +30,8 @@ body {
 }
 
 .bg-accent {
-    background: rgb(37 99 235);
+    background: #000000;
+    width: 10em;
 }
 
 .text-accent {
@@ -43,9 +44,19 @@ body {
     font-weight: 500;
 }
 
-.custom-icon  {
+.hero-button {
+    font-size: 1.2em !important;
+    font-weight: 500;
+    background: linear-gradient(45deg, #afc8fb, #dcf5fd);
+    color: white;
+    padding: 0.8em 1.2em;
+    text-align: center;
+    line-height: 1rem;
+}
+
+.custom-icon {
     font-size: 2em;
-    font-weight: 500; 
+    font-weight: 500;
 }
 
 .gradient-circle {
@@ -129,4 +140,8 @@ body {
     left: 0;
     background: inherit;
     border-radius: inherit;
+}
+
+.gradient {
+    background: linear-gradient(45deg, #afc8fb, #dcf5fd);
 }

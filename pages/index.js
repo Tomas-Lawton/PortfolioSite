@@ -10,12 +10,10 @@ import Head from "next/head";
 import Button from "../components/Button";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
-import CustomAlert from "../components/CustomAlert"
+import CustomAlert from "../components/CustomAlert";
 
 // Local Data
 import data from "../data/portfolio.json";
-
-
 
 export default function Home() {
   // Ref
@@ -68,8 +66,7 @@ export default function Home() {
       </Head>
 
       <div id="main-view" className="container mx-auto mb-10">
-      
-        <CustomAlert handleContactScroll={handleContactScroll}/>
+        <CustomAlert handleContactScroll={handleContactScroll} />
 
         <Header
           handleWorkScroll={handleWorkScroll}
@@ -80,19 +77,19 @@ export default function Home() {
           <div className="mt-5">
             <h1
               ref={textOne}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl pt-1 tablet:pt-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
+              className="text-center text-3xl tablet:text-3xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineOne}
             </h1>
             <h1
               ref={textTwo}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl pt-1 tablet:pt-2 text-bold w-full laptop:w-4/5"
+              className="text-center text-3xl tablet:text-3xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineTwo}
             </h1>
             <h1
               ref={textThree}
-              className="text-3xl tablet:text-3xl laptop:text-4xl laptopl:text-5xl pt-1 tablet:pt-2 text-bold w-full laptop:w-4/5"
+              className="text-center text-3xl tablet:text-3xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineThree}
             </h1>
@@ -101,8 +98,10 @@ export default function Home() {
           <Socials className="mt-6 laptop:mt-5" />
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="text-4xl text-bold my-10">Projects</h1>
-          <h1 className="text-2xl text-slate-600 mt-2">All projects designed and coded by me!</h1>
+          <h1 className="text-5xl font-medium text-bold my-10">Projects</h1>
+          <h1 className="text-2xl text-slate-600 mt-2">
+            From concept to code, each project was crafted by me.
+          </h1>
 
           <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4">
             {data.projects.map((project) => (
@@ -119,7 +118,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
-          <h1 className="text-4xl text-bold my-10">Services</h1>
+          <h1 className="text-5xl font-medium text-bold my-10">Services</h1>
           <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
               <ServiceCard
@@ -139,12 +138,14 @@ export default function Home() {
           </div>
         )}
         <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={aboutRef}>
-          <h1 className="text-4xl text-bold my-10">About</h1>
+          <h1 className="text-5xl font-medium text-bold my-10">About</h1>
           <p className="mt-2 text-2xl w-full">{data.aboutpara}</p>
         </div>
 
         <div className="mt-10 laptop:mt-40 p-2 tablet:p-2 laptop:p-0">
-          <h1 className="text-4xl text-bold my-10" ref={contactRef}>Contact</h1>
+          <h1 className="text-5xl font-medium text-bold my-10" ref={contactRef}>
+            Let's work together!
+          </h1>
           <Footer />
         </div>
       </div>

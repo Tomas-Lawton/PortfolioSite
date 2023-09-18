@@ -23,9 +23,7 @@ const Button = ({ children, type, onClick, classes }) => {
     <button
       onClick={onClick}
       type="button"
-      className={`custom-button mr-4 text-sm bg-slate-100 tablet:text-base py-2 px-4 mt-4 rounded-full flex items-center transition-all ease-out duration-300 ${
-        "hover:bg-slate-200 hover:text-slate-600"
-      } hover:scale-105 active:scale-100  tablet:first:ml-0  ${
+      className={`custom-button mr-4 text-sm bg-slate-100 tablet:text-base py-2 px-4 mt-4 rounded-full flex items-center transition-all ease-out duration-300 ${"hover:bg-slate-200"} hover:scale-105 active:scale-100  tablet:first:ml-0  ${
         data.showCursor && "cursor-none"
       } ${classes} link`}
     >

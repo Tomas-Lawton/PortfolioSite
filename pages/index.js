@@ -153,7 +153,7 @@ export default function Home() {
             className="text-3xl tablet:text-5xl font-medium text-bold my-10"
             ref={contactRef}
           >
-            Let's work together!
+            Let&apos;s work together!
           </h1>
           <Footer />
         </div>

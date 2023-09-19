@@ -18,7 +18,6 @@ import data from "../data/portfolio.json";
 export default function Home() {
   // Ref
   const workRef = useRef();
-  const aboutRef = useRef();
   const contactRef = useRef();
   const textOne = useRef();
   const textTwo = useRef();
@@ -29,14 +28,6 @@ export default function Home() {
   const handleWorkScroll = () => {
     window.scrollTo({
       top: workRef.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
-
-  const handleAboutScroll = () => {
-    window.scrollTo({
-      top: aboutRef.current.offsetTop,
       left: 0,
       behavior: "smooth",
     });
@@ -70,7 +61,6 @@ export default function Home() {
 
         <Header
           handleWorkScroll={handleWorkScroll}
-          handleAboutScroll={handleAboutScroll}
           handleContactScroll={handleContactScroll}
         />
         <div className="laptop:mt-20 mt-10 p-2 tablet:p-2 laptop:p-0">
@@ -141,20 +131,14 @@ export default function Home() {
             </Link>
           </div>
         )}
-        <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={aboutRef}>
+        <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={contactRef}>
           <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
-            About
+            Let&apos;s work together!
           </h1>
           <p className="mt-2 text-2xl w-full opacity-50">{data.aboutpara}</p>
         </div>
 
-        <div className="mt-10 laptop:mt-40 p-2 tablet:p-2 laptop:p-0">
-          <h1
-            className="text-3xl tablet:text-5xl font-medium text-bold my-10"
-            ref={contactRef}
-          >
-            Let&apos;s work together!
-          </h1>
+        <div className="mt-10 laptop:mt-12 p-2 tablet:p-2 laptop:p-0">
           <Footer />
         </div>
       </div>

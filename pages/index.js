@@ -67,19 +67,19 @@ export default function Home() {
           <div className="mt-5">
             <h1
               ref={textOne}
-              className="text-center text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
+              className="text-center font-medium text-2xl mob:text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 tablet:font-bold w-full"
             >
               {data.headerTaglineOne}
             </h1>
             <h1
               ref={textTwo}
-              className="text-center text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
+              className="text-center font-medium text-2xl mob:text-3xl  tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 tablet:font-bold w-full"
             >
               {data.headerTaglineTwo}
             </h1>
             <h1
               ref={textThree}
-              className="text-center text-3xl tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 font-bold w-full"
+              className="text-center font-medium text-2xl mob:text-3xl  tablet:text-5xl laptop:text-7xl pt-1 tablet:pt-2 tablet:font-bold w-full"
             >
               {data.headerTaglineThree}
             </h1>

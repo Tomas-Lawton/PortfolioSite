@@ -22,7 +22,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
       <Popover className="block tablet:hidden mt-10 p-2 tablet:p-2 laptop:p-0">
         {({ open }) => (
           <>
-            <div className="flex items-center justify-between p-0">
+            <div className="flex items-center justify-between p-0 mx-2 mob:mx-0">
               <img
                 className="profile-icon link"
                 src={`/images/profile.jpeg`}

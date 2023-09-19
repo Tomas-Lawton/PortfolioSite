@@ -5,8 +5,8 @@ const Footer = ({}) => {
   return (
     <>
       <div>
-        <div className="gradient mt-10 bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-center">
-          <h2 className="text-3xl p-3 tablet:text-3xl laptop:text-5xl text-bold mt-6 w-full text-center">
+        <div className="custom-drop gradient mt-10 bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-center">
+          <h2 className="text-xl p-3 mob:text-3xl tablet:text-3xl laptop:text-5xl text-bold mt-6 w-full text-center">
             tomaslawton@gmail.com
           </h2>
           <Button

@@ -4,71 +4,80 @@
 @tailwind utilities;
 @import "./markdown.css";
 * {
-    font-family: "Hind";
+  font-family: "Hind";
 }
 
 body {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
+}
+
+.custom-hr {
+  border: 1px solid #f2f2f2;
+  height: 1px;
+  width: 90%;
+  align-items: center;
+  margin: 2em;
 }
 
 .background-white {
-    background: #fffffff0;
-    padding: 10px 0;
+  background: #fffffff0;
+  padding: 10px 0;
 }
 
 .profile-icon {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    transition: 0.5s;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  transition: 0.5s;
 }
 
 .profile-icon:hover {
-    transform: scale(1.1);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 .bg-accent {
-    background: #000000;
-    width: 10em;
+  background: #000000;
+  width: 10em;
 }
 
 .text-accent {
-    color: rgb(37 99 235);
+  color: rgb(37 99 235);
 }
 
 .custom-button {
-    font-size: 1.2em !important;
-    color: #7c7c7c;
-    font-weight: 500;
+  font-size: 1.2em !important;
+  color: #7c7c7c;
+  font-weight: 500;
 }
 
 .hero-button {
-    font-size: 1.2em !important;
-    font-weight: 500;
-    background: linear-gradient(45deg, #afc8fb, #dcf5fd);
-    color: white;
-    padding: 0.8em 1.2em;
-    text-align: center;
-    line-height: 1rem;
+  font-size: 1.2em !important;
+  font-weight: 500;
+  background: linear-gradient(45deg, #afc8fb, #dcf5fd);
+  color: white;
+  padding: 0.8em 1.2em;
+  text-align: center;
+  line-height: 1rem;
 }
 
 .custom-icon {
-    font-size: 2em;
-    font-weight: 500;
+  font-size: 2em;
+  font-weight: 500;
 }
 
 .gradient-circle {
-    position: absolute;
-    pointer-events: none;
-    z-index: 100;
-    top: -30px;
-    height: 40px;
-    width: 100vw;
-    opacity: 0.5;
-    filter: blur(40px);
-    /* background: radial-gradient(
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  top: -30px;
+  height: 40px;
+  width: 100vw;
+  opacity: 0.5;
+  filter: blur(40px);
+  /* background: radial-gradient(
     circle,
     rgba(248, 107, 223, 1) 0%,
     rgba(107, 107, 248, 0.8) 100%
@@ -76,31 +85,32 @@ body {
 }
 
 .custom-drop {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 @media only screen and (min-width: 768px) {
-    #main-view {
-        width: 80vw;
-    }
+  #main-view {
+    width: 80vw;
+  }
 }
 
 @media (min-width: 375px) {
-    .container {
-        max-width: 90vw;
-    }
+  .container {
+    max-width: 90vw;
+  }
 }
 
 .gradient-circle-bottom {
-    position: absolute;
-    pointer-events: none;
-    z-index: 100;
-    bottom: -20px;
-    height: 30px;
-    width: 100vw;
-    opacity: 0.5;
-    filter: blur(40px);
-    /* background: radial-gradient(
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  bottom: -20px;
+  height: 30px;
+  width: 100vw;
+  opacity: 0.5;
+  filter: blur(40px);
+  /* background: radial-gradient(
     circle,
     rgba(248, 107, 223, 1) 0%,
     rgba(107, 107, 248, 0.8) 100%
@@ -108,21 +118,20 @@ body {
 }
 
 .gradient-shadow:hover::before {
-    content: "";
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    /* background: linear-gradient(-45deg, #45caff 0%, #ff1b6b 100%); */
-    transform: translate3d(0px, 20px, 0) scale(0.95);
-    filter: blur(20px);
-    opacity: var(0.7);
-    transition: opacity 0.3s;
-    border-radius: inherit;
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* background: linear-gradient(-45deg, #45caff 0%, #ff1b6b 100%); */
+  transform: translate3d(0px, 20px, 0) scale(0.95);
+  filter: blur(20px);
+  opacity: var(0.7);
+  transition: opacity 0.3s;
+  border-radius: inherit;
 }
-
 
 /* 
 * Prevents issues when the parent creates a 
@@ -131,17 +140,17 @@ body {
 */
 
 .gradient-shadow:hover::after {
-    content: "";
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: inherit;
-    border-radius: inherit;
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: inherit;
+  border-radius: inherit;
 }
 
 .gradient {
-    background: linear-gradient(45deg, #afc8fb, #dcf5fd);
+  background: linear-gradient(45deg, #afc8fb, #dcf5fd);
 }

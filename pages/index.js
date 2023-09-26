@@ -141,6 +141,8 @@ export default function Home() {
         <div className="mt-10 laptop:mt-12 p-2 tablet:p-2 laptop:p-0">
           <Footer />
         </div>
+
+        <hr className="custom-hr" />
       </div>
     </div>
   );

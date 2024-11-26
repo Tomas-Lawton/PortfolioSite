@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 // Local Data
 import data from "../../data/portfolio.json";
+import Image from 'next/image';
 
 const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
         {({ open }) => (
           <>
             <div className="flex items-center justify-between p-0 mx-2 mob:mx-0">
-              <img
+              <Image
                 className="profile-icon link"
                 src={`/images/profile.jpeg`}
                 alt="profile-icon"
@@ -39,7 +40,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                       setTheme(theme === "dark" ? "light" : "dark")
                     }
                   >
-                    <img
+                    <Image
                       className="h-6"
                       src={`/images/${
                         theme === "dark" ? "moon.svg" : "sun.svg"
@@ -49,7 +50,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                 )}
 
                 <Popover.Button>
-                  <img
+                  <Image
                     className="h-5"
                     src={`/images/${!open ? "menu.svg" : "cancel.svg"}`}
                   ></img>
@@ -86,7 +87,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
           theme === "light" && "bg-white"
         } dark:text-white top-0 z-10 tablet:flex`}
       >
-        <img
+        <Image
           className="profile-icon link"
           src={`/images/profile.jpeg`}
           onClick={() =>
@@ -128,7 +129,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
               <Button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
-                <img
+                <Image
                   className="h-6"
                   src={`/images/${theme === "dark" ? "moon.svg" : "sun.svg"}`}
                 ></img>

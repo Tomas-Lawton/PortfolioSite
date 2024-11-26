@@ -91,11 +91,11 @@ export default function Home() {
           <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
             Projects
           </h1>
-          <h1 className="text-2xl text-slate-600 mt-2">
-            From concept to code, each project was crafted by me.
+          <h1 className="text-2xl mt-2">
+          As an <span className="font-bold">AI Specialist</span> by day and  <span className="font-bold">Creative Technologist</span> by night, I generate concepts and architect systems from start to finish. Each project below was hand-crafted by me from initial concept to the polished product. Currently, I’m working on TaskGen, a generative platform that creates entire documents, combined with an automated task management system.
           </h1>
 
-          <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4">
+          <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 gap-4">
             {data.projects.map((project) => (
               <WorkCard
                 key={project.id}
@@ -131,18 +131,21 @@ export default function Home() {
             </Link>
           </div>
         )}
-        <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={contactRef}>
+        {/* <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={contactRef}>
           <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
             Let&apos;s work together!
           </h1>
           <p className="mt-2 text-2xl w-full opacity-50">{data.aboutpara}</p>
-        </div>
+        </div> */}
 
-        <div className="mt-10 laptop:mt-12 p-2 tablet:p-2 laptop:p-0">
+        {/* <hr className="custom-hr" /> */}
+
+        <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0">
+          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+            Contact
+          </h1>
           <Footer />
         </div>
-
-        <hr className="custom-hr" />
       </div>
     </div>
   );

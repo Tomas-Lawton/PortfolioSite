@@ -51,15 +51,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                 <Popover.Button>
                   <img
                     className="h-5"
-                    src={`/images/${
-                      !open
-                        ? theme === "dark"
-                          ? "menu-white.svg"
-                          : "menu.svg"
-                        : theme === "light"
-                        ? "cancel.svg"
-                        : "cancel-white.svg"
-                    }`}
+                    src={`/images/${!open ? "menu.svg" : "cancel.svg"}`}
                   ></img>
                 </Popover.Button>
               </div>

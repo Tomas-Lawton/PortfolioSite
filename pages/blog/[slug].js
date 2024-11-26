@@ -11,6 +11,7 @@ import BlogEditor from "../../components/BlogEditor";
 import { useRouter } from "next/router";
 import Cursor from "../../components/Cursor";
 import data from "../../data/portfolio.json";
+import Image from 'next/image';
 
 const BlogPost = ({ post }) => {
   const [showEditor, setShowEditor] = useState(false);
@@ -37,7 +38,7 @@ const BlogPost = ({ post }) => {
       >
         <Header isBlog={true} />
         <div className="mt-10 flex flex-col">
-          <img
+          <Image
             className="w-full h-96 rounded-lg shadow-lg object-cover"
             src={post.image}
             alt={post.title}

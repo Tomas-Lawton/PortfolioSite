@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 // Local Data
 import data from "../../data/portfolio.json";
-import Image from 'next/image';
+import Image from "next/image";
 
 const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   const router = useRouter();
@@ -28,10 +28,11 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                 className="profile-icon link"
                 src={`/images/profile.jpeg`}
                 alt="profile-icon"
+                width={55} height={55}
                 onClick={() =>
                   window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
                 }
-              ></Image>
+              />
 
               <div className="flex items-center">
                 {data.darkMode && (
@@ -41,6 +42,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                     }
                   >
                     <Image
+                      width={100} height={100}
                       className="h-6"
                       src={`/images/${
                         theme === "dark" ? "moon.svg" : "sun.svg"
@@ -51,6 +53,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
 
                 <Popover.Button>
                   <Image
+                    width={100} height={100}
                     className="h-5"
                     src={`/images/${!open ? "menu.svg" : "cancel.svg"}`}
                   ></Image>
@@ -90,11 +93,12 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
         <Image
           className="profile-icon link"
           src={`/images/profile.jpeg`}
+          alt="profile-icon"
+          width={55} height={55}
           onClick={() =>
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
           }
-        ></Image>
-
+        />
         {!isBlog ? (
           <div className="flex">
             {/* <Button onClick={handleWorkScroll}>Work</Button> */}
@@ -130,6 +134,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
                 <Image
+                  width={100} height={100}
                   className="h-6"
                   src={`/images/${theme === "dark" ? "moon.svg" : "sun.svg"}`}
                 ></Image>

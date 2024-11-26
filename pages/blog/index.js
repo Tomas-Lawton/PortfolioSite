@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import data from "../../data/portfolio.json";
 import { ISOToDate, useIsomorphicLayoutEffect } from "../../utils";
 import { getAllPosts } from "../../utils/api";
-import Image from 'next/image';
+import Image from "next/image";
 
 const Blog = ({ posts }) => {
   const showBlog = useRef(data.showBlog);
@@ -91,6 +91,7 @@ const Blog = ({ posts }) => {
                     onClick={() => Router.push(`/blog/${post.slug}`)}
                   >
                     <Image
+                      width={100} height={100}
                       className="w-full h-60 rounded-lg shadow-lg object-cover"
                       src={post.image}
                       alt={post.title}

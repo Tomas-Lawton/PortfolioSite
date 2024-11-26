@@ -1,32 +1,35 @@
 import React from "react";
-import Image from 'next/image';
+import Image from "next/image";
 
 const WorkCard = ({ img, name, description, onClick, url }) => {
   return (
     <div
       className={`${
         url !== "" && `hover:scale-105`
-      } justify-between gap-4 flex flex-col overflow-hidden rounded-xl p-5 first:ml-0 link transition-all ease-out duration-500 bg-zinc-100	`}
+      } justify-between gap-2 flex flex-col overflow-hidden rounded-xl p-5 first:ml-0 link transition-all ease-out duration-500 bg-zinc-100	`}
       onClick={onClick}
     >
       <div
-        className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 h-48 mob:h-auto"
+        className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 mob:h-auto"
         // style={{ height: "auto" }}
       >
-        <Image alt={name} className="h-full w-full object-cover" src={img}></Image>
+                <h1 className="text-3xl font-medium align-middle">
+          {name ? name : "Project Name"}
+        </h1>
+        <Image
+          width={540} 
+          height={300}
+          // objectFit='contain'
+          // width={0}
+          // height={0}
+          // sizes="100%"
+          alt={name}
+          className="rh-full w-full object-cover"
+          src={img}
+        ></Image>
       </div>
 
       <div className="flex items-center arrange-card">
-        <h1 className="text-3xl font-medium align-middle">
-          {name ? name : "Project Name"}
-        </h1>
-        {/* {url !== "" &&
-          <Image
-            className="w-6 h-6 -mt-1 ml-2"
-            src={`/images/link.svg`}
-            alt="link-icon"
-          ></Image>} */}
-
         <h2 className="text-xl">{description ? description : "Description"}</h2>
 
         {url !== "" && (

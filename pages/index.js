@@ -92,7 +92,7 @@ export default function Home() {
             Projects
           </h1>
           <h1 className="text-2xl mt-2">
-          As an <span className="font-bold">AI Specialist</span> by day and  <span className="font-bold">Creative Technologist</span> by night, I generate concepts and architect systems from start to finish. Each project below was hand-crafted by me from initial concept to the polished product. Currently, I’m working on TaskGen, a generative platform that creates entire documents, combined with an automated task management system.
+          As an <span className="font-bold">AI Specialist</span> by day and  <span className="font-bold">Creative Technologist</span> by night, I generate concepts and architect systems from start to finish. Each project below was hand-crafted by me from initial concept to the polished product.
           </h1>
 
           <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 gap-4">

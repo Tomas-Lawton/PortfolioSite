@@ -13,7 +13,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
         className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 h-48 mob:h-auto"
         // style={{ height: "auto" }}
       >
-        <Image alt={name} className="h-full w-full object-cover" src={img}></img>
+        <Image alt={name} className="h-full w-full object-cover" src={img}></Image>
       </div>
 
       <div className="flex items-center arrange-card">
@@ -25,7 +25,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
             className="w-6 h-6 -mt-1 ml-2"
             src={`/images/link.svg`}
             alt="link-icon"
-          ></img>} */}
+          ></Image>} */}
 
         <h2 className="text-xl">{description ? description : "Description"}</h2>
 

@@ -31,7 +31,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                 onClick={() =>
                   window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
                 }
-              ></img>
+              ></Image>
 
               <div className="flex items-center">
                 {data.darkMode && (
@@ -45,7 +45,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                       src={`/images/${
                         theme === "dark" ? "moon.svg" : "sun.svg"
                       }`}
-                    ></img>
+                    ></Image>
                   </Button>
                 )}
 
@@ -53,7 +53,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                   <Image
                     className="h-5"
                     src={`/images/${!open ? "menu.svg" : "cancel.svg"}`}
-                  ></img>
+                  ></Image>
                 </Popover.Button>
               </div>
             </div>
@@ -93,7 +93,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
           onClick={() =>
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
           }
-        ></img>
+        ></Image>
 
         {!isBlog ? (
           <div className="flex">
@@ -132,7 +132,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
                 <Image
                   className="h-6"
                   src={`/images/${theme === "dark" ? "moon.svg" : "sun.svg"}`}
-                ></img>
+                ></Image>
               </Button>
             )}
           </div>

@@ -1,15 +1,17 @@
 import React from "react";
 import Button from "../Button";
 
+import { aboutpara } from "../../data/portfolio.json";
+
 const Footer = ({}) => {
   return (
     <>
       <div>
-        <div className="custom-drop gradient mt-10 bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-center">
-          <h2 className="text-xl p-3 mob:text-3xl tablet:text-3xl laptop:text-5xl text-bold mt-6 w-full text-center">
-            tomaslawton@gmail.com
-          </h2>
-          <Button
+        <div className="bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-start gap-3">
+        <h1 className="text-3xl font-bold w-full">Contact me for cutting-edge product design solutions.</h1>
+          <h2 className="text-xl">{aboutpara}</h2>
+          <h2 className="text-xl font-bold w-full">tomaslawton@gmail.com</h2>
+          {/* <Button
             classes={"m-0 my-5 mt-5"}
             onClick={() =>
               window.open(
@@ -19,8 +21,22 @@ const Footer = ({}) => {
             target="_blank"
             type="primary"
           >
-            Email
-          </Button>
+            Contact
+          </Button> */}
+
+          <button
+            onClick={() =>
+              window.open(
+                "mailto:tomaslawton@gmail.com?subject=Hello&body=Hello%20Tomas%2C%0D%0A%0D%0A"
+              )
+            }
+            target="_blank"
+            class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+          >
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+              Contact
+            </span>
+          </button>
         </div>
       </div>
     </>

@@ -10,71 +10,65 @@
   "socials": [
     {
       "id": "1",
-      "title": "Resume",
-      "link": "https://drive.google.com/drive/folders/1nqMDPDiyenabbyaDCz6vh_fXoiXxxJO2?usp=share_link"
-    },
-    { "id": "2", "title": "Github", "link": "https://github.com/Tomas-Lawton" },
-    {
-      "id": "3",
       "title": "LinkedIn",
       "link": "https://linkedin.com/in/tomas-lawton-🦄-512066199"
     }
   ],
   "projects": [
     {
-      "id": "1",
-      "title": "Reframer",
-      "description": "Functional AI vector drawing platform using a modified CLIP algorithm.",
-      "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/Reframer/master/repo_img/reframer_interface.png",
-      "url": "https://github.com/Tomas-Lawton/Reframer"
-    },
-    {
-      "id": "2",
+      "id": "Autobeat",
       "title": "Autobeat",
-      "description": "Functional music sampler plugin for auto-generating beats using ML in Ableton.",
+      "description": "Novel AI drum machine for Ableton. Allows in context auto-completion of musical ideas with real samples.",
       "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/AutoBeat/master/Screenshot.png",
       "url": "https://github.com/Tomas-Lawton/AutoBeat"
     },
     {
-      "id": "3",
-      "title": "AIOps Marketplace",
-      "description": "Built a marketplace in old work for AI automation workflows.",
-      "imageSrc": "https://i.ibb.co/3pR64gZ/accenture.png",
-      "url": ""
+      "id": "Reframer",
+      "title": "Reframer",
+      "description": "Functional AI vector drawing platform using a modified CLIP algorithm. View on Google Scholar.",
+      "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/Reframer/master/repo_img/reframer_interface.png",
+      "url": "https://github.com/Tomas-Lawton/Reframer"
     },
     {
-      "id": "4",
-      "title": "RocketTalk",
-      "description": "Founded side project using GenAI/LLMs for conversational language learning (in development).",
-      "imageSrc": "https://camo.githubusercontent.com/44d1906bd7e93d40c2392564b7e8a2998dcc4d736df8eb9d48a968cad6f052ab/68747470733a2f2f64726976652e676f6f676c652e636f6d2f75633f6578706f72743d766965772669643d317a4b3450664c4f3539326d6b565a63314d364d614b4576545463687647724266",
-      "url": "https://github.com/Tomas-Lawton/RocketTalk"
+      "id": "BlockNotes",
+      "title": "BlockNotes",
+      "description": "A neobrutalist note-taking app for people who don’t waste time. Now on the Chrome Store.",
+      "imageSrc": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6rmKNqX0fTZRPdhfNQ22Uw.png",
+      "url": "https://github.com/Tomas-Lawton/BlockNotes"
     },
     {
-      "id": "5",
+      "id": "3D Space Invaders",
+      "title": "3D Space Invaders",
+      "description": "Explore a Procedural Starfield to save planets and collect minerals to upgrade your ship.",
+      "imageSrc": "https://i.ibb.co/kGZ8Y4r/Screenshot-2024-11-26-at-7-12-54-PM.png",
+      "url": "https://github.com/Tomas-Lawton/3DSpaceInvaders"
+    },
+    {
+      "id": "Interactive Earth",
       "title": "Interactive Earth",
       "description": "Functional interactive earth data visualization showing child mortality rates around the world and predicted into the future.",
       "imageSrc": "https://lh4.googleusercontent.com/j3nahRVaZ9wRe2YTDdO1Xql_87W_kyPYbCIbvf9rHOOEdSls-mNMxOJnGUb1HB5s8Ok=w2400",
       "url": "https://github.com/Tomas-Lawton/InteractiveEarth"
     },
     {
+      "id": "5",
+      "title": "RocketTalk",
+      "description": "Founded side project using GenAI/LLMs for conversational language learning (in development).",
+      "imageSrc": "https://i.ibb.co/p07YXMm/68747470733a2f2f64726976652e676f6f676c652e636f6d2f75633f6578706f72743d766965772669643d317a4b3450664c.png",
+      "url": "https://github.com/Tomas-Lawton/RocketTalk"
+    },
+    {
       "id": "6",
+      "title": "AIOps Marketplace",
+      "description": "Built a marketplace in old work for AI automation workflows.",
+      "imageSrc": "https://i.ibb.co/3pR64gZ/accenture.png",
+      "url": ""
+    },
+    {
+      "id": "7",
       "title": "Postie",
       "description": "Mockup for a desktop application for automated contract signing.",
       "imageSrc": "https://lh4.googleusercontent.com/kSGLCfFCQHyq6aR15duunV93l-XDeZFFVbl-jSFn-PRM32KHC8WR7WK-wSe8_y-XOx8=w2400",
-      "url": ""
-    },
-    {
-      "id": "f3282368-4cb3-4138-a0e4-da06f63de23a",
-      "title": "Bloom",
-      "description": "Music geo-streaming service that plays \"the soundtrack to your life.\" ",
-      "imageSrc": "https://lh3.googleusercontent.com/HpJC6mV5UWqpam3iVvTyyNO7Hivu9-D92-OJuAeKpwhS2KvlIqhx_SfIRI-UUqUJeec=w2400",
-      "url": ""
-    },
-    {
-      "id": "4c18a189-3741-4115-a152-bcad4baf4e94",
-      "title": "Coah.io",
-      "description": "App design for well-being app for elderly people.",
-      "imageSrc": "https://lh6.googleusercontent.com/CxZKp_M7KqRlEsGPbN7EaPC5iIpgfg57gK7fMR5HGGP3FpeKPrwBGxFUXTZ8u-EDkyw=w2400",
       "url": ""
     }
   ],
@@ -100,33 +94,5 @@
       "description": "I collaborate with experts and team members to evolve work from early conceptual stages to general availability launch."
     }
   ],
-  "aboutpara": "Experienced software engineer with a strong creative background and a proven track record developing cutting-edge AI technology applications. My expertise in research and design enables me to excel at tackling complex, ambiguous problems and transforming them into comprehensive solutions that drive business success. My passion for exploring options and testing assumptions results in sophisticated systems and my commitment to excellence adds value to any team.",
-  "resume": {
-    "tagline": "👋  I'm a software engineer, product designer.",
-    "description": "I have delivered world-class user experiences to millions of people. Well-versed with React, Javascript, and most of the Web frameworks.",
-    "experiences": [
-      {
-        "id": "1",
-        "dates": "March 2022 - Present",
-        "type": "Full Time",
-        "position": "Frontend Engineer at X",
-        "bullets": "Bullet One, Bullet Two"
-      },
-      {
-        "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
-        "dates": "July 2020 - March 2022",
-        "type": "Full Time",
-        "position": "Frontend Engineer at X",
-        "bullets": "Worked on the frontend of a React application, Worked on the frontend of a React application"
-      }
-    ],
-    "education": {
-      "universityName": "University X",
-      "universityDate": "2016-2020",
-      "universityPara": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-    },
-    "languages": ["Javascript", "HTML5", "CSS", "Python", "Go"],
-    "frameworks": ["React", "Typescript", "NodeJs"],
-    "others": ["Figma", "AdobeXD", "AWS"]
-  }
+  "aboutpara": "I blend creative technologies, generative AI, and end-to-end product design to craft intelligent human-centric experiences. Let’s create the future together!"
 }

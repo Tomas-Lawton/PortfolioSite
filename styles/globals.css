@@ -31,12 +31,12 @@ body {
   border-radius: 50%;
   transition: 0.5s;
 }
-
+/* 
 .profile-icon:hover {
   transform: scale(1.1);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .bg-accent {
   background: #000000;

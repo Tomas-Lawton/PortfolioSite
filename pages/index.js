@@ -88,7 +88,7 @@ export default function Home() {
           <Socials className="mt-6 laptop:mt-5" />
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+          <h1 className="text-3xl tablet:text-5xl font-bold text-bold my-10">
             Projects
           </h1>
           <h1 className="text-2xl mt-2">
@@ -110,7 +110,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
-          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+          <h1 className="text-3xl tablet:text-5xl font-bold text-bold my-10">
             Services
           </h1>
           <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
@@ -141,7 +141,7 @@ export default function Home() {
         {/* <hr className="custom-hr" /> */}
 
         <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0">
-          <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
+          <h1 className="text-3xl tablet:text-5xl font-bold text-bold my-10">
             Contact
           </h1>
           <Footer />

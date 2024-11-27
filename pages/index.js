@@ -54,6 +54,18 @@ export default function Home() {
       {data.showCursor && <Cursor />}
       <Head>
         <title>Projects by Tomas Lawton</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin
+        ></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        ></link>
+        <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
+
       </Head>
 
       <div id="main-view" className="container mx-auto mb-10">
@@ -92,7 +104,11 @@ export default function Home() {
             Projects
           </h1>
           <h1 className="text-2xl mt-2">
-          As an <span className="font-bold">AI Specialist</span> by day and  <span className="font-bold">Creative Technologist</span> by night, I generate concepts and architect systems from start to finish. Each project below was hand-crafted by me from initial concept to the polished product.
+            As an <span className="font-bold">AI Specialist</span> by day and{" "}
+            <span className="font-bold">Creative Technologist</span> by night, I
+            generate concepts and architect systems from start to finish. Each
+            project below was hand-crafted by me from initial concept to the
+            polished product.
           </h1>
 
           <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 gap-4">
@@ -114,7 +130,8 @@ export default function Home() {
             Services
           </h1>
           <h1 className="text-2xl mt-2">
-          A specialise in end-to-end development, product product, and creative prototype research.
+            A specialise in end-to-end development, product product, and
+            creative prototype research.
           </h1>
           <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
@@ -148,7 +165,7 @@ export default function Home() {
             Contact
           </h1>
           <h1 className="text-2xl mt-2">
-          Contact me for cutting-edge product design solutions.
+            Contact me for cutting-edge product design solutions.
           </h1>
           <Footer />
         </div>

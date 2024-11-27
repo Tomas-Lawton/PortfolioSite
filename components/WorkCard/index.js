@@ -13,7 +13,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
         className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 mob:h-auto"
         // style={{ height: "auto" }}
       >
-                <h1 className="text-3xl font-medium align-middle">
+                <h1 className="text-3xl font-medium mb-2 align-middle">
           {name ? name : "Project Name"}
         </h1>
         <Image

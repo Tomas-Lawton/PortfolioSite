@@ -6,7 +6,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
     <div
       className={`${
         url !== "" && `hover:scale-105`
-      } justify-between gap-2 flex flex-col overflow-hidden rounded-xl p-5 first:ml-0 link transition-all ease-out duration-500 bg-zinc-100	`}
+      } dark-mode justify-between gap-2 flex flex-col overflow-hidden rounded-xl p-5 first:ml-0 link transition-all ease-out duration-500 bg-zinc-100	`}
       onClick={onClick}
     >
       <div

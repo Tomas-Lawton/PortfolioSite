@@ -113,7 +113,10 @@ export default function Home() {
           <h1 className="hero-font text-3xl tablet:text-5xl font-bold text-bold my-10">
             Services
           </h1>
-          <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
+          <h1 className="text-2xl mt-2">
+          A specialise in end-to-end development, product product, and creative prototype research.
+          </h1>
+          <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
               <ServiceCard
                 key={index}
@@ -143,6 +146,9 @@ export default function Home() {
         <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0">
           <h1 className="hero-font text-3xl tablet:text-5xl font-bold text-bold my-10">
             Contact
+          </h1>
+          <h1 className="text-2xl mt-2">
+          Contact me for cutting-edge product design solutions.
           </h1>
           <Footer />
         </div>

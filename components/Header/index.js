@@ -21,7 +21,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   return (
     <>
       <div
-        className={`background-white mt-10 flex-row items-center justify-between sticky ${
+        className={`background-white -mx-5 mt-10 flex-row items-center justify-between sticky ${
           theme === "light" && "bg-white"
         } dark:text-white top-0 z-10 flex`}
       >

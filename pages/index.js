@@ -165,7 +165,7 @@ export default function Home() {
             Contact
           </h1>
           <h1 className="text-2xl mt-2">
-            Contact me for cutting-edge product design solutions.
+            I blend creative technologies, generative AI, and end-to-end product design to craft intelligent human-centric experiences. 
           </h1>
           <Footer />
         </div>

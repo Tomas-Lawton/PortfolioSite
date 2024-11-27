@@ -13,11 +13,23 @@
 
 .hero-font {
   font-family: "Tektur", sans-serif;
+  color: chartreuse;
+  text-shadow: 0 0 100px #80ff0092;
 }
 
+.dark-mode {
+  /* background: #2727279e; */
+  background: #151515;
+}
+
+
 body {
-  background-color: white;
-  color: black;
+  color: white;
+
+  background: rgb(0,0,0);
+  /* background: linear-gradient(108deg, rgba(0,0,0,1) 0%, rgba(12,22,0,1) 62%, rgba(0,0,0,1) 100%); */
+  background: linear-gradient(108deg, rgba(0,0,0,1) 0%, rgba(12,22,0,1) 100%);
+
 }
 
 .custom-hr {
@@ -29,7 +41,7 @@ body {
 }
 
 .background-white {
-  background: #fffffff0;
+  /* background: #000000f4; */
   padding: 10px 0;
 }
 

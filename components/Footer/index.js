@@ -7,8 +7,8 @@ const Footer = ({}) => {
   return (
     <>
       <div>
-        <div className="bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-start gap-3">
-        <h1 className="text-3xl font-bold w-full">Contact me for cutting-edge product design solutions.</h1>
+        <div className="dark-mode bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-start gap-3 mt-10">
+        {/* <h1 className="text-3xl font-bold w-full">Contact me for cutting-edge product design solutions.</h1> */}
           <h2 className="text-xl">{aboutpara}</h2>
           <h2 className="text-xl font-bold w-full">tomaslawton@gmail.com</h2>
           {/* <Button

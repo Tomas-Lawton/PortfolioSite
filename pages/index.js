@@ -130,7 +130,7 @@ export default function Home() {
             Services
           </h1>
           <h1 className="text-2xl mt-2">
-            A specialise in end-to-end development, product product, and
+            A specialise in end-to-end development, product design, and
             creative prototype research.
           </h1>
           <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">

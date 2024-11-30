@@ -59,21 +59,147 @@ export default function Home() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Cube geometry
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // const geometry = new THREE.BoxGeometry();
+    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    // const cube = new THREE.Mesh(geometry, material);
+    // scene.add(cube);
 
-    camera.position.z = 5;
+    // camera.position.z = 5;
 
-    const animate = () => {
-      requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
+    // const animate = () => {
+    //   requestAnimationFrame(animate);
+    //   cube.rotation.x += 0.01;
+    //   cube.rotation.y += 0.01;
+    //   renderer.render(scene, camera);
+    // };
+
+    // animate();
+
+
+
+
+    const geometry = new THREE.IcosahedronGeometry(1, 4);
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        resolution: { value: new THREE.Vector2() },
+        mouseIntensity: { value: 0.0 }
+      },
+      vertexShader: `
+        uniform float time;
+        uniform float mouseIntensity;
+        varying vec3 vPosition;
+        varying vec3 vNormal;
+        varying vec2 vUv;
+    
+        void main() {
+          vUv = uv;
+          vNormal = normal;
+          float displacement = sin(position.x * 5.0 + time) * 
+                               sin(position.y * 5.0 + time) * 
+                               sin(position.z * 5.0 + time) * 
+                               (0.1 + mouseIntensity * 0.2);
+          vec3 newPosition = position + normal * displacement;
+          vPosition = newPosition;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        uniform float mouseIntensity;
+        uniform vec2 resolution;
+        varying vec3 vPosition;
+        varying vec3 vNormal;
+        varying vec2 vUv;
+    
+        vec3 plasma(vec2 uv, float time) {
+          vec2 p = -1.0 + 2.0 * uv;
+          float t = time * 0.2;
+          float cx = p.x + 0.5 * sin(t * 0.7);
+          float cy = p.y + 0.5 * cos(t * 0.3);
+          float v1 = sin(cx * 10.0 + t);
+          float v2 = cos(cy * 8.0 + t * 1.2);
+          float v3 = sin((cx + cy + t) * 5.0);
+          return vec3(
+            sin(v1 + v2 + v3) * 0.5 + 0.5,
+            sin(v1 + v2 + v3 + 2.094) * 0.5 + 0.5,
+            sin(v1 + v2 + v3 + 4.188) * 0.5 + 0.5
+          );
+        }
+    
+        void main() {
+          vec3 normal = normalize(vNormal);
+          vec3 viewDir = normalize(-vPosition);
+          vec3 plasmaColor = plasma(vUv, time + mouseIntensity);
+          plasmaColor = mix(plasmaColor, vec3(1.0, 0.5, 0.2), mouseIntensity * 0.5);
+          float depth = length(vPosition) / 2.0;
+          plasmaColor *= 1.0 - depth * 0.5;
+          float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0);
+          plasmaColor += vec3(1.0) * fresnel * 0.5;
+          vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+          vec3 halfwayDir = normalize(lightDir + viewDir);
+          float spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
+          plasmaColor += vec3(1.0) * spec * 0.5;
+          gl_FragColor = vec4(plasmaColor, 1.0);
+        }
+      `
+    });
+    
+    const shape = new THREE.Mesh(geometry, material);
+    scene.add(shape);
+    
+    camera.position.z = 2;
+    
+    let isPressed = false;
+    let targetIntensity = 0;
+    let currentIntensity = 0;
+    const mouse = {
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0
     };
-
+    
+    document.addEventListener('mousemove', (event) => {
+      mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+    
+    document.addEventListener('mousedown', () => { isPressed = true; targetIntensity = 1.0; });
+    document.addEventListener('mouseup', () => { isPressed = false; targetIntensity = 0.0; });
+    document.addEventListener('mouseleave', () => { 
+      isPressed = false; 
+      targetIntensity = 0.0;
+      mouse.targetX = 0;
+      mouse.targetY = 0;
+    });
+    
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+    }
+    
+    window.addEventListener('resize', onWindowResize);
+    onWindowResize();
+    
+    function animate() {
+      requestAnimationFrame(animate);
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      shape.rotation.y = mouse.x * Math.PI;
+      shape.rotation.x = mouse.y * Math.PI;
+      currentIntensity += (targetIntensity - currentIntensity) * 0.1;
+      material.uniforms.mouseIntensity.value = currentIntensity;
+      material.uniforms.time.value += 0.05;
+      renderer.render(scene, camera);
+    }
+    
     animate();
+
+
 
     // Cleanup on component unmount
     return () => {
@@ -85,7 +211,7 @@ export default function Home() {
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
       {data.showCursor && <Cursor />}
       <Head>
-        <title>Projects by Tomas Lawton</title>
+        <title>Where Chaos Meets Code</title>
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link
           rel="preconnect"

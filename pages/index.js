@@ -11,7 +11,7 @@ import Button from "../components/Button";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
 // import CustomAlert from "../components/CustomAlert";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 // Local Data
 import data from "../data/portfolio.json";
@@ -52,7 +52,10 @@ export default function Home() {
       0.1,
       1000
     );
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current,  alpha: true  });
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      alpha: true,
+    });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Cube geometry
@@ -95,17 +98,15 @@ export default function Home() {
         ></link>
       </Head>
 
-
-      <canvas className="absolute z-0 top-0 left-0" ref={canvasRef}></canvas>
+      <canvas id="three-canvas" className="absolute z-0 top-0 left-0" ref={canvasRef}></canvas>
 
       <Header
         handleWorkScroll={handleWorkScroll}
         handleContactScroll={handleContactScroll}
       />
 
-<div className="scanlines"></div>
 
-
+      <div className="scanlines"></div>
       <div className="intro-wrap container mx-auto relative z-1 pb-10 z-1">
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
@@ -210,7 +211,6 @@ export default function Home() {
           This site was coded by Tommy and hosted for free on Netlify {":)"}.
         </p>
       </div>
-
     </div>
   );
 }

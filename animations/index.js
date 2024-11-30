@@ -1,4 +1,4 @@
-import gsap, { Power3 } from "gsap";
+// import gsap, { Power3 } from "gsap";
 import ScrambleText from 'scramble-text';
 
 // export const scramble = (element) => {

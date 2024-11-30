@@ -102,7 +102,11 @@ export default function Home() {
         handleWorkScroll={handleWorkScroll}
         handleContactScroll={handleContactScroll}
       />
-      <div className="container mx-auto relative z-1 pb-10 z-1">
+
+<div className="scanlines"></div>
+
+
+      <div className="intro-wrap container mx-auto relative z-1 pb-10 z-1">
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
         <div className="h-screen flex flex-col justify-center z-1">

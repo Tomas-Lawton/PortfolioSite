@@ -1,10 +1,10 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
 import WorkCard from "../components/WorkCard";
 import { useIsomorphicLayoutEffect } from "../utils";
-import { stagger } from "../animations";
+import { scramble } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
 import Button from "../components/Button";
@@ -22,7 +22,6 @@ export default function Home() {
   const textOne = useRef();
   const textTwo = useRef();
   const textThree = useRef();
-  const textFour = useRef();
 
   // Handling Scroll
   const handleWorkScroll = () => {
@@ -41,11 +40,11 @@ export default function Home() {
     });
   };
 
-  useIsomorphicLayoutEffect(() => {
-    stagger(
-      [textOne.current, textTwo.current, textThree.current, textFour.current],
-      { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-      { y: 0, x: 0, transform: "scale(1)" }
+
+  useEffect(() => {
+    console.log("calling")
+    scramble(
+      textOne.current
     );
   }, []);
 
@@ -64,23 +63,21 @@ export default function Home() {
           href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet"
-        ></link>
       </Head>
-
-      <div id="main-view" className="container mx-auto mb-10">
-        <CustomAlert handleContactScroll={handleContactScroll} />
 
         <Header
           handleWorkScroll={handleWorkScroll}
           handleContactScroll={handleContactScroll}
         />
+      <div className="container mx-auto pb-10">
+        <CustomAlert handleContactScroll={handleContactScroll} />
+
         <div className="laptop:mt-20 mt-10 p-2 tablet:p-2 laptop:p-0">
           <div className="mt-5">
             <h1
               ref={textOne}
+              // id="scramble"
+              // id="text1"
               className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineOne}
@@ -171,7 +168,7 @@ export default function Home() {
           <Footer />
         </div>
 
-        <hr className="custom-hr" />
+        <hr className="custom-hr my-10" />
         <p className="text-center opacity-70">
           This site was coded by Tommy and hosted for free on Netlify {":)"}.
         </p>

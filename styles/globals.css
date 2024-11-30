@@ -29,19 +29,22 @@ body {
 }
 
 
+
+
 .custom-hr {
   /* border: 1px solid #f2f2f2; */
   border: 1px solid #f2f2f22e;
   height: 1px;
   width: 90%;
   align-items: center;
-  margin: 2em;
+  /* margin: 2em; */
 }
 
 .background-white {
   /* background: #000000f4; */
   padding: 10px 0;
-  background: black;
+  /* background: black; */
+  background: #000000e6;
 }
 
 .profile-icon {
@@ -128,12 +131,12 @@ body {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
-
+/* 
 @media only screen and (min-width: 768px) {
   #main-view {
     width: 80vw;
   }
-}
+} */
 
 @media (min-width: 375px) {
   .container {
@@ -165,11 +168,11 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  /* background: linear-gradient(-45deg, #45caff 0%, #ff1b6b 100%); */
+
   transform: translate3d(0px, 20px, 0) scale(0.95);
+  transition: opacity 0.3s;
   filter: blur(20px);
   opacity: var(0.7);
-  transition: opacity 0.3s;
   border-radius: inherit;
 }
 

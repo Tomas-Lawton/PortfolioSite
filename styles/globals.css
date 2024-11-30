@@ -40,11 +40,12 @@ body {
   /* margin: 2em; */
 }
 
-.background-white {
-  /* background: #000000f4; */
-  padding: 10px 0;
-  /* background: black; */
+.header-background {
   background: #000000e6;
+}
+
+.text-slate-600 {
+  color: chartreuse
 }
 
 .profile-icon {
@@ -131,17 +132,10 @@ body {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
-/* 
-@media only screen and (min-width: 768px) {
-  #main-view {
-    width: 80vw;
-  }
-} */
 
-@media (min-width: 375px) {
-  .container {
-    max-width: 85vw;
-  }
+
+.container {
+  max-width: 85vw;
 }
 
 .gradient-circle-bottom {

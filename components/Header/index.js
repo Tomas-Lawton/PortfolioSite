@@ -21,11 +21,11 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   return (
     <>
       <div
-        className={`background-white drop-shadow-md  mt-10 pb-10 sticky ${
+        className={`header-background drop-shadow-md py-5 w-screen fixed ${
           theme === "light" && "bg-white"
         } dark:text-white top-0 z-10 flex`}
       >
-        <div className="container flex flex-row items-center justify-between container mx-auto ">
+        <div className="container flex flex-row items-center justify-between mx-auto ">
           <Image
             className="profile-icon link"
             src={`/images/profile.jpeg`}

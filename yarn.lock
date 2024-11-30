@@ -2847,6 +2847,11 @@ scheduler@^0.22.0:
   dependencies:
     loose-envify "^1.1.0"
 
+scramble-text@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/scramble-text/-/scramble-text-0.0.9.tgz#3a96bfd35309708c3dd9fcdca9702447931989aa"
+  integrity sha512-2zZaB6n/k5eMneMTcGMA2AMT/FdOUYhzU8Asid+49ToSNyVSxaLeFHgLyNdJdbmfTQHQsjiDzowMf5cC5vw1ug==
+
 section-matter@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/section-matter/-/section-matter-1.0.0.tgz"

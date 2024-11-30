@@ -21,62 +21,66 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   return (
     <>
       <div
-        className={`background-white mt-10 flex-row items-center justify-between sticky ${
+        className={`background-white drop-shadow-md  mt-10 pb-10 sticky ${
           theme === "light" && "bg-white"
         } dark:text-white top-0 z-10 flex`}
       >
-        <Image
-          className="profile-icon link"
-          src={`/images/profile.jpeg`}
-          alt="profile-icon"
-          width={55} height={55}
-          onClick={() =>
-            window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
-          }
-        />
-        {!isBlog ? (
-          <div className="flex">
-            {/* <Button onClick={handleWorkScroll}>Work</Button> */}
-            {/* <Button onClick={handleContactScroll}>Contact</Button> */}
-            <button
-              onClick={handleContactScroll}
-              className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-lime-400 to-green-500 group-hover:from-lime-500 group-hover:to-green-600 dark:focus:ring-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
+        <div className="container flex flex-row items-center justify-between container mx-auto ">
+          <Image
+            className="profile-icon link"
+            src={`/images/profile.jpeg`}
+            alt="profile-icon"
+            width={55}
+            height={55}
+            onClick={() =>
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+            }
+          />
+          {!isBlog ? (
+            <div className="flex">
+              {/* <Button onClick={handleWorkScroll}>Work</Button> */}
+              {/* <Button onClick={handleContactScroll}>Contact</Button> */}
+              <button
+                onClick={handleContactScroll}
+                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-lime-400 to-green-500 group-hover:from-lime-500 group-hover:to-green-600 dark:focus:ring-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
               >
                 <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                Contact
-              </span>
-            </button>
-          </div>
-        ) : (
-          <div className="flex">
-            <Button onClick={() => router.push("/")}>Home</Button>
-            {showBlog && (
-              <Button onClick={() => router.push("/blog")}>Blog</Button>
-            )}
-            {/* <Button onClick={handleContactScroll}>Contact</Button> */}
+                  Contact
+                </span>
+              </button>
+            </div>
+          ) : (
+            <div className="flex">
+              <Button onClick={() => router.push("/")}>Home</Button>
+              {showBlog && (
+                <Button onClick={() => router.push("/blog")}>Blog</Button>
+              )}
+              {/* <Button onClick={handleContactScroll}>Contact</Button> */}
 
-            <button
-              onClick={handleContactScroll}
-              className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-lime-400 to-green-500 group-hover:from-lime-500 group-hover:to-green-600 dark:focus:ring-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
+              <button
+                onClick={handleContactScroll}
+                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-lime-400 to-green-500 group-hover:from-lime-500 group-hover:to-green-600 dark:focus:ring-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
               >
                 <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                Contact
-              </span>
-            </button>
+                  Contact
+                </span>
+              </button>
 
-            {mounted && theme && data.darkMode && (
-              <Button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                <Image
-                  width={100} height={100}
-                  className="h-6"
-                  src={`/images/${theme === "dark" ? "moon.svg" : "sun.svg"}`}
-                ></Image>
-              </Button>
-            )}
-          </div>
-        )}
+              {mounted && theme && data.darkMode && (
+                <Button
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  <Image
+                    width={100}
+                    height={100}
+                    className="h-6"
+                    src={`/images/${theme === "dark" ? "moon.svg" : "sun.svg"}`}
+                  ></Image>
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

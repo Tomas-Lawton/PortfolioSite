@@ -140,7 +140,7 @@ body {
 
 @media (min-width: 375px) {
   .container {
-    max-width: 90vw;
+    max-width: 85vw;
   }
 }
 

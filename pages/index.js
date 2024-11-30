@@ -42,7 +42,6 @@ export default function Home() {
 
 
   useEffect(() => {
-    console.log("calling")
     scramble(
       textOne.current
     );
@@ -65,15 +64,15 @@ export default function Home() {
         ></link>
       </Head>
 
-        <Header
-          handleWorkScroll={handleWorkScroll}
-          handleContactScroll={handleContactScroll}
-        />
+      <Header
+        handleWorkScroll={handleWorkScroll}
+        handleContactScroll={handleContactScroll}
+      />
       <div className="container mx-auto pb-10">
-        <CustomAlert handleContactScroll={handleContactScroll} />
+        {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
-        <div className="laptop:mt-20 mt-10 p-2 tablet:p-2 laptop:p-0">
-          <div className="mt-5">
+        <div className="h-screen flex flex-col justify-center">
+          <div>
             <h1
               ref={textOne}
               // id="scramble"
@@ -96,10 +95,10 @@ export default function Home() {
             </h1>
           </div>
 
-          <Socials className="mt-6 laptop:mt-5" />
+          <Socials className="mt-5" handleContactScroll={handleContactScroll} />
         </div>
-        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
+        <div className="mb-10 laptop:mb-30 p-2 laptop:p-0" ref={workRef}>
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
             Projects
           </h1>
           <h1 className="text-2xl text-center tablet:text-left mt-2">

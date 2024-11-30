@@ -64,8 +64,10 @@ export default function Home() {
           href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         ></link>
-        <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
-
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        ></link>
       </Head>
 
       <div id="main-view" className="container mx-auto mb-10">
@@ -79,19 +81,19 @@ export default function Home() {
           <div className="mt-5">
             <h1
               ref={textOne}
-              className="hero-font text-center text-2xl mob:text-3xl tablet:text-5xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
+              className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineOne}
             </h1>
             <h1
               ref={textTwo}
-              className="text-center text-2xl mob:text-2xl  tablet:text-5xl laptop:text-6xl pt-1 tablet:pt-2 font-medium w-full"
+              className="text-center tablet:text-left text-2xl mob:text-2xl  tablet:text-5xl laptop:text-6xl pt-1 tablet:pt-2 font-medium w-full"
             >
               {data.headerTaglineTwo}
             </h1>
             <h1
               ref={textThree}
-              className="text-center text-2xl mob:text-2xl  tablet:text-5xl laptop:text-6xl pt-1 tablet:pt-2 font-medium w-full"
+              className="text-center tablet:text-left text-2xl mob:text-2xl  tablet:text-5xl laptop:text-6xl pt-1 tablet:pt-2 font-medium w-full"
             >
               {data.headerTaglineThree}
             </h1>
@@ -100,10 +102,10 @@ export default function Home() {
           <Socials className="mt-6 laptop:mt-5" />
         </div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="hero-font text-3xl tablet:text-5xl font-bold text-bold my-10">
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Projects
           </h1>
-          <h1 className="text-2xl mt-2">
+          <h1 className="text-2xl text-center tablet:text-left mt-2">
             As an <span className="font-bold">AI Specialist</span> by day and{" "}
             <span className="font-bold">Creative Technologist</span> by night, I
             generate concepts and architect systems from start to finish. Each
@@ -126,12 +128,12 @@ export default function Home() {
         </div>
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
-          <h1 className="hero-font text-3xl tablet:text-5xl font-bold text-bold my-10">
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Services
           </h1>
-          <h1 className="text-2xl mt-2">
-            A specialise in end-to-end development, product design, and
-            creative prototype research.
+          <h1 className="text-2xl text-center tablet:text-left mt-2">
+            A specialise in end-to-end development, product design, and creative
+            prototype research.
           </h1>
           <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
@@ -158,17 +160,21 @@ export default function Home() {
           <p className="mt-2 text-2xl w-full opacity-50">{data.aboutpara}</p>
         </div> */}
 
-        {/* <hr className="custom-hr" /> */}
-
         <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0">
-          <h1 className="hero-font text-3xl tablet:text-5xl font-bold text-bold my-10">
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Contact
           </h1>
-          <h1 className="text-2xl mt-2">
-            I blend creative technologies, generative AI, and end-to-end product design to craft intelligent human-centric experiences. 
+          <h1 className="text-2xl text-center tablet:text-left mt-2">
+            I blend creative technologies, generative AI, and end-to-end product
+            design to craft intelligent human-centric experiences.
           </h1>
           <Footer />
         </div>
+
+        <hr className="custom-hr" />
+        <p className="text-center opacity-70">
+          This site was coded by Tommy and hosted for free on Netlify {":)"}.
+        </p>
       </div>
     </div>
   );

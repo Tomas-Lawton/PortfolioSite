@@ -22,15 +22,16 @@
 
 body {
   color: white;
-
+  overscroll-behavior-y: none;
   background: rgb(0,0,0);
-  /* background: linear-gradient(108deg, rgba(0,0,0,1) 0%, rgba(12,22,0,1) 62%, rgba(0,0,0,1) 100%); */
   background: linear-gradient(108deg, rgba(0,0,0,1) 0%, rgba(12,22,0,1) 100%);
 
 }
 
+
 .custom-hr {
-  border: 1px solid #f2f2f2;
+  /* border: 1px solid #f2f2f2; */
+  border: 1px solid #f2f2f22e;
   height: 1px;
   width: 90%;
   align-items: center;

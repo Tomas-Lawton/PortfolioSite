@@ -6,7 +6,7 @@ import yourData from "../../data/portfolio.json";
 const Socials = ({ className }) => {
   return (
     <div
-      className={`${className} flex mx-2 tablet:mx-0 flex-wrap mob:flex-nowrap link justify-center flex-col mob:flex-row`}
+      className={`${className} flex mx-2 tablet:mx-0 flex-wrap mob:flex-nowrap link justify-center tablet:justify-start flex-col mob:flex-row`}
     >
       {yourData.socials.map((social, index) => (
         <Button

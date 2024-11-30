@@ -21,7 +21,7 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   return (
     <>
       <div
-        className={`header-background drop-shadow-md py-5 w-screen fixed ${
+        className={`header-background drop-shadow-md pt-3 pb-3 w-screen fixed ${
           theme === "light" && "bg-white"
         } dark:text-white top-0 z-10 flex`}
       >

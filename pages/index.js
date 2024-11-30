@@ -10,7 +10,8 @@ import Head from "next/head";
 import Button from "../components/Button";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
-import CustomAlert from "../components/CustomAlert";
+// import CustomAlert from "../components/CustomAlert";
+import * as THREE from 'three';
 
 // Local Data
 import data from "../data/portfolio.json";
@@ -22,6 +23,7 @@ export default function Home() {
   const textOne = useRef();
   const textTwo = useRef();
   const textThree = useRef();
+  const canvasRef = useRef(null);
 
   // Handling Scroll
   const handleWorkScroll = () => {
@@ -40,11 +42,40 @@ export default function Home() {
     });
   };
 
-
   useEffect(() => {
-    scramble(
-      textOne.current
+    scramble(textOne.current);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
     );
+    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current,  alpha: true  });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Cube geometry
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    camera.position.z = 5;
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Cleanup on component unmount
+    return () => {
+      renderer.dispose();
+    };
   }, []);
 
   return (
@@ -64,14 +95,17 @@ export default function Home() {
         ></link>
       </Head>
 
+
+      <canvas className="absolute z-0 top-0 left-0" ref={canvasRef}></canvas>
+
       <Header
         handleWorkScroll={handleWorkScroll}
         handleContactScroll={handleContactScroll}
       />
-      <div className="container mx-auto pb-10">
+      <div className="container mx-auto relative z-1 pb-10 z-1">
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
-        <div className="h-screen flex flex-col justify-center">
+        <div className="h-screen flex flex-col justify-center z-1">
           <div>
             <h1
               ref={textOne}
@@ -172,6 +206,7 @@ export default function Home() {
           This site was coded by Tommy and hosted for free on Netlify {":)"}.
         </p>
       </div>
+
     </div>
   );
 }

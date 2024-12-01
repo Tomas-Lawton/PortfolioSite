@@ -442,3 +442,11 @@ body::before {
 .gradient {
   background: linear-gradient(45deg, #afc8fb, #dcf5fd);
 }
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+  }
+}

@@ -16,7 +16,8 @@
 .dark-mode {
   /* background: #2727279e; */
   /* background: #151515; */
-  background: #1c1c1c;
+  /* background: #1c1c1c; */
+  background: #0e0e0e;
 }
 
 body {
@@ -44,7 +45,7 @@ body {
   background-position: center;
   pointer-events: none; 
   z-index: 9999; 
-  opacity: .1;
+  opacity: .2;
 } */
 
 #info {
@@ -85,6 +86,23 @@ body {
     /* animation: scanlines .2s linear infinite; */
   }
 }
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../public/images/noise.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .1;
+}
+
 
 .intro-wrap:first-child {
   width: 70%;

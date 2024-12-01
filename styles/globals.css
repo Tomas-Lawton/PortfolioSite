@@ -446,8 +446,7 @@ body::before {
 
 @media (max-width: 400px) { /* Disable heavy effects on mobile*/
   .scanlines, 
-  .vhs-text, 
-  .vhs-text,
+  /* .vhs-text, */
   body::before {
     display: none; 
   }

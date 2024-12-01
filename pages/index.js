@@ -279,21 +279,21 @@ export default function Home() {
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
         <div className="h-screen flex flex-col z-1 relative">
-          <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back  rounded-md">
+          <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden tablet:block">
             <h2>UPDATED</h2>
             <h2 className="text-xs">30.11.24</h2>
             <p className="text-xs ">BY TOMMY</p>
             <p>_________</p>
           </div>
 
-          <div className="absolute  flex bottom-12 left-0 p-4 text-white vhs-text">
-            <div className="play mr-40 rounded-md p-3 vhs-back" data-splitting onClick={() => handleWorkScroll()}>
+          <div className="absolute  flex bottom-12 left-0 text-white vhs-text">
+            <div className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back" data-splitting onClick={() => handleWorkScroll()}>
               PROJECTS
             </div>
-            <div className="play mr-40 rounded-md p-3 vhs-back" data-splitting onClick={() => handleServicesScroll()}>
+            <div className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back" data-splitting onClick={() => handleServicesScroll()}>
               SERVICES
             </div>
-            <div className="play mr-40 rounded-md p-3 vhs-back" data-splitting onClick={() => handleContactScroll()}>
+            <div className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back" data-splitting onClick={() => handleContactScroll()}>
               CONTACT
             </div>
           </div>

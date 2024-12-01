@@ -34,6 +34,7 @@ body {
 
 }
 
+
 /* body::before {
   content: '';
   position: absolute;
@@ -90,7 +91,12 @@ body {
 }
 
 
+.intro-wrap:first-child {
+  width: 70%;
+}
+
 .intro-wrap {
+  /* padding-top: 12rem; */
   top: 0;
   left: 0;
   width: 100vw;

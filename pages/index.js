@@ -305,16 +305,16 @@ export default function Home() {
             <p>_________</p>
           </div>
 
-          <div className="absolute  flex bottom-12 left-0 text-white vhs-text">
+          <div className="absolute flex-wrap flex bottom-12 left-0 text-white vhs-text">
             <div
-              className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
               data-splitting
               onClick={() => handleWorkScroll()}
             >
               PROJECTS
             </div>
             <div
-              className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
               data-splitting
               onClick={() => handleServicesScroll()}
             >
@@ -389,7 +389,7 @@ export default function Home() {
             Services
           </h1>
           <h1 className="text-2xl text-center tablet:text-left mt-2">
-            A specialise in end-to-end development, product design, and creative
+            I specialise in end-to-end development, product design, and creative
             prototype research.
           </h1>
           <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">

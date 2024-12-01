@@ -95,6 +95,11 @@ body {
   width: 70%;
 }
 
+.vhs-text {
+  animation: rgbText 1s steps(9) 0s infinite alternate;
+}
+
+
 .intro-wrap {
   /* padding-top: 12rem; */
   top: 0;

@@ -58,26 +58,29 @@ export default function Home() {
       );
     }
   }, []);
-
   useEffect(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    // const width = window.innerWidth;
+    // const height = window.innerHeight;
+    const width = 500;
+    const height = 500;
     const canvas = canvasRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true, // Transparent background
-    });
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
     renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
+    // renderer.setSize(width, height);
+    // camera.aspect = width / height;
+    // camera.updateProjectionMatrix();
+
     const geometries = [
       // new THREE.IcosahedronGeometry(1, 0),
-      // new THREE.TorusGeometry( 1, 0.4, 12, 48 ),
+      new THREE.TorusGeometry(1, 0.4, 12, 48),
       // new THREE.SphereGeometry(1, 16, 16),
-      new THREE.TorusKnotGeometry(10, 0.4, 64, 8),
+      // new THREE.TorusKnotGeometry(10, 0.4, 64, 8),
     ];
 
     const material = new THREE.ShaderMaterial({
@@ -146,23 +149,24 @@ export default function Home() {
       `,
     });
 
+    let currentShape = null;
+
     function createShape() {
       const geometry =
         geometries[Math.floor(Math.random() * geometries.length)];
       const shape = new THREE.Mesh(geometry, material);
       const wireframe = new THREE.WireframeGeometry(geometry);
-      // const shape2 = new THREE.Mesh(wireframe, material);
       const line = new THREE.LineSegments(wireframe);
       line.material.depthTest = false;
-      line.material.opacity = 0.2;
+      line.material.opacity = 0.04;
       line.material.transparent = true;
-      // shape.position.set(1.6, 0, 0);
       shape.add(line);
       scene.add(shape);
       return shape;
     }
 
-    const shape = createShape();
+    const initialShape = createShape();
+    currentShape = initialShape; // Store the initial shape
     camera.position.z = 3;
 
     let targetIntensity = 0;
@@ -177,17 +181,24 @@ export default function Home() {
     document.addEventListener("mousemove", (event) => {
       mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.targetY = -(event.clientY / window.innerHeight) * 2 + 1;
-      shape.rotation.y = -(event.clientX / window.innerWidth) * 2 - 1 * Math.PI;
-      shape.rotation.x =
-        -(event.clientY / window.innerHeight) * 2 + 1 * Math.PI;
+      if (currentShape) {
+        currentShape.rotation.y =
+          -(event.clientX / window.innerWidth) * 2 - 1 * Math.PI;
+        currentShape.rotation.x =
+          -(event.clientY / window.innerHeight) * 2 + 1 * Math.PI;
+      }
     });
 
     document.addEventListener("mousedown", () => {
       targetIntensity = 5;
     });
+
     document.addEventListener("mouseup", () => {
       targetIntensity = 0.0;
+      // scene.remove(currentShape);
+      // currentShape = createShape();
     });
+
     document.addEventListener("mouseleave", () => {
       targetIntensity = 0.0;
       mouse.targetX = 0;
@@ -210,10 +221,10 @@ export default function Home() {
     function animate() {
       requestAnimationFrame(animate);
 
-      shape.rotation.y += 0.001;
-      shape.rotation.x += 0.001;
-      // shape.rotation.y += (mouse.targetX - shape.rotation.y / Math.PI) * 0.1;
-      // shape.rotation.x += (mouse.targetY - shape.rotation.x / Math.PI) * 0.1;
+      if (currentShape) {
+        currentShape.rotation.y += 0.01;
+        currentShape.rotation.x += 0.01;
+      }
 
       currentIntensity += (targetIntensity - currentIntensity) * 0.01;
       material.uniforms.mouseIntensity.value = currentIntensity;
@@ -246,8 +257,9 @@ export default function Home() {
         ></link>
       </Head>
 
-      <canvas className="absolute z-0 top-0 right-0" ref={canvasRef}></canvas>
-
+      <div className="absolute z-0 top-0 right-0 tablet:w-10/12 overflow-hidden">
+        <canvas ref={canvasRef}></canvas>
+      </div>
       <Header
         handleWorkScroll={handleWorkScroll}
         handleContactScroll={handleContactScroll}
@@ -258,7 +270,7 @@ export default function Home() {
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
         <div className="h-screen flex flex-col z-1 relative">
-          <div class="absolute bottom-9 right-0 p-4 bg-black text-white rounded-lg shadow-lg ">
+          <div className="absolute bottom-9 right-0 p-4 bg-black text-white rounded-lg shadow-lg vhs-text">
             <h2>LAST</h2>
             <h2>UPDATED</h2>
             <hr className="p-1" />

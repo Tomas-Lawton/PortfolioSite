@@ -67,31 +67,29 @@ export default function Home() {
       );
     }
   }, []);
+
   useEffect(() => {
-    // const width = window.innerWidth;
-    // const height = window.innerHeight;
-    const width = 500;
-    const height = 500;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     const canvas = canvasRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    // renderer.setSize(width, height);
-    // camera.aspect = width / height;
-    // camera.updateProjectionMatrix();
-
+    
+  
     const geometries = [
-      // new THREE.IcosahedronGeometry(1, 0),
       new THREE.TorusGeometry(1, 0.4, 12, 48),
-      // new THREE.SphereGeometry(1, 16, 16),
-      // new THREE.TorusKnotGeometry(10, 0.4, 64, 8),
+      // new THREE.IcosahedronGeometry(1, 0),
     ];
-
+  
     const material = new THREE.ShaderMaterial({
       uniforms: {
         baseColor: { value: new THREE.Color(0x7fff00) },
@@ -106,7 +104,7 @@ export default function Home() {
         varying vec3 vPosition;
         varying vec3 vNormal;
         varying vec2 vUv;
-    
+  
         void main() {
           vUv = uv;
           vNormal = normal;
@@ -128,7 +126,7 @@ export default function Home() {
         varying vec3 vPosition;
         varying vec3 vNormal;
         varying vec2 vUv;
-    
+  
         vec3 plasma(vec2 uv, float time) {
           vec2 p = -1.0 + 2.0 * uv;
           float t = time * 0.2;
@@ -140,7 +138,7 @@ export default function Home() {
           float intensity = sin(v1 + v2 + v3) * 0.5 + 0.5;
           return mix(baseColor, secondaryColor, intensity);
         }
-    
+  
         void main() {
           vec3 normal = normalize(vNormal);
           vec3 viewDir = normalize(-vPosition);
@@ -157,9 +155,9 @@ export default function Home() {
         }
       `,
     });
-
+  
     let currentShape = null;
-
+  
     function createShape() {
       const geometry =
         geometries[Math.floor(Math.random() * geometries.length)];
@@ -170,14 +168,38 @@ export default function Home() {
       line.material.opacity = 0.04;
       line.material.transparent = true;
       shape.add(line);
+      
+      // shape.receiveShadow = true;
+      shape.traverse(function (node) {
+        if (node.isMesh) node.castShadow = true;
+      });
+      shape.castShadow = true;
+      // shape.receiveShadow = true; 
       scene.add(shape);
+      shape.position.set(0, 0.3, 0);
       return shape;
     }
-
+  
+    const ambientLight = new THREE.AmbientLight(0xededed, 0.8);
+    scene.add(ambientLight);
+  
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    scene.add(directionalLight);
+    directionalLight.position.set(4, 20, -1);
+    directionalLight.castShadow = true;
+  
+    const groundGeometry = new THREE.PlaneGeometry(500, 500);
+    const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.2 });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -1;
+    ground.receiveShadow = true;
+    scene.add(ground);
+  
     const initialShape = createShape();
-    currentShape = initialShape; // Store the initial shape
+    currentShape = initialShape;
     camera.position.z = 3;
-
+  
     let targetIntensity = 0;
     let currentIntensity = 0;
     const mouse = {
@@ -187,27 +209,24 @@ export default function Home() {
       targetY: 0,
     };
 
+
     document.addEventListener("mousemove", (event) => {
       mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.targetY = -(event.clientY / window.innerHeight) * 2 + 1;
       if (currentShape) {
-        currentShape.rotation.y =
-          -(event.clientX / window.innerWidth) * 2 - 1 * Math.PI;
-        currentShape.rotation.x =
-          -(event.clientY / window.innerHeight) * 2 + 1 * Math.PI;
+
+      currentShape.rotation.y = -(event.clientX / window.innerWidth) * 2 - 1 * Math.PI;
+      currentShape.rotation.x =
+        -(event.clientY / window.innerHeight) * 2 + 1 * Math.PI;
       }
     });
 
     document.addEventListener("mousedown", () => {
       targetIntensity = 5;
     });
-
     document.addEventListener("mouseup", () => {
       targetIntensity = 0.0;
-      // scene.remove(currentShape);
-      // currentShape = createShape();
     });
-
     document.addEventListener("mouseleave", () => {
       targetIntensity = 0.0;
       mouse.targetX = 0;
@@ -223,31 +242,31 @@ export default function Home() {
         window.innerHeight
       );
     }
-
+  
     window.addEventListener("resize", onWindowResize);
     onWindowResize();
-
+  
     function animate() {
       requestAnimationFrame(animate);
-
+  
       if (currentShape) {
         currentShape.rotation.y += 0.007;
         currentShape.rotation.x += 0.007;
       }
-
+  
       currentIntensity += (targetIntensity - currentIntensity) * 0.01;
       material.uniforms.mouseIntensity.value = currentIntensity;
       material.uniforms.time.value += 0.05;
       renderer.render(scene, camera);
     }
-
+  
     animate();
-
-    // Cleanup on component unmount
+  
     return () => {
       renderer.dispose();
     };
   }, []);
+  
 
   return (
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
@@ -287,13 +306,25 @@ export default function Home() {
           </div>
 
           <div className="absolute  flex bottom-12 left-0 text-white vhs-text">
-            <div className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back" data-splitting onClick={() => handleWorkScroll()}>
+            <div
+              className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              data-splitting
+              onClick={() => handleWorkScroll()}
+            >
               PROJECTS
             </div>
-            <div className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back" data-splitting onClick={() => handleServicesScroll()}>
+            <div
+              className="play  mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              data-splitting
+              onClick={() => handleServicesScroll()}
+            >
               SERVICES
             </div>
-            <div className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back" data-splitting onClick={() => handleContactScroll()}>
+            <div
+              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              data-splitting
+              onClick={() => handleContactScroll()}
+            >
               CONTACT
             </div>
           </div>

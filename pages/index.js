@@ -273,7 +273,7 @@ export default function Home() {
       {data.showCursor && <Cursor />}
       <Head>
         <title>Where Chaos, Meets Code</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        {/* <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -282,7 +282,7 @@ export default function Home() {
         <link
           href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Mega:wght@100..900&family=Reenie+Beanie&family=Sixtyfour+Convergence&family=Tektur:wght@400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
-        ></link>
+        ></link> */}
       </Head>
 
       <div className="absolute z-0 top-0 right-0 tablet:w-10/12 overflow-hidden">
@@ -305,7 +305,7 @@ export default function Home() {
             <p>_________</p>
           </div>
 
-          <div className="absolute flex-wrap flex bottom-12 left-0 text-white vhs-text">
+          <div className="absolute flex-col gap-3 flex bottom-12 left-0 text-white vhs-text">
             <div
               className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
               data-splitting

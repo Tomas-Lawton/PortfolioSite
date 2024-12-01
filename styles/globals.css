@@ -1,7 +1,8 @@
+@import "./markdown.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./markdown.css";
+
 * {
   /* font-family: "Hind"; */
   font-family: "Work Sans", sans-serif;
@@ -83,7 +84,6 @@ body {
     );
     background-size: 400% 4px;
     will-change: background, background-size;
-    /* animation: scanlines .2s linear infinite; */
   }
 }
 

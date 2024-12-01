@@ -444,6 +444,13 @@ body::before {
 }
 
 
+@media (max-width: 400px) {
+  .scanlines, 
+  .vhs-text, 
+  body::before {
+    display: none; /* Disable heavy effects */
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * {

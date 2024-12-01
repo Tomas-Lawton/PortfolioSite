@@ -20,6 +20,7 @@ import data from "../data/portfolio.json";
 export default function Home() {
   // Ref
   const workRef = useRef();
+  const serviceRef = useRef();
   const contactRef = useRef();
   const textOn = useRef();
   const textOne = useRef();
@@ -31,6 +32,14 @@ export default function Home() {
   const handleWorkScroll = () => {
     window.scrollTo({
       top: workRef.current.offsetTop,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleServicesScroll = () => {
+    window.scrollTo({
+      top: serviceRef.current.offsetTop,
       left: 0,
       behavior: "smooth",
     });
@@ -222,8 +231,8 @@ export default function Home() {
       requestAnimationFrame(animate);
 
       if (currentShape) {
-        currentShape.rotation.y += 0.01;
-        currentShape.rotation.x += 0.01;
+        currentShape.rotation.y += 0.007;
+        currentShape.rotation.x += 0.007;
       }
 
       currentIntensity += (targetIntensity - currentIntensity) * 0.01;
@@ -270,13 +279,25 @@ export default function Home() {
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
         <div className="h-screen flex flex-col z-1 relative">
-          <div className="absolute bottom-9 right-0 p-4 bg-black text-white rounded-lg shadow-lg vhs-text">
-            <h2>LAST</h2>
+          <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back  rounded-md">
             <h2>UPDATED</h2>
-            <hr className="p-1" />
             <h2 className="text-xs">30.11.24</h2>
             <p className="text-xs ">BY TOMMY</p>
+            <p>_________</p>
           </div>
+
+          <div className="absolute  flex bottom-12 left-0 p-4 text-white vhs-text">
+            <div className="play mr-40 rounded-md p-3 vhs-back" data-splitting onClick={() => handleWorkScroll()}>
+              PROJECTS
+            </div>
+            <div className="play mr-40 rounded-md p-3 vhs-back" data-splitting onClick={() => handleServicesScroll()}>
+              SERVICES
+            </div>
+            <div className="play mr-40 rounded-md p-3 vhs-back" data-splitting onClick={() => handleContactScroll()}>
+              CONTACT
+            </div>
+          </div>
+
           <div className="mt-52">
             <h1
               ref={textOn}
@@ -332,7 +353,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
+        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={serviceRef}>
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Services
           </h1>

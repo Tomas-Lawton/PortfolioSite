@@ -1,7 +1,6 @@
 import React from "react";
-import Button from "../Button";
 
-import { aboutpara } from "../../data/portfolio.json";
+import data from "../../data/portfolio.json";
 
 const Footer = ({}) => {
   return (
@@ -9,7 +8,7 @@ const Footer = ({}) => {
       <div>
         <div className="dark-mode bg-slate-100 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-start gap-3 mt-10">
         <h1 className="text-3xl font-bold w-full">Send me an email</h1>
-          <h2 className="text-xl">{aboutpara}</h2>
+          <h2 className="text-xl">{data['aboutpara']}</h2>
           <h2 className="font-bold w-full">tomaslawton@gmail.com</h2>
           <button
   onClick={() =>

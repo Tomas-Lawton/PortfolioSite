@@ -429,7 +429,7 @@ export default function Home() {
         </div>
 
         <hr className="custom-hr my-10" />
-        <p className="text-center opacity-70">
+        <p className="text-center opacity-70 mb-10">
           This site was coded by Tommy and hosted for free on Netlify {":)"}.
         </p>
       </div>

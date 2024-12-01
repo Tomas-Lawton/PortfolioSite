@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
 import WorkCard from "../components/WorkCard";
-import { useIsomorphicLayoutEffect } from "../utils";
-import { scramble } from "../animations";
+// import { useIsomorphicLayoutEffect } from "../utils";
+import { stagger } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
 import Button from "../components/Button";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import Cursor from "../components/Cursor";
 // import CustomAlert from "../components/CustomAlert";
 import * as THREE from "three";
+import ScrambleText from "scramble-text";
 
 // Local Data
 import data from "../data/portfolio.json";
@@ -20,6 +21,7 @@ export default function Home() {
   // Ref
   const workRef = useRef();
   const contactRef = useRef();
+  const textOn = useRef();
   const textOne = useRef();
   const textTwo = useRef();
   const textThree = useRef();
@@ -43,7 +45,21 @@ export default function Home() {
   };
 
   useEffect(() => {
-    scramble(textOne.current);
+    const element = textOne.current;
+    if (element && !element.hasAttribute("data-scrambled")) {
+      element.setAttribute("data-scrambled", "true"); // Mark as scrambled
+      const scrambleInstance = new ScrambleText(element);
+
+      stagger(
+        [textOn.current, textOne.current, textTwo.current, textThree.current],
+        { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
+        { y: 0, x: 0, transform: "scale(1)" },
+        () => scrambleInstance.start()
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const canvas = canvasRef.current;
@@ -239,32 +255,27 @@ export default function Home() {
 
       <div className="scanlines"></div>
       <div className="intro-wrap container mx-auto relative z-1">
-
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
         <div className="h-screen flex flex-col z-1 relative">
-        <div class="absolute bottom-9 right-0 p-4 bg-black text-white rounded-lg shadow-lg">
-          <h2>LAST</h2>
-          <h2>UPDATED</h2>
-          <hr className="p-1"/>
-          <h2>30.11.24</h2>
-          {/* <p>BY TOMMY</p> */}
-        </div>
+          <div class="absolute bottom-9 right-0 p-4 bg-black text-white rounded-lg shadow-lg ">
+            <h2>LAST</h2>
+            <h2>UPDATED</h2>
+            <hr className="p-1" />
+            <h2 className="text-xs">30.11.24</h2>
+            <p className="text-xs ">BY TOMMY</p>
+          </div>
           <div className="mt-52">
             <h1
-              // ref={textOne}
+              ref={textOn}
               className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineOne}
-              {/* <br /> */}
-              {/* {data.headerTaglineOnea} */}
             </h1>
             <h1
               ref={textOne}
               className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
             >
-              {/* {data.headerTaglineOne} */}
-              {/* <br /> */}
               {data.headerTaglineOnea}
             </h1>
             <h1

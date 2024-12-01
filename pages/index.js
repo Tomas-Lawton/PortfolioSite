@@ -69,6 +69,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (window.innerWidth <= 400) {
+      return; // Skip initializing Three.js for small screens
+    }
+
     const width = window.innerWidth;
     const height = window.innerHeight;
     const canvas = canvasRef.current;
@@ -297,7 +301,7 @@ export default function Home() {
       <div className="intro-wrap container mx-auto relative z-1">
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
-        <div className="h-screen flex flex-col z-1 relative">
+        <div className="h-screen justify-center tablet:justify-start flex flex-col z-1 relative">
           <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden tablet:block">
             <h2>UPDATED</h2>
             <h2 className="text-xs">30.11.24</h2>
@@ -329,7 +333,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-52">
+          <div className="tablet:mt-52">
             <h1
               ref={textOn}
               className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"

@@ -44,47 +44,33 @@ export default function Home() {
 
   useEffect(() => {
     scramble(textOne.current);
-
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const canvas = canvasRef.current;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-      alpha: true,
+      canvas: canvas,
+      alpha: true, // Transparent background
     });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 
-    // Cube geometry
-    // const geometry = new THREE.BoxGeometry();
-    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    // const cube = new THREE.Mesh(geometry, material);
-    // scene.add(cube);
-
-    // camera.position.z = 5;
-
-    // const animate = () => {
-    //   requestAnimationFrame(animate);
-    //   cube.rotation.x += 0.01;
-    //   cube.rotation.y += 0.01;
-    //   renderer.render(scene, camera);
-    // };
-
-    // animate();
-
-
-
-
-    const geometry = new THREE.IcosahedronGeometry(1, 4);
+    const geometries = [
+      // new THREE.IcosahedronGeometry(1, 0),
+      // new THREE.TorusGeometry( 1, 0.4, 12, 48 ),
+      // new THREE.SphereGeometry(1, 16, 16),
+      new THREE.TorusKnotGeometry(10, 0.4, 64, 8),
+    ];
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
+        baseColor: { value: new THREE.Color(0x7fff00) },
+        secondaryColor: { value: new THREE.Color(0x0000ff) },
         time: { value: 0 },
         resolution: { value: new THREE.Vector2() },
-        mouseIntensity: { value: 0.0 }
+        mouseIntensity: { value: 0.0 },
       },
       vertexShader: `
         uniform float time;
@@ -109,6 +95,8 @@ export default function Home() {
         uniform float time;
         uniform float mouseIntensity;
         uniform vec2 resolution;
+        uniform vec3 baseColor;
+        uniform vec3 secondaryColor;
         varying vec3 vPosition;
         varying vec3 vNormal;
         varying vec2 vUv;
@@ -121,18 +109,14 @@ export default function Home() {
           float v1 = sin(cx * 10.0 + t);
           float v2 = cos(cy * 8.0 + t * 1.2);
           float v3 = sin((cx + cy + t) * 5.0);
-          return vec3(
-            sin(v1 + v2 + v3) * 0.5 + 0.5,
-            sin(v1 + v2 + v3 + 2.094) * 0.5 + 0.5,
-            sin(v1 + v2 + v3 + 4.188) * 0.5 + 0.5
-          );
+          float intensity = sin(v1 + v2 + v3) * 0.5 + 0.5;
+          return mix(baseColor, secondaryColor, intensity);
         }
     
         void main() {
           vec3 normal = normalize(vNormal);
           vec3 viewDir = normalize(-vPosition);
           vec3 plasmaColor = plasma(vUv, time + mouseIntensity);
-          plasmaColor = mix(plasmaColor, vec3(1.0, 0.5, 0.2), mouseIntensity * 0.5);
           float depth = length(vPosition) / 2.0;
           plasmaColor *= 1.0 - depth * 0.5;
           float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0);
@@ -143,63 +127,85 @@ export default function Home() {
           plasmaColor += vec3(1.0) * spec * 0.5;
           gl_FragColor = vec4(plasmaColor, 1.0);
         }
-      `
+      `,
     });
-    
-    const shape = new THREE.Mesh(geometry, material);
-    scene.add(shape);
-    
-    camera.position.z = 2;
-    
-    let isPressed = false;
+
+    function createShape() {
+      const geometry =
+        geometries[Math.floor(Math.random() * geometries.length)];
+      const shape = new THREE.Mesh(geometry, material);
+      const wireframe = new THREE.WireframeGeometry(geometry);
+      // const shape2 = new THREE.Mesh(wireframe, material);
+      const line = new THREE.LineSegments(wireframe);
+      line.material.depthTest = false;
+      line.material.opacity = 0.2;
+      line.material.transparent = true;
+      // shape.position.set(1.6, 0, 0);
+      shape.add(line);
+      scene.add(shape);
+      return shape;
+    }
+
+    const shape = createShape();
+    camera.position.z = 3;
+
     let targetIntensity = 0;
     let currentIntensity = 0;
     const mouse = {
       x: 0,
       y: 0,
       targetX: 0,
-      targetY: 0
+      targetY: 0,
     };
-    
-    document.addEventListener('mousemove', (event) => {
+
+    document.addEventListener("mousemove", (event) => {
       mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.targetY = -(event.clientY / window.innerHeight) * 2 + 1;
+      shape.rotation.y = -(event.clientX / window.innerWidth) * 2 - 1 * Math.PI;
+      shape.rotation.x =
+        -(event.clientY / window.innerHeight) * 2 + 1 * Math.PI;
     });
-    
-    document.addEventListener('mousedown', () => { isPressed = true; targetIntensity = 1.0; });
-    document.addEventListener('mouseup', () => { isPressed = false; targetIntensity = 0.0; });
-    document.addEventListener('mouseleave', () => { 
-      isPressed = false; 
+
+    document.addEventListener("mousedown", () => {
+      targetIntensity = 5;
+    });
+    document.addEventListener("mouseup", () => {
+      targetIntensity = 0.0;
+    });
+    document.addEventListener("mouseleave", () => {
       targetIntensity = 0.0;
       mouse.targetX = 0;
       mouse.targetY = 0;
     });
-    
+
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+      material.uniforms.resolution.value.set(
+        window.innerWidth,
+        window.innerHeight
+      );
     }
-    
-    window.addEventListener('resize', onWindowResize);
+
+    window.addEventListener("resize", onWindowResize);
     onWindowResize();
-    
+
     function animate() {
       requestAnimationFrame(animate);
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
-      shape.rotation.y = mouse.x * Math.PI;
-      shape.rotation.x = mouse.y * Math.PI;
-      currentIntensity += (targetIntensity - currentIntensity) * 0.1;
+
+      shape.rotation.y += 0.001;
+      shape.rotation.x += 0.001;
+      // shape.rotation.y += (mouse.targetX - shape.rotation.y / Math.PI) * 0.1;
+      // shape.rotation.x += (mouse.targetY - shape.rotation.x / Math.PI) * 0.1;
+
+      currentIntensity += (targetIntensity - currentIntensity) * 0.01;
       material.uniforms.mouseIntensity.value = currentIntensity;
       material.uniforms.time.value += 0.05;
       renderer.render(scene, camera);
     }
-    
+
     animate();
-
-
 
     // Cleanup on component unmount
     return () => {
@@ -211,7 +217,7 @@ export default function Home() {
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
       {data.showCursor && <Cursor />}
       <Head>
-        <title>Where Chaos Meets Code</title>
+        <title>Where Chaos, Meets Code</title>
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link
           rel="preconnect"
@@ -224,27 +230,42 @@ export default function Home() {
         ></link>
       </Head>
 
-      <canvas id="three-canvas" className="absolute z-0 top-0 left-0" ref={canvasRef}></canvas>
+      <canvas className="absolute z-0 top-0 right-0" ref={canvasRef}></canvas>
 
       <Header
         handleWorkScroll={handleWorkScroll}
         handleContactScroll={handleContactScroll}
       />
 
-
       <div className="scanlines"></div>
-      <div className="intro-wrap container mx-auto relative z-1 pb-10 z-1">
+      <div className="intro-wrap container mx-auto relative z-1">
+
         {/* <CustomAlert handleContactScroll={handleContactScroll} /> */}
 
-        <div className="h-screen flex flex-col justify-center z-1">
-          <div>
+        <div className="h-screen flex flex-col z-1 relative">
+        <div class="absolute bottom-9 right-0 p-4 bg-black text-white rounded-lg shadow-lg">
+          <h2>LAST</h2>
+          <h2>UPDATED</h2>
+          <hr className="p-1"/>
+          <h2>30.11.24</h2>
+          {/* <p>BY TOMMY</p> */}
+        </div>
+          <div className="mt-52">
             <h1
-              ref={textOne}
-              // id="scramble"
-              // id="text1"
+              // ref={textOne}
               className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
             >
               {data.headerTaglineOne}
+              {/* <br /> */}
+              {/* {data.headerTaglineOnea} */}
+            </h1>
+            <h1
+              ref={textOne}
+              className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
+            >
+              {/* {data.headerTaglineOne} */}
+              {/* <br /> */}
+              {data.headerTaglineOnea}
             </h1>
             <h1
               ref={textTwo}
@@ -307,13 +328,13 @@ export default function Home() {
           </div>
         </div>
         {/* This button should not go into production */}
-        {process.env.NODE_ENV === "development" && (
+        {/* {process.env.NODE_ENV === "development" && (
           <div className="fixed bottom-5 right-5">
             <Link href="/edit">
               <Button type="primary">Edit Data</Button>
             </Link>
           </div>
-        )}
+        )} */}
         {/* <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={contactRef}>
           <h1 className="text-3xl tablet:text-5xl font-medium text-bold my-10">
             Let&apos;s work together!

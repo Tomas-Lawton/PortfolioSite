@@ -254,11 +254,11 @@ export default function Home() {
       requestAnimationFrame(animate);
   
       if (currentShape) {
-        currentShape.rotation.y += 0.007;
-        currentShape.rotation.x += 0.007;
+        currentShape.rotation.y += 0.015;
+        currentShape.rotation.x += 0.015;
       }
   
-      currentIntensity += (targetIntensity - currentIntensity) * 0.01;
+      currentIntensity += (targetIntensity - currentIntensity) * 0.05;
       material.uniforms.mouseIntensity.value = currentIntensity;
       material.uniforms.time.value += 0.05;
       renderer.render(scene, camera);

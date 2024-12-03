@@ -222,15 +222,24 @@ export default function Home() {
       targetY: 0,
     };
 
+    let prevMouseX = null;
+    let prevMouseY = null;
+    const strength = 1.2; 
+    
     document.addEventListener("mousemove", (event) => {
-      mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.targetY = -(event.clientY / window.innerHeight) * 2 + 1;
-      if (currentShape) {
-        currentShape.rotation.y =
-          -(event.clientX / window.innerWidth) * 2 - 1 * Math.PI;
-        currentShape.rotation.x =
-          -(event.clientY / window.innerHeight) * 2 + 1 * Math.PI;
+      const currentMouseX = event.clientX / window.innerWidth;
+      const currentMouseY = event.clientY / window.innerHeight;
+    
+      if (prevMouseX !== null && prevMouseY !== null && currentShape) {
+        const deltaX = currentMouseX - prevMouseX;
+        const deltaY = currentMouseY - prevMouseY;
+    
+        currentShape.rotation.y += deltaX * Math.PI * strength; 
+        currentShape.rotation.x += deltaY * Math.PI * strength;
       }
+    
+      prevMouseX = currentMouseX;
+      prevMouseY = currentMouseY;
     });
 
     document.addEventListener("mousedown", () => {

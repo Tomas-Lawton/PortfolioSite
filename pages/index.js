@@ -96,7 +96,7 @@ export default function Home() {
         130,
         12,
         2,
-        Math.floor(Math.random() * (10 - 3 + 1)) + 3
+        Math.floor(Math.random() * (10 + 1))
       ),
     ];
 

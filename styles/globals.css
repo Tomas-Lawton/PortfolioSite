@@ -30,6 +30,12 @@
   /* box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.4); */
 }
 
+.cta {
+  outline: 2px solid #ceff9d !important;
+  box-shadow: 0 0 12px #72d60fde !important;
+  cursor: pointer;
+}
+
 body {
   color: white;
   overscroll-behavior-y: none;
@@ -330,8 +336,10 @@ body::before {
 } */
 
 .bg-accent {
-  background: #000000;
+  /* background: #000000; */
   width: 10em;
+  /* background-color: chartreuse; */
+  background: #1d1d1dba;
 }
 
 .text-accent {

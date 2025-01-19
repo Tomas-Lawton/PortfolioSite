@@ -46,8 +46,6 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
 
       <div className="flex items-center arrange-card">
         <h2 className="text-xl">{description ? description : "Description"}</h2>
-
-        {/* Button with hover effect separated from the card */}
         {url !== "" && (
           <button
             src={`/images/link.svg`}

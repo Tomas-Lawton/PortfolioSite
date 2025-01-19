@@ -444,17 +444,16 @@ body::before {
 }
 
 
-@media (max-width: 700px) { /* Disable heavy effects on mobile*/
+@media (max-width: 768px) { /* Applies to tablet and smaller */
   .scanlines, 
   body::before {
     display: none; 
     background-image: none;
   }
-  body {
+  /* body {
     background-image: none;
-  }
+  } */
   * {
     animation: none !important;
   }
 }
-

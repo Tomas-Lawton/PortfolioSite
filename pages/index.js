@@ -414,7 +414,7 @@ export default function Home() {
             I specialise in end-to-end development, product design, and creative
             prototype research.
           </h1>
-          <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 bg-slate-100 tablet:p-12 laptop:p-12 rounded-lg">
+          <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 transition-all ease-out duration-300 tablet:p-12 laptop:p-12 rounded-lg">
             {data.services.map((service, index) => (
               <ServiceCard
                 key={index}
@@ -451,8 +451,8 @@ export default function Home() {
         </div>
 
         <hr className="custom-hr my-10" />
-        <p className="text-center opacity-70 mb-10">
-          This site was coded by Tommy and hosted for free on Netlify {":)"}.
+        <p className="text-center opacity-80 mb-10">
+          Open in browser for enhanced experience. Coded by Tommy {":)"}.
         </p>
       </div>
     </div>

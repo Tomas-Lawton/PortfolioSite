@@ -329,21 +329,21 @@ export default function Home() {
 
           <div className="absolute bottom-12 left-0 flex flex-col tablet:flex-row gap-3 text-white vhs-text">
             <div
-              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
               data-splitting
               onClick={() => handleWorkScroll()}
             >
               PROJECTS
             </div>
             <div
-              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
               data-splitting
               onClick={() => handleServicesScroll()}
             >
               SERVICES
             </div>
             <div
-              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back"
+              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
               data-splitting
               onClick={() => handleContactScroll()}
             >

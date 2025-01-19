@@ -7,9 +7,9 @@ import WorkCard from "../components/WorkCard";
 import { stagger } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
-import Button from "../components/Button";
-import Link from "next/link";
-import Cursor from "../components/Cursor";
+// import Button from "../components/Button";
+// import Link from "next/link";
+// import Cursor from "../components/Cursor";
 // import CustomAlert from "../components/CustomAlert";
 import * as THREE from "three";
 import ScrambleText from "scramble-text";
@@ -292,7 +292,7 @@ export default function Home() {
 
   return (
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
-      {data.showCursor && <Cursor />}
+      {/* {data.showCursor && <Cursor />} */}
       <Head>
         <title>Where Chaos, Meets Code</title>
         {/* <link rel="preconnect" href="https://fonts.googleapis.com"></link>

@@ -4,7 +4,7 @@
   "headerTaglineOnea": "Meets Code.",
   "headerTaglineTwo": "AI Engineering and Design,",
   "headerTaglineThree": "Based in APAC.",
-  "showCursor": true,
+  "showCursor": false,
   "showBlog": false,
   "darkMode": false,
   "showResume": false,

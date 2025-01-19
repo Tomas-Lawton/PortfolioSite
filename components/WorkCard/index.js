@@ -7,15 +7,12 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
       className={`${
         url !== "" && `hover:-translate-y-2`
       } dark-mode justify-between gap-2 flex flex-col overflow-hidden rounded-xl p-5 first:ml-0 link transition-all ease-out duration-300 bg-zinc-100 group`}
-      onClick={onClick}
     >
       <h1 className="text-3xl font-medium mb-2 align-middle text-center mv-4">
         {name ? name : "Project Name"}
       </h1>
 
-      <div
-        className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 mob:h-auto"
-      >
+      <div className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 mob:h-auto">
         <Image
           width={540}
           height={300}
@@ -48,6 +45,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
         <h2 className="text-xl">{description ? description : "Description"}</h2>
         {url !== "" && (
           <button
+            onClick={onClick}
             src={`/images/link.svg`}
             alt="link-icon"
             className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-lime-400 to-green-500 hover:from-lime-500 hover:to-green-600 dark:focus:ring-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"

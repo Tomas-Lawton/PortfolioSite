@@ -69,7 +69,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth <= 400) {
+    if (window.innerWidth <= 768) {
+      console.log("Use Large Display for Animations")
       return; // Skip initializing Three.js for small screens
     }
 

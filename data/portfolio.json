@@ -76,22 +76,26 @@
   "services": [
     {
       "id": "1",
-      "title": "💻 Fullstack Development",
+      "title": "💻",
+      "title1": "Fullstack Development",
       "description": "I excel in the creation of cutting-edge software applications using an array of technologies: from frontend to backend. "
     },
     {
       "id": "2",
-      "title": "🎨 Product Design",
+      "title": "🎨",
+      "title1": "Product Design",
       "description": "I explore and evaluate designs at incremental creative stages to achieve high-quality design outputs through iteration."
     },
     {
       "id": "3",
-      "title": "🔬Research",
+      "title": "🔬",
+      "title1": "Research",
       "description": "I deploy deep critical consideration to the design and execution of research strategies and experiments."
     },
     {
       "id": "4",
-      "title": "📈 Scale",
+      "title": "📈",
+      "title1": "Scale",
       "description": "I collaborate with experts and team members to evolve work from early conceptual stages to general availability launch."
     }
   ],

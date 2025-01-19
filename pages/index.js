@@ -418,7 +418,8 @@ export default function Home() {
             {data.services.map((service, index) => (
               <ServiceCard
                 key={index}
-                name={service.title}
+                name1={service.title}
+                name2={service.title1}
                 description={service.description}
               />
             ))}

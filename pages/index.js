@@ -381,8 +381,6 @@ export default function Home() {
           <Socials className="mt-5" handleContactScroll={handleContactScroll} />
         </div>
 
-        <hr className="custom-hr" />
-
 
         <div className="mb-10 laptop:mb-30 p-2 laptop:p-0" ref={workRef}>
           <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
@@ -396,7 +394,7 @@ export default function Home() {
             polished product.
           </h1>
 
-          <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 gap-4">
+          <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4">
             {data.projects.map((project) => (
               <WorkCard
                 key={project.id}
@@ -418,7 +416,7 @@ export default function Home() {
             I specialise in end-to-end development, product design, and creative
             prototype research.
           </h1>
-          <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 transition-all ease-out duration-300 tablet:p-12 laptop:p-12 rounded-lg">
+          <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 transition-all ease-out duration-300 tablet:p-12 laptop:p-12 rounded-lg p-2">
             {data.services.map((service, index) => (
               <ServiceCard
                 key={index}

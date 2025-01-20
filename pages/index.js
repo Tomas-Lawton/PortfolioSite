@@ -380,8 +380,12 @@ export default function Home() {
 
           <Socials className="mt-5" handleContactScroll={handleContactScroll} />
         </div>
+
+        <hr className="custom-hr" />
+
+
         <div className="mb-10 laptop:mb-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
+          <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
             Projects
           </h1>
           <h1 className="text-2xl text-center tablet:text-left mt-2">
@@ -407,7 +411,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={serviceRef}>
-          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
+          <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Services
           </h1>
           <h1 className="text-2xl text-center tablet:text-left mt-2">
@@ -440,8 +444,8 @@ export default function Home() {
           <p className="mt-2 text-2xl w-full opacity-50">{data.aboutpara}</p>
         </div> */}
 
-        <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0">
-          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
+        <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0 mb-44">
+          <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Contact
           </h1>
           <h1 className="text-2xl text-center tablet:text-left mt-2">
@@ -451,7 +455,7 @@ export default function Home() {
           <Footer />
         </div>
 
-        <hr className="custom-hr my-10" />
+        <hr className="custom-hr" />
         <p className="text-center opacity-80 mb-10">
           Open in browser for enhanced experience. Coded by Tommy {":)"}.
         </p>

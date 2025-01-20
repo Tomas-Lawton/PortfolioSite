@@ -14,7 +14,7 @@ const ServiceCard = ({ name1, name2, description }) => {
         mounted && theme === "dark" ? "hover:bg-slate-800" : "dark-mode"
       } tablet:hover:-translate-y-2 link`}
     >
-      <h1 className="text-3xl">{name1 ? name1 : "Heading"}</h1>
+      <h1 className="text-4xl">{name1 ? name1 : "Heading"}</h1>
       <h1 className="text-3xl mt-3">{name2 ? name2 : "Heading"}</h1>
       <p className="mt-5 opacity-80 text-xl">
         {description

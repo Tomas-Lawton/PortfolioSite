@@ -9,7 +9,7 @@ const Footer = ({}) => {
         <div className="dark-mode transition-all ease-out duration-300 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-start gap-3 mt-10">
         <h1 className="text-3xl font-bold w-full">Send me an email</h1>
           <h2 className="text-xl">{data['aboutpara']}</h2>
-          <h2 className="select-override font-bold w-full">tomaslawton@gmail.com</h2>
+          <h2 className="select-override font-bold w-full mt-2 mb-2">tomaslawton@gmail.com</h2>
           <button
   onClick={() =>
     window.open(

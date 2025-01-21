@@ -11,6 +11,9 @@
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@netlify/plugin-nextjs": "^5.8.1",
+    "@react-spring/three": "^9.7.5",
+    "@react-three/drei": "^9.121.2",
+    "@react-three/fiber": "^8.17.12",
     "autoprefixer": "^10.4.7",
     "custom-cursor-react": "^1.0.5",
     "gray-matter": "^4.0.3",

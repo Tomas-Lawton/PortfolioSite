@@ -8,7 +8,7 @@ import data from "../../data/portfolio.json";
 import Image from "next/image";
 
 const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -21,13 +21,13 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
   return (
     <>
       <div
-        className={`header-background drop-shadow-md pt-8 pb-3 w-screen fixed ${
+        className={`header-background drop-shadow-md pt-24 pb-3 w-full fixed ${
           theme === "light" && "bg-white"
         } dark:text-white top-0 z-10 flex`}
       >
         <div className="container flex flex-row items-center justify-between mx-auto ">
           <Image
-            className="profile-icon link"
+            className="profile-icon link select-none"
             src={`/images/profile.jpeg`}
             alt="profile-icon"
             width={55}
@@ -51,9 +51,13 @@ const Header = ({ handleWorkScroll, handleContactScroll, isBlog }) => {
             </div>
           ) : (
             <div className="flex">
-              <Button onClick={() => router.push("/")}>Home</Button>
+              <Button 
+              // onClick={() => router.push("/")}
+              >Home</Button>
               {showBlog && (
-                <Button onClick={() => router.push("/blog")}>Blog</Button>
+                <Button 
+                // onClick={() => router.push("/blog")}
+                >Blog</Button>
               )}
               {/* <Button onClick={handleContactScroll}>Contact</Button> */}
 

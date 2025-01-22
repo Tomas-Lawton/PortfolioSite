@@ -1,16 +1,16 @@
 import { useRef, useEffect } from "react";
-import Header from "../components/Header";
-import ServiceCard from "../components/ServiceCard";
-import Socials from "../components/Socials";
-import WorkCard from "../components/WorkCard";
-import { stagger } from "../animations";
-import Footer from "../components/Footer";
+import Header from "../../components/Header";
+import ServiceCard from "../../components/ServiceCard";
+import Socials from "../../components/Socials";
+import WorkCard from "../../components/WorkCard";
+import { stagger } from "../../animations";
+import Footer from "../../components/Footer";
 import Head from "next/head";
 import * as THREE from "three";
 import ScrambleText from "scramble-text";
 
 // Local Data
-import data from "../data/portfolio.json";
+import data from "../../data/portfolio.json";
 
 export default function LandingPage() {
   // Ref
@@ -292,7 +292,7 @@ export default function LandingPage() {
         <title>Where Chaos, Meets Code</title>
       </Head>
 
-      <div className="absolute z-0 top-0 right-0 tablet:w-10/12">
+      <div className="absolute z-0 top-0 right-0 tablet:w-10/12 overflow-hidden">
         <canvas ref={innerCanvas}></canvas>
       </div>
       <Header

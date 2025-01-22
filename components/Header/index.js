@@ -22,7 +22,7 @@ const Header = ({ handleContactScroll, showFullWindow }) => {
         // fixed breaks scroll
         className={`${
           showFullWindow ? "fixed" : "absolute"
-        } drop-shadow-md w-full z-10 custom-p`}
+        } drop-shadow-md w-full z-10 custom-p hidden tablet:block`}
       >
         <div className="flex flex-row justify-between w-full">
           <Image

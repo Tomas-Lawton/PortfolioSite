@@ -344,7 +344,7 @@ export default function LandingPage({ showFullWindow }) {
             <p>_________</p>
           </div>
 
-          <div className="absolute bottom-12 left-0 flex flex-col tablet:flex-row gap-3 text-white vhs-text">
+          <div className="absolute bottom-12 left-0 flex flex-col tablet:flex-row gap-3 text-white vhs-text hidden tablet:flex">
             <div
               className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
               data-splitting

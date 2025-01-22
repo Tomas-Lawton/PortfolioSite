@@ -13,8 +13,9 @@ section {
   /* padding: 0rem 10rem; */
   /* margin: auto; */
 
-  margin: 0 6rem;
   /* overflow: visible; */
+
+  margin: 0 5rem;
 }
 
 .custom-p {
@@ -660,6 +661,10 @@ main,
 
 
 @media (max-width: 768px) {
+section {
+  margin: 0 1rem;
+}
+
   .scanlines,
   body::before {
     display: none;

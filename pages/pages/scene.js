@@ -108,17 +108,27 @@ export default function Scene() {
   const canvasRef = useRef();
 
   const initialCameraPos = [-3, 2, 4];
-  const zoomedCameraPos = [0, 0.8, 8];
+  let zoomedCameraPos
+  if (window.innerWidth > 1500) {
+    zoomedCameraPos = [0, 0.8, 8];
+  } else if (window.innerWidth > 1200) {
+    zoomedCameraPos = [0, 0.8, 12];
+  } else if (window.innerWidth > 900) {
+    zoomedCameraPos = [0, 0.8, 16];
+  } else {
+    zoomedCameraPos = [0, 0.8, 20];
+  }  
+  
+  // const zoomedCameraPos =  [0, 0.8, 8] ;
 
   const [cameraPosition, setCameraPosition] = useState(initialCameraPos);
   const [distance, setDistance] = useState(48);
   const [zoomed, setZoomed] = useState(false);
 
-
   const toggleZoom = () => {
     setZoomed((prev) => !prev);
     setCameraPosition(zoomed ? initialCameraPos : zoomedCameraPos);
-    setDistance(zoomed ? (window.innerWidth > 768 ? 48: 20) : 1);
+    setDistance(zoomed ? 48 : 1);
     if (!zoomed) handleMouseClick();
   };
 

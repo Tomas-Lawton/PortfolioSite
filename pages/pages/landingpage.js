@@ -92,7 +92,8 @@ export default function LandingPage({ showFullWindow }) {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 400) {
+      //768
       console.log("Use Large Display for Animations");
       return; // Skip initializing Three.js for small screens
     }
@@ -112,16 +113,12 @@ export default function LandingPage({ showFullWindow }) {
     camera.updateProjectionMatrix();
 
     const geometries = [
-      new THREE.TorusGeometry(1, 0.4, 12, 48),
-      new THREE.IcosahedronGeometry(1, 0),
-      new THREE.TorusKnotGeometry(
-        0.8,
-        0.3,
-        130,
-        12,
-        2,
-        Math.floor(Math.random() * (10 + 1))
-      ),
+      // new THREE.TorusGeometry(1, 0.4, 12, 48),
+      // new THREE.IcosahedronGeometry(1, 0),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 1),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 3),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 4),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 6),
     ];
 
     const material = new THREE.ShaderMaterial({
@@ -193,13 +190,14 @@ export default function LandingPage({ showFullWindow }) {
     let currentShape = null;
 
     function createShape() {
-      const geometry =
-        geometries[Math.floor(Math.random() * geometries.length)];
+      let num = Math.floor(Math.random() * geometries.length);
+      console.log(num);
+      const geometry = geometries[num];
       const shape = new THREE.Mesh(geometry, material);
       const wireframe = new THREE.WireframeGeometry(geometry);
       const line = new THREE.LineSegments(wireframe);
       line.material.depthTest = false;
-      line.material.opacity = 0.08;
+      line.material.opacity = 0.1;
       line.material.transparent = true;
       shape.add(line);
 
@@ -337,10 +335,10 @@ export default function LandingPage({ showFullWindow }) {
             showFullWindow ? "h-screen" : "h-full"
           }  justify-center tablet:justify-start flex flex-col z-1 relative`}
         >
-          <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden tablet:block">
+          <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden mob:block">
             <h2>UPDATED</h2>
-            <h2 className="text-xs">30.11.24</h2>
-            <p className="text-xs ">BY TOMMY</p>
+            <h2 className="text-xs">2025.22.01</h2>
+            <p className="text-xs ">한국 서울</p>
             <p>_________</p>
           </div>
 

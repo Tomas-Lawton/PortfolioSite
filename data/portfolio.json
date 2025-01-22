@@ -77,7 +77,7 @@
     {
       "id": "1",
       "title": "💻",
-      "title1": "Fullstack Development",
+      "title1": "Development",
       "description": "I excel in the creation of cutting-edge software applications using an array of technologies: from frontend to backend. "
     },
     {
@@ -99,6 +99,6 @@
       "description": "I collaborate with experts and team members to evolve work from early conceptual stages to general availability launch."
     }
   ],
-  "aboutpara": "Contact me for cutting-edge product design solutions. Let’s create the future together!",
+  "aboutpara": "Contact for cutting-edge technology design and development. Let’s create the future together!",
   "resume": {}
 }

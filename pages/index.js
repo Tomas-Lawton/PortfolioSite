@@ -4,8 +4,13 @@ import React, { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Html, useGLTF, OrbitControls } from "@react-three/drei";
 import { stagger } from "../animations";
+import {
+  EffectComposer,
+  Bloom,
+  ToneMapping,
+} from "@react-three/postprocessing";
 
-import Home from "./test";
+import LandingPage from "./landingpage";
 import ScrambleText from "scramble-text";
 
 const handleKeyboardClick = (event) => {
@@ -46,7 +51,7 @@ function Model(props) {
               !props.zoomed && props.toggleZoom();
             }}
           >
-            <Home className="landing-page" />
+            <LandingPage className="landing-page" />
           </div>
         </Html>
 
@@ -62,10 +67,9 @@ function Model(props) {
           geometry={nodes["ibm_3178_1"].geometry}
           castShadow
           onClick={() => {
-            !props.zoomed && handleKeyboardClick()
+            !props.zoomed && handleKeyboardClick();
           }}
         />
-        {/* MOUSE */}
 
         <group rotation={[-0.15, -0.6, 0.3]} position={[19.5, -18, 0]}>
           <mesh
@@ -105,11 +109,15 @@ export default function App() {
 
   const initialCameraPos = [-3, 2, 4];
   const zoomedCameraPos = [0, 0.8, 8];
-  
+
   const [cameraPosition, setCameraPosition] = useState(initialCameraPos);
   const [distance, setDistance] = useState(48);
   const [zoomed, setZoomed] = useState(false);
-  
+
+  const [fullscreen, setFullscreen] = useState(false);
+
+
+
   const toggleZoom = () => {
     setZoomed((prev) => !prev);
     setCameraPosition(zoomed ? initialCameraPos : zoomedCameraPos);
@@ -117,8 +125,6 @@ export default function App() {
     if (!zoomed) handleMouseClick();
   };
 
-
-  
   useEffect(() => {
     const element = textOne.current;
     if (element && !element.hasAttribute("data-scrambled")) {
@@ -193,17 +199,14 @@ export default function App() {
                 <div className="control maximize"></div>
               </div>
             </div>
-            <div className="mt-4">Login Complete.</div>
-            <div className="text">Click the screen to explore...</div>
+            <div className="mt-4 tek">Login Complete.</div>
+            <div className="text tek">Click the screen to explore...</div>
           </div>
-
-          {/* <p>Login Complete...</p>
-          <p>Click monitor to explore.</p> */}
         </div>
       )}
 
       {!zoomed && (
-        <div className="room-text text-2">
+        <div className="room-text text-2 tek">
           <p ref={textOne}>Made by Tommy</p>
         </div>
       )}
@@ -232,17 +235,63 @@ export default function App() {
 
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[300, 300]} />
-            <meshPhongMaterial
-              color={0x5b5b5b}
-              // color={0x000000}
-              // color={0x777777}
-            />
+            <meshPhongMaterial color={0x5b5b5b} />
           </mesh>
 
+          {/* Wall behind the computer */}
+          <mesh position={[0, 10, -40]} receiveShadow>
+            <planeGeometry args={[300, 300]} />
+            <meshStandardMaterial color={0x333333} />
+          </mesh>
+
+          {/* <ambientLight intensity={0.04} /> */}
+          {/* <EffectComposer disableNormalPass>
+            <Bloom
+              mipmapBlur
+              luminanceThreshold={1}
+              levels={10}
+              intensity={0.2}
+            />
+            <ToneMapping />
+          </EffectComposer>
+          <mesh
+            scale={10}
+            position={[150, 10, -39]}
+            // rotation={[0, 0, Math.PI / 2]}
+            rotation={[0, Math.PI / 2, 0]}
+
+          >
+            <cylinderGeometry args={[0.1, 0.1, 2]} />
+            <meshStandardMaterial
+              emissiveIntensity={5.5}
+              color={0x7fff00}
+              emissive={0x7fff00}
+            />
+          </mesh>
+          <mesh
+            scale={10}
+            position={[-150, 10, -39]}
+            // rotation={[0, 0, Math.PI / 2]}
+            rotation={[0, Math.PI / 2, 0]}
+
+          >
+            <cylinderGeometry args={[0.1, 0.1, 2]} />
+            <meshStandardMaterial
+              emissiveIntensity={5.5}
+              color={"red"}
+              emissive={"red"}
+            />
+          </mesh> */}
+
+          {/* Glowing rectangle */}
+
+          {/* Lights */}
           <directionalLight
             color={0x00ff00}
             position={[5, 5, 3]}
             intensity={0.5}
+            // intensity={0.2}
+
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
@@ -255,6 +304,8 @@ export default function App() {
             color={0xffa500}
             position={[-2, 0, 2]}
             intensity={0.5}
+            // intensity={0.2}
+
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
@@ -264,6 +315,7 @@ export default function App() {
             shadow-mapSize-height={1024}
           />
         </Suspense>
+
         <OrbitControls
           target={[0, 14, 0]}
           minDistance={distance}

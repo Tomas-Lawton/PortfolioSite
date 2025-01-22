@@ -118,7 +118,7 @@ export default function Scene() {
   const toggleZoom = () => {
     setZoomed((prev) => !prev);
     setCameraPosition(zoomed ? initialCameraPos : zoomedCameraPos);
-    setDistance(zoomed ? 48 : 1);
+    setDistance(zoomed ? (window.innerWidth > 768 ? 48: 20) : 1);
     if (!zoomed) handleMouseClick();
   };
 

@@ -257,19 +257,22 @@ export default function Scene() {
             <meshStandardMaterial color={0x5b5b5b} />
           </mesh>
 
-          <ambientLight intensity={0.04} />
+          <ambientLight intensity={0.05} />
           <EffectComposer disableNormalPass>
             <Bloom
               mipmapBlur
               luminanceThreshold={1}
-              levels={7}
-              intensity={0.1}
+              levels={10}
+              intensity={0.3}
             />
             <ToneMapping />
           </EffectComposer>
+
+          {/* <pointLight intensity={10} position={[-98, 0, -39]}/> */}
+
           <mesh
             scale={10}
-            position={[98, 10, -39]}
+            position={[95, 10, -39]}
             // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
           >
@@ -301,7 +304,7 @@ export default function Scene() {
             color={0x00ff00}
             position={[5, 5, 3]}
             // intensity={0.5}
-            intensity={0.17}
+            intensity={0.14}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}

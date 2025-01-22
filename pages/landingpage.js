@@ -12,7 +12,7 @@ import ScrambleText from "scramble-text";
 // Local Data
 import data from "../data/portfolio.json";
 
-export default function Home() {
+export default function LandingPage() {
   // Ref
   const workRef = useRef();
   const serviceRef = useRef();

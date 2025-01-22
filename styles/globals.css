@@ -764,9 +764,14 @@ main,
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 0.2em solid chartreuse; /* Cursor */
+  border-right: 0.2em solid #7fff00; /* Cursor */
   /* animation: typeAndDelete 10s steps(29) infinite,
     blinkCursor 0.5s step-end infinite alternate; */
     animation: typeAndDelete 10s steps(29) infinite normal forwards,
     blinkCursor 0.5s step-end infinite alternate;
+
+}
+
+.tek {
+  font-family: "Tektur", sans-serif;
 }

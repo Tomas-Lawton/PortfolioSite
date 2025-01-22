@@ -109,7 +109,7 @@ export default function Scene() {
 
   const initialCameraPos = [-3, 2, 4];
   // let zoomedCameraPos
-  // if (canvasRef.current.width > 1500) {
+  // if (window.current.width > 1500) {
   //   zoomedCameraPos = [0, 0.8, 8];
   // } else if (window.innerWidth > 1200) {
   //   zoomedCameraPos = [0, 0.8, 12];

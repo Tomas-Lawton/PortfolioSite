@@ -3,7 +3,7 @@ import LandingPage from "./pages/landingpage";
 import Scene from "./pages/scene";
 
 export default function App() {
-  const [immersiveMode, setImmersiveMode] = useState(false);
+  const [immersiveMode, setImmersiveMode] = useState(true);
   const [largeScreen, setlargeScreen] = useState(false);
 
   useEffect(() => {

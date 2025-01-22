@@ -117,13 +117,14 @@ export default function Scene() {
   //   zoomedCameraPos = [0, 0.8, 16];
   // } else {
   //   zoomedCameraPos = [0, 0.8, 20];
-  // }  
-  
-  const zoomedCameraPos =  [0, 0.8, 8] ;
+  // }
+
+  const zoomedCameraPos = [0, 0.8, 8];
 
   const [cameraPosition, setCameraPosition] = useState(initialCameraPos);
   const [distance, setDistance] = useState(48);
   const [zoomed, setZoomed] = useState(false);
+  const [showTerminal, setShowTerminal] = useState(true);
 
   const toggleZoom = () => {
     setZoomed((prev) => !prev);
@@ -195,13 +196,16 @@ export default function Scene() {
         </button>
       )}
 
-      {!zoomed && (
+      {!zoomed && showTerminal && (
         <div ref={textOn} className="room-text">
           <div className="terminal-loader">
             <div className="terminal-header">
               <div className="terminal-title">T-SHELL</div>
               <div className="terminal-controls">
-                <div className="control close cursor-pointer" onClick={() => textOn.current.style.display= "none"}></div>
+                <div
+                  className="control close cursor-pointer"
+                  onClick={() => (setShowTerminal(false))}
+                ></div>
                 <div className="control minimize"></div>
                 <div className="control maximize"></div>
               </div>
@@ -229,6 +233,19 @@ export default function Scene() {
             <Model zoomed={zoomed} toggleZoom={toggleZoom} />
           </group>
 
+          {/* Left wall */}
+          <mesh position={[-100, 10, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+            <planeGeometry args={[200, 200]} />
+            <meshPhongMaterial color={0x5b5b5b} />
+          </mesh>
+
+          {/* Right wall */}
+          <mesh position={[100, 10, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
+            <planeGeometry args={[200, 200]} />
+            <meshPhongMaterial color={0x5b5b5b} />
+          </mesh>
+
+          {/* Back wall */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[200, 200]} />
             <meshPhongMaterial color={0x5b5b5b} />
@@ -237,25 +254,24 @@ export default function Scene() {
           {/* Wall behind the computer */}
           <mesh position={[0, 10, -40]} receiveShadow>
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color={0x333333} />
+            <meshStandardMaterial color={0x5b5b5b} />
           </mesh>
 
-          {/* <ambientLight intensity={0.04} /> */}
+          <ambientLight intensity={0.04} />
           <EffectComposer disableNormalPass>
             <Bloom
               mipmapBlur
               luminanceThreshold={1}
-              levels={10}
-              intensity={0.2}
+              levels={7}
+              intensity={0.1}
             />
             <ToneMapping />
           </EffectComposer>
           <mesh
             scale={10}
-            position={[100, 10, -39]}
+            position={[98, 10, -39]}
             // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
-
           >
             <cylinderGeometry args={[0.1, 0.1, 2]} />
             <meshStandardMaterial
@@ -266,14 +282,13 @@ export default function Scene() {
           </mesh>
           <mesh
             scale={10}
-            position={[-100, 10, -39]}
+            position={[-98, 10, -39]}
             // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
-
           >
             <cylinderGeometry args={[0.1, 0.1, 2]} />
             <meshStandardMaterial
-              emissiveIntensity={8}
+              emissiveIntensity={9}
               color={"red"}
               emissive={"red"}
             />
@@ -286,8 +301,7 @@ export default function Scene() {
             color={0x00ff00}
             position={[5, 5, 3]}
             // intensity={0.5}
-            intensity={0.2}
-
+            intensity={0.17}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
@@ -298,10 +312,9 @@ export default function Scene() {
           />
           <directionalLight
             color={0xffa500}
-            position={[-2, 0, 2]}
+            position={[-2, 0, -2]}
             // intensity={0.5}
-            intensity={0.2}
-
+            intensity={0.27}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}

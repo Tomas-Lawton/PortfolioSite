@@ -201,7 +201,7 @@ export default function Scene() {
             <div className="terminal-header">
               <div className="terminal-title">T-SHELL</div>
               <div className="terminal-controls">
-                <div className="control close"></div>
+                <div className="control close cursor-pointer" onClick={() => textOn.current.style.display= "none"}></div>
                 <div className="control minimize"></div>
                 <div className="control maximize"></div>
               </div>
@@ -230,18 +230,18 @@ export default function Scene() {
           </group>
 
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[300, 300]} />
+            <planeGeometry args={[200, 200]} />
             <meshPhongMaterial color={0x5b5b5b} />
           </mesh>
 
           {/* Wall behind the computer */}
           <mesh position={[0, 10, -40]} receiveShadow>
-            <planeGeometry args={[300, 300]} />
+            <planeGeometry args={[200, 200]} />
             <meshStandardMaterial color={0x333333} />
           </mesh>
 
           {/* <ambientLight intensity={0.04} /> */}
-          {/* <EffectComposer disableNormalPass>
+          <EffectComposer disableNormalPass>
             <Bloom
               mipmapBlur
               luminanceThreshold={1}
@@ -252,32 +252,32 @@ export default function Scene() {
           </EffectComposer>
           <mesh
             scale={10}
-            position={[150, 10, -39]}
+            position={[100, 10, -39]}
             // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
 
           >
             <cylinderGeometry args={[0.1, 0.1, 2]} />
             <meshStandardMaterial
-              emissiveIntensity={5.5}
+              emissiveIntensity={8}
               color={0x7fff00}
               emissive={0x7fff00}
             />
           </mesh>
           <mesh
             scale={10}
-            position={[-150, 10, -39]}
+            position={[-100, 10, -39]}
             // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
 
           >
             <cylinderGeometry args={[0.1, 0.1, 2]} />
             <meshStandardMaterial
-              emissiveIntensity={5.5}
+              emissiveIntensity={8}
               color={"red"}
               emissive={"red"}
             />
-          </mesh> */}
+          </mesh>
 
           {/* Glowing rectangle */}
 
@@ -285,8 +285,8 @@ export default function Scene() {
           <directionalLight
             color={0x00ff00}
             position={[5, 5, 3]}
-            intensity={0.5}
-            // intensity={0.2}
+            // intensity={0.5}
+            intensity={0.2}
 
             castShadow
             shadow-camera-left={-150}
@@ -299,8 +299,8 @@ export default function Scene() {
           <directionalLight
             color={0xffa500}
             position={[-2, 0, 2]}
-            intensity={0.5}
-            // intensity={0.2}
+            // intensity={0.5}
+            intensity={0.2}
 
             castShadow
             shadow-camera-left={-150}

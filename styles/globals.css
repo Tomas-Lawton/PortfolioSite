@@ -666,7 +666,12 @@ main,
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .scanlines{    display: none;
+    background-image: none;
+  }
+}
+  @media (max-width: 400px) {
 section {
   margin: 0 1rem;
 }

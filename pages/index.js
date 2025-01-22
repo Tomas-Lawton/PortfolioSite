@@ -9,7 +9,7 @@ export default function App() {
   useEffect(() => {
     const handleResize = () => {
       if (typeof window !== "undefined") {
-        setlargeScreen(window.innerWidth > 768);
+        setlargeScreen(window.innerWidth >= 768);
       }
     };
 

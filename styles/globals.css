@@ -659,6 +659,12 @@ main,
 }
 
 
+@media (min-height: 660px) {
+.vhs-back {
+  display: none !important;
+}
+}
+
 
 @media (max-width: 768px) {
 section {
@@ -721,13 +727,14 @@ section {
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
   padding: 1.5em 1em;
-  width: 22em;
+  width: 20em;
   box-shadow: 4px 7px 11px rgb(18 24 7 / 73%);
   border-radius: 4px;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  min-height: 300px;
+  min-height: 200px;
+  z-index: 2000;
 }
 
 .terminal-header {

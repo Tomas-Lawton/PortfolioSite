@@ -12,10 +12,12 @@ import ScrambleText from "scramble-text";
 // Local Data
 import data from "../../data/portfolio.json";
 
-export default function LandingPage() {
+export default function LandingPage({ showFullWindow }) {
   // Ref
+  const bodyRef = useRef();
+
   const workRef = useRef();
-  const serviceRef = useRef();
+  const servicesRef = useRef();
   const contactRef = useRef();
   const textOn = useRef();
   const textOne = useRef();
@@ -25,47 +27,73 @@ export default function LandingPage() {
 
   // Handling Scroll
   const handleWorkScroll = () => {
-    window.scrollTo({
-      top: workRef.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
+    if (!showFullWindow && bodyRef.current) {
+      bodyRef.current.scrollTo({
+        top: workRef.current.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: workRef.current.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   const handleServicesScroll = () => {
-    window.scrollTo({
-      top: serviceRef.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
+    if (!showFullWindow && bodyRef.current) {
+      bodyRef.current.scrollTo({
+        top: servicesRef.current.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: servicesRef.current.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   const handleContactScroll = () => {
-    window.scrollTo({
-      top: contactRef.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
+    if (!showFullWindow && bodyRef.current) {
+      bodyRef.current.scrollTo({
+        top: contactRef.current.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: contactRef.current.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   useEffect(() => {
-    const element = textOne.current;
-    if (element && !element.hasAttribute("data-scrambled")) {
-      element.setAttribute("data-scrambled", "true"); // Mark as scrambled
-      const scrambleInstance = new ScrambleText(element);
+    if (window.innerWidth > 768) {
+      const element = textOne.current;
+      if (element && !element.hasAttribute("data-scrambled")) {
+        element.setAttribute("data-scrambled", "true"); // Mark as scrambled
+        const scrambleInstance = new ScrambleText(element);
 
-      stagger(
-        [textOn.current, textOne.current, textTwo.current, textThree.current],
-        { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-        { y: 0, x: 0, transform: "scale(1)" },
-        () => scrambleInstance.start()
-      );
+        stagger(
+          [textOn.current, textOne.current, textTwo.current, textThree.current],
+          { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
+          { y: 0, x: 0, transform: "scale(1)" },
+          () => scrambleInstance.start()
+        );
+      }
     }
   }, []);
 
   useEffect(() => {
     if (window.innerWidth <= 768) {
-      console.log("Use Large Display for Animations")
+      console.log("Use Large Display for Animations");
       return; // Skip initializing Three.js for small screens
     }
 
@@ -203,7 +231,6 @@ export default function LandingPage() {
     ground.receiveShadow = true;
     scene.add(ground);
 
-
     if (!currentShape) {
       currentShape = createShape();
     }
@@ -220,20 +247,20 @@ export default function LandingPage() {
 
     let prevMouseX = null;
     let prevMouseY = null;
-    const strength = 1.2; 
-    
+    const strength = 1.2;
+
     document.addEventListener("mousemove", (event) => {
       const currentMouseX = event.clientX / window.innerWidth;
       const currentMouseY = event.clientY / window.innerHeight;
-    
+
       if (prevMouseX !== null && prevMouseY !== null && currentShape) {
         const deltaX = currentMouseX - prevMouseX;
         const deltaY = currentMouseY - prevMouseY;
-    
-        currentShape.rotation.y += deltaX * Math.PI * strength; 
+
+        currentShape.rotation.y += deltaX * Math.PI * strength;
         currentShape.rotation.x += deltaY * Math.PI * strength;
       }
-    
+
       prevMouseX = currentMouseX;
       prevMouseY = currentMouseY;
     });
@@ -286,23 +313,30 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className={`relative mt-24 ${data.showCursor && "cursor-none"}`}>
+    <div className={`h-full relative ${data.showCursor && "cursor-none"}`}>
       {/* {data.showCursor && <Cursor />} */}
+      <div className="scanlines"></div>
       <Head>
         <title>Where Chaos, Meets Code</title>
       </Head>
 
-      <div className="absolute z-0 top-0 right-0 tablet:w-10/12 overflow-hidden">
-        <canvas ref={innerCanvas}></canvas>
-      </div>
-      <Header
-        handleWorkScroll={handleWorkScroll}
-        handleContactScroll={handleContactScroll}
-      />
+      <div className="h-full intro-wrap mx-auto relative z-1" ref={bodyRef}>
+        {/* NAV */}
+        <Header
+          handleContactScroll={handleContactScroll}
+          showFullWindow={showFullWindow}
+        />
 
-      <div className="scanlines"></div>
-      <div className="intro-wrap container mx-auto relative z-1 pt-8">
-        <div className="h-screen justify-center tablet:justify-start flex flex-col z-1 relative">
+        {/* CANVAS */}
+        <div className="absolute -z-10 top-0 right-0 tablet:w-10/12 overflow-hidden">
+          <canvas ref={innerCanvas}></canvas>
+        </div>
+
+        <section
+          className={`${
+            showFullWindow ? "h-screen" : "h-full"
+          }  justify-center tablet:justify-start flex flex-col z-1 relative`}
+        >
           <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden tablet:block">
             <h2>UPDATED</h2>
             <h2 className="text-xs">30.11.24</h2>
@@ -334,7 +368,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="tablet:mt-52">
+          <div className="tablet:mt-44">
             <h1
               ref={textOn}
               className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
@@ -362,11 +396,10 @@ export default function LandingPage() {
           </div>
 
           <Socials className="mt-5" handleContactScroll={handleContactScroll} />
-        </div>
+        </section>
 
-
-        <div className="mb-10 laptop:mb-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
+        <section className="mb-10 laptop:mb-30 p-2 laptop:p-0" ref={workRef}>
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
             Projects
           </h1>
           <h1 className="text-2xl text-center tablet:text-left mt-2">
@@ -389,9 +422,12 @@ export default function LandingPage() {
               />
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={serviceRef}>
+        <section
+          className="mt-10 laptop:mt-30 p-2 laptop:p-0"
+          ref={servicesRef}
+        >
           <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Services
           </h1>
@@ -409,18 +445,18 @@ export default function LandingPage() {
               />
             ))}
           </div>
-        </div>
+        </section>
 
-        <div ref={contactRef} className="p-2 tablet:p-2 laptop:p-0 mb-44">
+        <section ref={contactRef} className="p-2 tablet:p-2 laptop:p-0 mb-44">
           <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
             Contact
           </h1>
-          <h1 className="text-2xl text-center tablet:text-left mt-2">
+          {/* <h1 className="text-2xl text-center tablet:text-left mt-2">
             I blend creative technologies, generative AI, and end-to-end product
             design to craft intelligent human-centric experiences.
-          </h1>
+          </h1> */}
           <Footer />
-        </div>
+        </section>
 
         <hr className="custom-hr" />
         <p className="text-center opacity-80 mb-10 mt-10">

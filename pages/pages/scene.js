@@ -44,14 +44,14 @@ function Model(props) {
           scale={0.5}
         >
           <div
-            className={`wrapper custom-body w-screen overflow-hidden ${
+            className={`wrapper custom-body overflow-hidden ${
               !props.zoomed && "cursor-pointer"
             }`}
             onClick={() => {
               !props.zoomed && props.toggleZoom();
             }}
           >
-            <LandingPage className="landing-page" />
+            <LandingPage showFullWindow={false} />
           </div>
         </Html>
 
@@ -178,7 +178,7 @@ export default function Scene() {
             <path
               d="M36 12L12 36M12 12l24 24"
               stroke="#56ff56"
-              stroke-width="4"
+              strokeWidth="4"
             />
           </svg>
           {/* <span className="tooltip">Zoom Out</span> */}

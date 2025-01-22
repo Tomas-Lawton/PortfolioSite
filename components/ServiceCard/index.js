@@ -15,7 +15,12 @@ const ServiceCard = ({ name1, name2, description }) => {
       } tablet:hover:-translate-y-2 link`}
     >
       <h1 className="text-4xl">{name1 ? name1 : "Heading"}</h1>
-      <h1 className="text-3xl mt-3">{name2 ? name2 : "Heading"}</h1>
+      <h1
+        className="mt-3 tablet:text-3xl mob:text-xl xs:text-md text-[#2eff97] 
+      uppercase font-tektur font-medium mb-8 rounded-md"
+      >
+        {name2 ? name2 : "Heading"}
+      </h1>
       <p className="mt-5 opacity-80 text-xl">
         {description
           ? description

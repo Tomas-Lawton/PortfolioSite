@@ -26,88 +26,120 @@ const handleMouseClick = (event) => {
   audio.play();
 };
 
+//   useFrame((state) => {
+//     const angle = state.clock.getElapsedTime();
+//     console.log(angle)
+//     // Smoothly interpolate the camera's rotation
+//     state.camera.position.x = Math.sin(angle) * 30
+//     state.camera.position.z = Math.cos(angle) * 30
+//     state.camera.lookAt(0, 0, 0)
+//     // Ensure the camera updates its matrix
+//     state.camera.updateProjectionMatrix();
+// });
+
+// useFrame((state) => {
+//   const t = state.clock.getElapsedTime()
+//   group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, Math.cos(t / 2) / 20 + 0.25, 0.1)
+//   group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, Math.sin(t / 4) / 20, 0.1)
+//   group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, Math.sin(t / 8) / 20, 0.1)
+//   group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, (-2 + Math.sin(t / 2)) / 2, 0.1)
+// })
+
 function Model(props) {
+  const { nodes, materials } = useGLTF("/puter.glb");
+  const mouseModel = useGLTF("/mouse.glb");
+
+  // raycaster
   const group = useRef();
   const keyboardRef = useRef();
-  const mouse = useGLTF("/mouse.glb");
-  const { nodes, materials } = useGLTF("/puter.glb");
+  const mouseRef = useRef();
 
-  //   useFrame((state) => {
-  //     const angle = state.clock.getElapsedTime();
-  //     console.log(angle)
-  //     // Smoothly interpolate the camera's rotation
-  //     state.camera.position.x = Math.sin(angle) * 30
-  //     state.camera.position.z = Math.cos(angle) * 30
-  //     state.camera.lookAt(0, 0, 0)
-  //     // Ensure the camera updates its matrix
-  //     state.camera.updateProjectionMatrix();
-  // });
+  const { camera } = useThree();
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
 
-  // useFrame((state) => {
-  //   const t = state.clock.getElapsedTime()
-  //   group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, Math.cos(t / 2) / 20 + 0.25, 0.1)
-  //   group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, Math.sin(t / 4) / 20, 0.1)
-  //   group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, Math.sin(t / 8) / 20, 0.1)
-  //   group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, (-2 + Math.sin(t / 2)) / 2, 0.1)
-  // })
+  const handleMouseMove = (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects([
+      keyboardRef.current,
+      mouseRef.current,
+    ]);
+    document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <>
-      <group ref={group} {...props} dispose={null}>
-        <Html
-          className="content"
-          rotation={[Math.PI / 2 - 0.18, 0, 0]}
-          position={[-1.3, -4, 14.2]}
-          transform
-          occlude
-          scale={0.5}
+    <group ref={group} {...props} dispose={null}>
+      <Html
+        className="content"
+        rotation={[Math.PI / 2 - 0.18, 0, 0]}
+        position={[-1.3, -4, 14.2]}
+        transform
+        occlude
+        scale={0.5}
+      >
+        <div
+          className={`wrapper custom-body overflow-hidden ${
+            !props.zoomed && "cursor-pointer"
+          }`}
+          onClick={() => {
+            !props.zoomed && props.toggleZoom();
+          }}
         >
-          <div
-            className={`wrapper custom-body overflow-hidden ${
-              !props.zoomed && "cursor-pointer"
-            }`}
-            onClick={() => {
-              !props.zoomed && props.toggleZoom();
-            }}
-          >
-            <LandingPage showFullWindow={false} />
-          </div>
-        </Html>
+          <LandingPage showFullWindow={false} />
+        </div>
+      </Html>
 
+      {/* Computer */}
+      <mesh
+        material={materials["ibm_3178"]}
+        geometry={nodes["ibm_3178_0"].geometry}
+        castShadow
+      />
+      <mesh
+        ref={keyboardRef}
+        material={materials["ibm_3178_keyboard"]}
+        geometry={nodes["ibm_3178_1"].geometry}
+        castShadow
+        onClick={() => {
+          if (!props.zoomed) {
+            console.log("Keyboard clicked!");
+            handleKeyboardClick(); // Your custom function
+          }
+        }}
+      />
+      {/* Mouse */}
+      <group
+        ref={mouseRef}
+        rotation={[-0.15, -0.6, 0.3]}
+        position={[19.5, -18, 0]}
+        scale={[29, 29, 29]}
+      >
         <mesh
-          material={materials["ibm_3178"]}
-          geometry={nodes["ibm_3178_0"].geometry}
-          castShadow
-          // onClick={!props.zoomed && props.toggleZoom}
-        />
-        <mesh
-          ref={keyboardRef}
-          material={materials["ibm_3178_keyboard"]}
-          geometry={nodes["ibm_3178_1"].geometry}
+          material={mouseModel.materials["Mouse"]}
+          geometry={mouseModel.nodes["mouse_Mouse_0"].geometry}
           castShadow
           onClick={() => {
-            !props.zoomed && handleKeyboardClick();
+            if (!props.zoomed) {
+              console.log("Mouse clicked!");
+              handleMouseClick(); // Your custom function
+            }
           }}
         />
-
-        <group rotation={[-0.15, -0.6, 0.3]} position={[19.5, -18, 0]}>
-          <mesh
-            material={mouse.materials["Mouse"]}
-            geometry={mouse.nodes["mouse_Mouse_0"].geometry}
-            castShadow
-            onClick={handleMouseClick}
-            scale={[29, 29, 29]}
-          />
-
-          <mesh
-            material={mouse.materials["rubber_feet"]}
-            geometry={mouse.nodes["mouse_rubber_feet_0"].geometry}
-            castShadow
-            scale={[29, 29, 29]}
-          />
-        </group>
+        <mesh
+          material={mouseModel.materials["rubber_feet"]}
+          geometry={mouseModel.nodes["mouse_rubber_feet_0"].geometry}
+          castShadow
+        />
       </group>
-    </>
+    </group>
   );
 }
 

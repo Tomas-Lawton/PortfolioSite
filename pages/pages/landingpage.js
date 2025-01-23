@@ -24,56 +24,34 @@ export default function LandingPage({ showFullWindow }) {
   const textTwo = useRef();
   const textThree = useRef();
   const innerCanvas = useRef(null);
-
   // Handling Scroll
-  const handleWorkScroll = () => {
-    if (!showFullWindow && bodyRef.current) {
+  const handleScroll = (targetRef) => {
+    console.log(targetRef.current ? targetRef.current.id : "no target");
+    if (bodyRef.current && targetRef.current) {
       bodyRef.current.scrollTo({
-        top: workRef.current.offsetTop,
-        left: 0,
-        behavior: "smooth",
-      });
-    } else {
-      window.scrollTo({
-        top: workRef.current.offsetTop,
+        top: targetRef.current.offsetTop,
         left: 0,
         behavior: "smooth",
       });
     }
+  };
+
+  // Usage examples
+  const handleWorkScroll = () => {
+    console.log("work");
+    handleScroll(workRef);
   };
 
   const handleServicesScroll = () => {
-    if (!showFullWindow && bodyRef.current) {
-      bodyRef.current.scrollTo({
-        top: servicesRef.current.offsetTop,
-        left: 0,
-        behavior: "smooth",
-      });
-    } else {
-      window.scrollTo({
-        top: servicesRef.current.offsetTop,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
+    console.log("services");
+    handleScroll(servicesRef);
   };
 
   const handleContactScroll = () => {
-    if (!showFullWindow && bodyRef.current) {
-      bodyRef.current.scrollTo({
-        top: contactRef.current.offsetTop,
-        left: 0,
-        behavior: "smooth",
-      });
-    } else {
-      window.scrollTo({
-        top: contactRef.current.offsetTop,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
+    console.log("contact");
+    handleScroll(contactRef);
   };
-
+  
   useEffect(() => {
     if (window.innerWidth > 768) {
       const element = textOne.current;
@@ -311,7 +289,11 @@ export default function LandingPage({ showFullWindow }) {
   }, []);
 
   return (
-    <div className={`h-full relative ${data.showCursor && "cursor-none"}`}>
+    <div
+      className={`gradient-background h-full relative ${
+        data.showCursor && "cursor-none"
+      }`}
+    >
       {/* {data.showCursor && <Cursor />} */}
       <div className="scanlines"></div>
       <Head>
@@ -458,7 +440,7 @@ export default function LandingPage({ showFullWindow }) {
 
         <hr className="custom-hr" />
         <p className="text-center opacity-80 mb-10 mt-10">
-          View in browser for 3D experience {":)"}.
+          3D experience available on large screens.
         </p>
       </div>
     </div>

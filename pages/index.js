@@ -80,7 +80,7 @@ export default function App() {
             defaultChecked
             onClick={() => playMusic()}
           />
-          <label for="checkboxInput" className="toggleSwitch fullscreen-btn">
+          <label htmlFor="checkboxInput" className="toggleSwitch fullscreen-btn">
             <div className="speaker">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

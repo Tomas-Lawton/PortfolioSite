@@ -687,6 +687,10 @@ main,
     margin: 0 1rem;
   }
 
+  .text-3xl {
+    font-size: 1.5rem;
+  }
+
   .scanlines,
   body::before {
     display: none;

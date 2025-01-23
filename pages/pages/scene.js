@@ -32,6 +32,25 @@ function Model(props) {
   const mouse = useGLTF("/mouse.glb");
   const { nodes, materials } = useGLTF("/puter.glb");
 
+  //   useFrame((state) => {
+  //     const angle = state.clock.getElapsedTime();
+  //     console.log(angle)
+  //     // Smoothly interpolate the camera's rotation
+  //     state.camera.position.x = Math.sin(angle) * 30
+  //     state.camera.position.z = Math.cos(angle) * 30
+  //     state.camera.lookAt(0, 0, 0)
+  //     // Ensure the camera updates its matrix
+  //     state.camera.updateProjectionMatrix();
+  // });
+
+  // useFrame((state) => {
+  //   const t = state.clock.getElapsedTime()
+  //   group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, Math.cos(t / 2) / 20 + 0.25, 0.1)
+  //   group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, Math.sin(t / 4) / 20, 0.1)
+  //   group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, Math.sin(t / 8) / 20, 0.1)
+  //   group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, (-2 + Math.sin(t / 2)) / 2, 0.1)
+  // })
+
   return (
     <>
       <group ref={group} {...props} dispose={null}>
@@ -119,7 +138,21 @@ export default function Scene() {
   //   zoomedCameraPos = [0, 0.8, 20];
   // }
 
-  const zoomedCameraPos = [0, 0.8, 8];
+  // const zoomedCameraPos = [0, 0.8, 8];
+
+  let zoomedCameraPos = [0, 0.8, 8]; // Fallback for server-side rendering
+
+  if (typeof window !== "undefined") {
+    if (window.innerWidth > 1500) {
+      zoomedCameraPos = [0, 0.8, 8];
+    } else if (window.innerWidth > 1300) {
+      zoomedCameraPos = [0, 0.8, 10];
+    } else if (window.innerWidth > 980) {
+      zoomedCameraPos = [0, 0.8, 12];
+    } else {
+      zoomedCameraPos = [0, 0.8, 20];
+    }
+  }
 
   const [cameraPosition, setCameraPosition] = useState(initialCameraPos);
   const [distance, setDistance] = useState(48);
@@ -204,7 +237,7 @@ export default function Scene() {
               <div className="terminal-controls">
                 <div
                   className="control close cursor-pointer"
-                  onClick={() => (setShowTerminal(false))}
+                  onClick={() => setShowTerminal(false)}
                 ></div>
                 <div className="control minimize"></div>
                 <div className="control maximize"></div>
@@ -212,13 +245,9 @@ export default function Scene() {
             </div>
             <div className="mt-4 tek">Login Complete.</div>
             <div className="text tek">Click the screen to explore...</div>
-          </div>
-        </div>
-      )}
 
-      {!zoomed && (
-        <div className="room-text text-2 tek">
-          <p ref={textOne}>Made by Tommy</p>
+            <div className="mt-4 tek">Made by Tommy.</div>
+          </div>
         </div>
       )}
 
@@ -234,13 +263,21 @@ export default function Scene() {
           </group>
 
           {/* Left wall */}
-          <mesh position={[-100, 10, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+          <mesh
+            position={[-100, 10, 0]}
+            rotation={[0, Math.PI / 2, 0]}
+            receiveShadow
+          >
             <planeGeometry args={[200, 200]} />
             <meshPhongMaterial color={0x5b5b5b} />
           </mesh>
 
           {/* Right wall */}
-          <mesh position={[100, 10, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
+          <mesh
+            position={[100, 10, 0]}
+            rotation={[0, -Math.PI / 2, 0]}
+            receiveShadow
+          >
             <planeGeometry args={[200, 200]} />
             <meshPhongMaterial color={0x5b5b5b} />
           </mesh>
@@ -292,8 +329,8 @@ export default function Scene() {
             <cylinderGeometry args={[0.1, 0.1, 2]} />
             <meshStandardMaterial
               emissiveIntensity={9}
-              color={"red"}
-              emissive={"red"}
+              color={"orange"}
+              emissive={"orange"}
             />
           </mesh>
 

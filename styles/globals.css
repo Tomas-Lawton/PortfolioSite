@@ -671,8 +671,7 @@ main,
     font-size: 4rem !important;
   }
   .text-2xl {
-    font-size: 1.5rem;
-    line-height: 1.5rem;
+    line-height: 2rem !important;
     font-size: 2rem !important;
 }
 }

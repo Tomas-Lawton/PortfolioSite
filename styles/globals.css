@@ -402,8 +402,8 @@ p:not(.select-override) {
 }
 
 .profile-icon {
-  width: 55px;
-  height: 55px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   transition: 0.5s;
 }

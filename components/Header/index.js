@@ -27,7 +27,7 @@ const Header = ({ handleContactScroll, showFullWindow }) => {
         <div className="flex flex-row justify-between w-full">
           <Image
             className="profile-icon link select-none"
-            src={`/images/profile.jpeg`}
+            src={`/images/sprite.png`}
             alt="profile-icon"
             width={55}
             height={55}
@@ -36,9 +36,8 @@ const Header = ({ handleContactScroll, showFullWindow }) => {
             }
           />
 
-          <div className="flex">
+          <div className="flex items-center">
             {/* <Button onClick={handleContactScroll}>Contact</Button> */}
-
             <button
               onClick={handleContactScroll}
               className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-lime-400 to-green-500 group-hover:from-lime-500 group-hover:to-green-600 dark:focus:ring-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"

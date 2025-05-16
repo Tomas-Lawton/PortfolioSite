@@ -59,6 +59,13 @@
       "url": "https://github.com/Tomas-Lawton/RocketTalk"
     },
     {
+      "id": "QStream",
+      "title": "QStream",
+      "description": "Desktop app understands conversations and enriches at the touch of a button using RAG system.",
+      "imageSrc": "https://drive.usercontent.google.com/download?id=1XY2v0I3aELKCsatiP8DLHeA5icyBmtvR",
+      "url": ""
+    },
+    {
       "id": "6",
       "title": "AIOps Marketplace",
       "description": "Built a marketplace in old work for AI automation workflows.",

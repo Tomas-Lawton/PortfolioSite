@@ -685,11 +685,11 @@ export default function LandingPage({ showFullWindow }) {
             <div className="h-px flex-1 bg-gradient-to-r from-[#7fff00] to-transparent"></div>
           </div>
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
-            Let's Build Together
+            Let&apos;s Build Together
           </h1>
           <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl mb-8">
-            Working on something ambitious? Whether it's an AI integration, a
-            creative prototype, or a full product vision—let's explore how we
+            Working on something ambitious? Whether it&apos;s an AI integration, a
+            creative prototype, or a full product vision—let&apos;s explore how we
             can collaborate.
           </p>
           <Footer />

@@ -132,7 +132,7 @@ export default function Panel({ onSelectMode }) {
 
         <div className="p-8">
           <h2 ref={titleRef} className="text-2xl tek mb-6 text-[#7fff00]">
-            Tommy's Portfolio
+            Tommy&apos;s Portfolio
           </h2>
 
           <div ref={descRef} className="tek mb-8 leading-relaxed text-white">

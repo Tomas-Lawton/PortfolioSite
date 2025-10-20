@@ -8,7 +8,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
         url !== "" && `hover:-translate-y-2`
       } dark-mode justify-between gap-2 flex flex-col overflow-hidden rounded-xl p-5 first:ml-0 link transition-all ease-out duration-300 bg-zinc-100 group`}
     >
-      <h1 className="text-3xl font-medium mb-2 align-middle text-center mv-4">
+      <h1 className="text-3xl font-medium mb-2 align-middle mv-4">
         {name ? name : "Project Name"}
       </h1>
 
@@ -21,8 +21,8 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
           src={img}
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-70 transition-opacity duration-300 ease-out group-hover:opacity-0"></div>
-        <svg
+        {/* <div className="absolute inset-0 bg-black bg-opacity-30 transition-opacity duration-300 ease-out group-hover:opacity-0"></div> */}
+        {/* <svg
           viewBox="0 0 24 24"
           fill="none"
           height="24"
@@ -38,7 +38,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
             strokeLinecap="round"
             stroke="currentColor"
           ></path>
-        </svg>
+        </svg> */}
       </div>
 
       <div className="flex items-center arrange-card">

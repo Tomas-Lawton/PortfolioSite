@@ -494,50 +494,47 @@ export default function LandingPage({ showFullWindow }) {
             </p>
           </div>
 
-         <div className="absolute bottom-4 tablet:bottom-16 hidden tablet:flex gap-2 tablet:gap-4 text-white flex-col tablet:flex-row">
-  <button
-    className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
-    onClick={handleWorkScroll}
-  >
-    <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
-      01
-    </span>
-    <span className="text-xs tablet:text-sm font-semibold tracking-wide">
-      PROJECTS
-    </span>
-  </button>
+          <div className="absolute bottom-4 tablet:bottom-16 hidden tablet:flex gap-2 tablet:gap-4 text-white flex-col tablet:flex-row">
+            <button
+              className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+              onClick={handleWorkScroll}
+            >
+              <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+                01
+              </span>
+              <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+                PROJECTS
+              </span>
+            </button>
 
-  <button
-    className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
-    onClick={handleServicesScroll}
-  >
-    <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
-      02
-    </span>
-    <span className="text-xs tablet:text-sm font-semibold tracking-wide">
-      SERVICES
-    </span>
-  </button>
+            <button
+              className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+              onClick={handleServicesScroll}
+            >
+              <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+                02
+              </span>
+              <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+                SERVICES
+              </span>
+            </button>
 
-  <button
-    className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
-    onClick={handleContactScroll}
-  >
-    <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
-      03
-    </span>
-    <span className="text-xs tablet:text-sm font-semibold tracking-wide">
-      CONTACT
-    </span>
-  </button>
-</div>
-
+            <button
+              className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+              onClick={handleContactScroll}
+            >
+              <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+                03
+              </span>
+              <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+                CONTACT
+              </span>
+            </button>
+          </div>
 
           <div className="tablet:mt-32 laptop:mt-44 px-4 tablet:px-6 laptop:px-0 max-w-6xl mx-auto tablet:mx-0 w-full">
             <div className="inline-block mb-4 tablet:mb-6 px-3 tablet:px-4 py-1 tablet:py-1.5 border border-[#7fff00]/50 rounded-full text-[#7fff00] font-mono tracking-widest">
-              <span className="text-[0.688rem] tablet:text-xs">
-                &lt;/&gt; PORTFOLIO v2.0
-              </span>
+              <span>&lt;/&gt; PORTFOLIO v2.0</span>
             </div>
 
             <h1
@@ -561,11 +558,11 @@ export default function LandingPage({ showFullWindow }) {
               className="text-center tablet:text-left text-lg mob:text-xl tablet:text-2xl laptop:text-3xl font-medium w-full text-white/90"
               style={{ lineHeight: "1.4", letterSpacing: "0.01em" }}
             >
-              AI Engineering & Creative Technology
+              AI Development & Creative Technology
             </h2>
 
             <p
-              className="text-center tablet:text-left text-sm mob:text-base tablet:text-lg laptop:text-xl mt-3 tablet:mt-4 text-white/70 font-normal max-w-3xl mx-auto tablet:mx-0"
+              className="text-center tablet:text-left text-sm mob:text-base tablet:text-lg laptop:text-xl mt-3 tablet:mt-4 text-white/90 font-normal max-w-3xl mx-auto tablet:mx-0"
               style={{ lineHeight: "1.6" }}
             >
               Building intelligent systems at the intersection of design and
@@ -592,7 +589,7 @@ export default function LandingPage({ showFullWindow }) {
           </div>
 
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
-            Featured Work
+            Featured Projects
           </h1>
           <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
             Building at the intersection of{" "}
@@ -608,7 +605,7 @@ export default function LandingPage({ showFullWindow }) {
             with obsessive attention to craft.
           </p>
 
-          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
+          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-12">
             {data.projects.map((project, index) => (
               <div
                 key={project.id}
@@ -619,7 +616,7 @@ export default function LandingPage({ showFullWindow }) {
                   img={project.imageSrc}
                   name={project.title}
                   description={project.description}
-                  onClick={() => project.url !== "" && window.open(project.url)}
+                  onClick={() => project.url && window.open(project.url)}
                   url={project.url}
                 />
               </div>

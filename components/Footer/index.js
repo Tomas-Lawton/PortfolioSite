@@ -8,7 +8,7 @@ const Footer = ({}) => {
       <div>
         <div className="dark-mode transition-all ease-out duration-300 p-6 laptop:p-16 tablet:p-12 rounded-lg flex flex-col items-start gap-3 mt-10">
           <h1
-            className="tablet:text-3xl mob:text-xl xs:text-md text-[#2eff97] 
+            className="tablet:text-3xl mob:text-xl xs:text-md text-[#7fff00] 
       uppercase font-tektur font-medium"
           >
             Send me an email

@@ -1,8 +1,8 @@
 {
-  "name": "Where Chaos, Meets Code",
-  "headerTaglineOne": "Where Chaos, ",
+  "name": "Where Chaos Meets Code",
+  "headerTaglineOne": "Where Chaos,",
   "headerTaglineOnea": "Meets Code.",
-  "headerTaglineTwo": "AI Engineering and Design,",
+  "headerTaglineTwo": "AI Engineering and Design",
   "headerTaglineThree": "Based in APAC.",
   "showCursor": false,
   "showBlog": false,
@@ -17,65 +17,72 @@
   ],
   "projects": [
     {
-      "id": "Autobeat",
-      "title": "Autobeat",
-      "description": "Novel AI drum machine for Ableton. Allows in context auto-completion of musical ideas with real samples.",
-      "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/AutoBeat/master/Screenshot.png",
-      "url": "https://github.com/Tomas-Lawton/AutoBeat"
-    },
-    {
       "id": "Reframer",
       "title": "Reframer",
-      "description": "Functional AI vector drawing platform using a modified CLIP algorithm. View on Google Scholar.",
+      "description": "Functional AI vector drawing platform using modified CLIP. Published on Google Scholar.",
       "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/Reframer/master/repo_img/reframer_interface.png",
       "url": "https://github.com/Tomas-Lawton/Reframer"
     },
     {
+      "id": "Autobeat",
+      "title": "Autobeat",
+      "description": "AI drum machine for Ableton that autocompletes musical ideas with real samples in context.",
+      "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/AutoBeat/master/Screenshot.png",
+      "url": "https://github.com/Tomas-Lawton/AutoBeat"
+    },
+    {
+      "id": "SafeMates",
+      "title": "SafeMates",
+      "description": "Privacy first safety companion with offline alerts, gamification, and more. Coming to iOS and Android.",
+      "imageSrc": "/images/safemates.png",
+      "url": "https://safemates.netlify.app"
+    },
+    {
       "id": "BlockNotes",
       "title": "BlockNotes",
-      "description": "A neobrutalist note-taking app for people who don’t waste time. Now on the Chrome Store.",
+      "description": "Neobrutalist note taking app for people who move fast. Available on Chrome Store.",
       "imageSrc": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6rmKNqX0fTZRPdhfNQ22Uw.png",
       "url": "https://github.com/Tomas-Lawton/BlockNotes"
     },
     {
       "id": "3D Space Invaders",
       "title": "3D Space Invaders",
-      "description": "Explore a Procedural Starfield to save planets and collect minerals to upgrade your ship.",
+      "description": "Explore procedural starfields, save planets, and collect minerals to upgrade your ship.",
       "imageSrc": "https://i.ibb.co/kGZ8Y4r/Screenshot-2024-11-26-at-7-12-54-PM.png",
       "url": "https://github.com/Tomas-Lawton/3DSpaceInvaders"
     },
     {
       "id": "Interactive Earth",
       "title": "Interactive Earth",
-      "description": "Functional interactive earth data visualization showing child mortality rates around the world and predicted into the future.",
+      "description": "Data visualization showing global child mortality rates with future predictions.",
       "imageSrc": "https://lh4.googleusercontent.com/j3nahRVaZ9wRe2YTDdO1Xql_87W_kyPYbCIbvf9rHOOEdSls-mNMxOJnGUb1HB5s8Ok=w2400",
       "url": "https://github.com/Tomas-Lawton/InteractiveEarth"
     },
     {
       "id": "5",
       "title": "RocketTalk",
-      "description": "Founded side project using GenAI/LLMs for conversational language learning (in development).",
+      "description": "Conversational language learning platform powered by generative AI (in development).",
       "imageSrc": "https://i.ibb.co/p07YXMm/68747470733a2f2f64726976652e676f6f676c652e636f6d2f75633f6578706f72743d766965772669643d317a4b3450664c.png",
       "url": "https://github.com/Tomas-Lawton/RocketTalk"
     },
     {
       "id": "QStream",
       "title": "QStream",
-      "description": "Understands and enriches real-time conversation with insights from the RAG knowledge system. Global innovation competition runner-up.",
-      "imageSrc": "https://drive.usercontent.google.com/download?id=1XY2v0I3aELKCsatiP8DLHeA5icyBmtvR",
+      "description": "Real time conversation enrichment using knowledge systems. Global innovation competition runner up.",
+      "imageSrc": "/images/qstream.png",
       "url": ""
     },
     {
       "id": "6",
       "title": "AIOps Marketplace",
-      "description": "Built a marketplace in old work for AI automation workflows.",
+      "description": "Enterprise marketplace for AI automation workflows built at Accenture.",
       "imageSrc": "https://i.ibb.co/3pR64gZ/accenture.png",
       "url": ""
     },
     {
       "id": "7",
       "title": "Postie",
-      "description": "Mockup for a desktop application for automated contract signing.",
+      "description": "Desktop application concept for automated contract signing workflows.",
       "imageSrc": "https://lh4.googleusercontent.com/kSGLCfFCQHyq6aR15duunV93l-XDeZFFVbl-jSFn-PRM32KHC8WR7WK-wSe8_y-XOx8=w2400",
       "url": ""
     }
@@ -85,27 +92,27 @@
       "id": "1",
       "title": "💻",
       "title1": "Development",
-      "description": "I excel in the creation of cutting-edge software applications using an array of technologies: from frontend to backend. "
+      "description": "Building software applications across the full stack with modern technologies and best practices."
     },
     {
       "id": "2",
       "title": "🎨",
       "title1": "Product Design",
-      "description": "I explore and evaluate designs at incremental creative stages to achieve high-quality design outputs through iteration."
+      "description": "Exploring and refining designs through iterative creative stages to achieve exceptional outcomes."
     },
     {
       "id": "3",
       "title": "🔬",
       "title1": "Research",
-      "description": "I deploy deep critical consideration to the design and execution of research strategies and experiments."
+      "description": "Designing and executing research strategies with deep critical thinking and scientific rigor."
     },
     {
       "id": "4",
       "title": "📈",
       "title1": "Scale",
-      "description": "I collaborate with experts and team members to evolve work from early conceptual stages to general availability launch."
+      "description": "Taking projects from early concept through to production launch with cross functional collaboration."
     }
   ],
-  "aboutpara": "Contact for cutting-edge technology design and development.",
+  "aboutpara": "Available for projects requiring expertise in AI systems, product design, and software development.",
   "resume": {}
 }

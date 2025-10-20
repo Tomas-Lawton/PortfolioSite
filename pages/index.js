@@ -42,7 +42,7 @@ export default function App() {
 
   if (!mode) {
     return (
-      <div>
+      <>
         <Panel onSelectMode={setMode} />
         {largeScreen && (
           <div
@@ -55,7 +55,7 @@ export default function App() {
             <Scene />
           </div>
         )}
-      </div>
+      </>
     );
   }
 

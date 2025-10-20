@@ -62,7 +62,8 @@ section {
 }
 
 .content {
-  width: 1280px;
+  width: 100%;
+  max-width: 1280px;
   height: 920px;
   overflow-y: auto;
   background-color: black;
@@ -129,11 +130,9 @@ section {
 
 .text-3xl {
   color: chartreuse;
-  /* box-shadow: 0 0 12px 0; */
   text-transform: uppercase;
   font-family: Tektur, sans-serif;
   font-weight: 500;
-  /* padding: 1rem; */
   margin-bottom: 2rem 1rem;
   border-radius: 12px;
 }
@@ -151,7 +150,6 @@ section {
 /* ============================================
    BACKGROUNDS & EFFECTS
    ============================================ */
-
 
 .gradient-background {
   background-color: black;
@@ -288,7 +286,7 @@ li:hover a {
   outline: 2px solid #ceff9d !important;
   box-shadow: 0 0 12px #72d60fde !important;
   cursor: pointer;
-  transition: .1s;
+  transition: 0.1s;
 }
 
 .custom-hr {
@@ -396,6 +394,7 @@ li:hover a {
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
   padding: 1.5em 1em;
+  width: 100%;
   min-width: 30em;
   box-shadow: 4px 5px 11px rgba(18, 24, 7, 0.73);
   border-radius: 4px;
@@ -782,6 +781,121 @@ li:hover a {
    MEDIA QUERIES
    ============================================ */
 
+@media (max-width: 1024px) {
+  section {
+    margin: 0 2rem;
+  }
+
+  .custom-p {
+    padding: 1rem 2rem;
+  }
+
+  .content {
+    border-radius: 2rem;
+  }
+
+  .gap-4 {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    margin: 0 1.5rem;
+  }
+
+  .custom-p {
+    padding: 1rem 1.5rem;
+  }
+
+  .terminal-loader {
+    font-size: 0.9em;
+    padding: 1.2em 0.8em;
+  }
+
+  .fullscreen-btn {
+    width: 45px;
+    height: 45px;
+    margin: 0.5rem;
+  }
+
+  .fullscreen-btn:hover {
+    width: 50px;
+    height: 50px;
+  }
+
+  .hero-font {
+    text-shadow: 0 0 50px #80ff0092;
+  }
+}
+
+@media (max-width: 500px) {
+  section {
+    margin: 0 1rem;
+  }
+
+  .custom-p {
+    padding: 0.75rem 1rem;
+  }
+
+  .text-3xl {
+    font-size: 1.5rem;
+  }
+
+  .content {
+    width: 100%;
+    max-width: 100vw;
+    border-radius: 1.5rem;
+    height: 100vh;
+  }
+
+  .terminal-loader {
+    font-size: 0.8em;
+    padding: 1em 0.6em;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .p-5 {
+    padding: 1rem;
+  }
+
+  .gap-4 {
+    gap: 1.5rem;
+  }
+
+  .fullscreen-btn {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    margin: 0.5rem;
+  }
+
+  .fullscreen-btn:hover {
+    width: 45px;
+    height: 45px;
+  }
+
+  .room-text {
+    margin: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .text {
+    font-size: 0.85rem;
+  }
+
+  /* Disable heavy animations on mobile */
+  .scanlines {
+    opacity: 0.3;
+  }
+
+  .vhs-text,
+  .play {
+    animation: none;
+    text-shadow: none;
+  }
+}
+
 @media (max-height: 900px) {
   .text-6xl {
     font-size: 4rem !important;
@@ -792,30 +906,14 @@ li:hover a {
   }
 }
 
-@media (max-height: 660px) {
-  .vhs-back {
-    display: none !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .scanlines {
+/* Performance optimization for mobile */
+@media (max-width: 768px) {
+  .gradient-shadow:hover::before,
+  .gradient-shadow:hover::after {
     display: none;
-    background-image: none;
   }
 
-  .overlay-black {
-    background-color: transparent;
-    animation: none;
-  }
-}
-
-@media (max-width: 500px) {
-  section {
-    margin: 0 1rem;
-  }
-
-  .text-3xl {
-    font-size: 1.5rem;
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }

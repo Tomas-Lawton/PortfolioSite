@@ -120,6 +120,18 @@ export default function Panel({ onSelectMode }) {
 
   return (
     <div className="overlay-black flex items-center justify-center min-h-screen p-4">
+
+{/* <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-950">
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(127,255,0,0.08),transparent_60%)]" />
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(0,255,200,0.05),transparent_70%)]" />
+</div> */}
+
+<div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-950">
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_45%,rgba(127,255,0,0.1),transparent_65%)]" />
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_55%,rgba(255, 166, 0, 0.04),transparent_70%)]" />
+</div>
+      
+
       <div className="terminal-loader max-w-3xl w-full">
         <div className="terminal-header">
           <div className="terminal-title">T-SHELL</div>
@@ -188,7 +200,7 @@ export default function Panel({ onSelectMode }) {
               }}
             >
               <span className="text-xl">→ Project Mode</span>
-              <div className="text-sm mt-2 opacity-70">Directly view projects on /projects page</div>
+              <div className="text-sm mt-2 opacity-70">View projects directly at /projects for quick access</div>
               {selectedButton === 1 && (
                 <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl ">
                   ▶

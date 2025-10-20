@@ -9,8 +9,7 @@ import Head from "next/head";
 import * as THREE from "three";
 import ScrambleText from "scramble-text";
 import data from "../../data/portfolio.json";
-
-import { LogoLinkedin, LogoGithub, LogoGoogle } from "react-ionicons";
+import { FaLinkedin, FaGithub, FaGoogle } from "react-icons/fa";
 
 export default function LandingPage({ showFullWindow }) {
   const bodyRef = useRef();
@@ -125,7 +124,7 @@ export default function LandingPage({ showFullWindow }) {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth <= 400) {
+    if (window.innerWidth <= 768) {
       return;
     }
 
@@ -230,7 +229,7 @@ export default function LandingPage({ showFullWindow }) {
       const wireframe = new THREE.WireframeGeometry(geometry);
       const line = new THREE.LineSegments(wireframe);
       line.material.depthTest = false;
-      line.material.opacity = 0.1;
+      line.material.opacity = 0.2;
       line.material.transparent = true;
       shape.add(line);
 
@@ -467,23 +466,20 @@ export default function LandingPage({ showFullWindow }) {
         <div className="absolute -z-10 top-0 right-0 tablet:w-10/12 overflow-hidden">
           <canvas ref={innerCanvas}></canvas>
         </div>
-        <section
-          className={`${
-            showFullWindow ? "h-screen" : "h-full"
-          } justify-center tablet:justify-start flex flex-col z-1 relative py-8 tablet:py-12`}
-        >
-          <div className="absolute top-4 tablet:top-6 left-1/2 transform -translate-x-1/2 text-[#7fff00] font-mono opacity-70 hidden tablet:flex items-center bg-black/40 backdrop-blur-sm px-3 tablet:px-5 py-2 tablet:py-2.5 rounded-full border border-[#7fff00]/30 shadow-lg shadow-[#7fff00]/5">
-            <span className="status-indicator"></span>
-            <span className="text-[0.625rem] tablet:text-xs tracking-widest">
-              SYSTEM TIME: {currentTime}
-            </span>
-            <span className="mx-2 tablet:mx-3 opacity-50">•</span>
-            <span className="text-[0.625rem] tablet:text-xs tracking-widest">
-              STATUS: ONLINE
-            </span>
-          </div>
 
-          <div className="absolute bottom-4 tablet:bottom-16 right-0 text-white rounded-lg hidden mob:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
+        <div className="absolute top-4 tablet:top-6 left-1/2 transform -translate-x-1/2 text-[#7fff00] font-mono opacity-70 hidden tablet:flex items-center bg-black/40 backdrop-blur-sm px-3 tablet:px-5 py-2 tablet:py-2.5 rounded-full border border-[#7fff00]/30 shadow-lg shadow-[#7fff00]/5">
+          <span className="status-indicator"></span>
+          <span className="text-[0.625rem] tablet:text-xs tracking-widest">
+            SYSTEM TIME: {currentTime}
+          </span>
+          <span className="mx-2 tablet:mx-3 opacity-50">•</span>
+          <span className="text-[0.625rem] tablet:text-xs tracking-widest">
+            STATUS: ONLINE
+          </span>
+        </div>
+
+<section className="min-h-[100svh] tablet:min-h-0 tablet:h-[calc(100vh-93px)] justify-center tablet:justify-start flex flex-col z-1 relative tablet:-mt-[73px] tablet:pt-[73px] py-8 tablet:py-0">
+          <div className="absolute bottom-4 tablet:bottom-16 right-0 text-white rounded-lg hidden mob:block tablet:hidden laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
             <div className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 mb-1 tablet:mb-1.5 font-mono tracking-widest uppercase">
               Last Updated
             </div>
@@ -495,7 +491,7 @@ export default function LandingPage({ showFullWindow }) {
             </p>
           </div>
 
-          <div className="absolute bottom-4 tablet:bottom-16 hidden tablet:flex gap-2 tablet:gap-4 text-white flex-col tablet:flex-row">
+          <div className="absolute bottom-4 tablet:bottom-16 left-0 hidden laptop:flex gap-2 tablet:gap-4 text-white flex-col tablet:flex-row">
             <button
               className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
               onClick={handleWorkScroll}
@@ -533,14 +529,14 @@ export default function LandingPage({ showFullWindow }) {
             </button>
           </div>
 
-          <div className="tablet:mt-32 laptop:mt-44 px-4 tablet:px-6 laptop:px-0 max-w-6xl mx-auto tablet:mx-0 w-full">
-            <div className="inline-block mb-4 tablet:mb-6 px-3 tablet:px-4 py-1 tablet:py-1.5 border border-[#7fff00]/50 rounded-full text-[#7fff00] font-mono tracking-widest">
+          <div className="tablet:mt-32 laptop:mt-18 px-4 tablet:px-6 laptop:px-0 max-w-6xl mx-auto tablet:mx-0 w-full flex flex-col items-center tablet:items-start">
+            <div className="mb-4 tablet:mb-6 px-3 tablet:px-4 py-1 tablet:py-1.5 border border-[#7fff00]/50 rounded-full text-[#7fff00] font-mono tracking-widest text-xs">
               <span>&lt;/&gt; PORTFOLIO v2.0</span>
             </div>
 
             <h1
               ref={textOn}
-              className="hero-font text-center tablet:text-left text-4xl mob:text-5xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-1 tablet:mb-2"
+              className="hero-font text-center tablet:text-left text-3xl mob:text-4xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-1 tablet:mb-2"
               style={{ lineHeight: "1.1", letterSpacing: "-0.02em" }}
             >
               {data.headerTaglineOne}
@@ -548,7 +544,7 @@ export default function LandingPage({ showFullWindow }) {
 
             <h1
               ref={textOne}
-              className="hero-font text-center tablet:text-left text-4xl mob:text-5xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-6 tablet:mb-8"
+              className="hero-font text-center tablet:text-left text-3xl mob:text-4xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-6 tablet:mb-8"
               style={{ lineHeight: "1.1", letterSpacing: "-0.02em" }}
             >
               {data.headerTaglineOnea}
@@ -556,14 +552,14 @@ export default function LandingPage({ showFullWindow }) {
 
             <h2
               ref={textTwo}
-              className="text-center tablet:text-left text-lg mob:text-xl tablet:text-2xl laptop:text-3xl font-medium w-full text-white/90"
+              className="text-center tablet:text-left text-base mob:text-lg tablet:text-2xl laptop:text-3xl font-medium w-full text-white/90"
               style={{ lineHeight: "1.4", letterSpacing: "0.01em" }}
             >
               AI Development & Creative Technology
             </h2>
 
             <p
-              className="text-center tablet:text-left text-sm mob:text-base tablet:text-lg laptop:text-xl mt-3 tablet:mt-4 text-white/90 font-normal max-w-3xl mx-auto tablet:mx-0"
+              className="text-center tablet:text-left text-sm tablet:text-lg laptop:text-xl mt-3 tablet:mt-4 text-white/90 font-normal max-w-3xl mx-auto tablet:mx-0"
               style={{ lineHeight: "1.6" }}
             >
               Building intelligent systems at the intersection of design and
@@ -576,6 +572,7 @@ export default function LandingPage({ showFullWindow }) {
             handleContactScroll={handleContactScroll}
           />
         </section>
+
         <section
           className={`mb-10 laptop:mb-30 p-4 laptop:p-0 fade-in-section ${
             isVisible.work ? "visible" : ""
@@ -592,7 +589,7 @@ export default function LandingPage({ showFullWindow }) {
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
             Featured Projects
           </h1>
-          <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
+          <p className="text-lg tablet:text-xl laptop:text-2xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
             Building at the intersection of{" "}
             <span className="font-semibold text-[#7fff00]">
               artificial intelligence
@@ -601,9 +598,8 @@ export default function LandingPage({ showFullWindow }) {
             <span className="font-semibold text-[#7fff00]">
               human experience
             </span>
-            . Every project represents a journey from abstract concept to
-            tangible impact—architected, designed, and engineered end-to-end
-            with obsessive attention to craft.
+            . Every project represents a journey from concept to completion,
+            architected and engineered with attention to craft.
           </p>
 
           <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-8">
@@ -640,20 +636,16 @@ export default function LandingPage({ showFullWindow }) {
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
             Services & Capabilities
           </h1>
-          <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
-            Full-stack expertise spanning{" "}
-            <span className="font-semibold text-[#7fff00]">AI systems</span>,
-            <span className="font-semibold text-[#7fff00]">
-              {" "}
-              product design
-            </span>
+          <p className="text-lg tablet:text-xl laptop:text-2xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
+            Full stack expertise spanning{" "}
+            <span className="font-semibold text-[#7fff00]">AI systems</span>,{" "}
+            <span className="font-semibold text-[#7fff00]">product design</span>
             , and{" "}
             <span className="font-semibold text-[#7fff00]">
               interactive experiences
             </span>
-            . Specializing in bringing ambitious ideas to life through rapid
-            prototyping, strategic architecture, and production-grade
-            implementation.
+            . Bringing ambitious ideas to life through rapid prototyping and
+            production grade implementation.
           </p>
           <div className="grid dark-mode mt-8 laptop:mt-12 grid-cols-1 laptop:grid-cols-2 gap-6 transition-all ease-out duration-300 tablet:p-12 laptop:p-12 rounded-lg p-2">
             {data.services.map((service, index) => (
@@ -687,20 +679,20 @@ export default function LandingPage({ showFullWindow }) {
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
             Let&apos;s Build Together
           </h1>
-          <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl mb-8">
-            Working on something ambitious? Whether it&apos;s an AI integration, a
-            creative prototype, or a full product vision—let&apos;s explore how we
-            can collaborate.
+          <p className="text-lg tablet:text-xl laptop:text-2xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl mb-8">
+            Working on something ambitious? Whether it&apos;s an AI integration,
+            a creative prototype, or a full product vision—let&apos;s explore
+            how we can collaborate.
           </p>
           <Footer />
         </section>
 
         <hr className="custom-hr opacity-50" />
-        <div className="text-center py-10 my-12">
-          <p className="text-sm mb-2 font-mono tracking-wide">
+        <div className="text-center py-10 my-12 p-4">
+          <p className="text-sm mb-2 font-mono tracking-wide opacity-70">
             © 2025 Tomas Lawton • Crafted with chaos & code
           </p>
-          <p className="text-xs">
+          <p className="text-xs opacity-60" style={{ letterSpacing: "0.01em" }}>
             Interactive 3D experience available on desktop • Optimized for
             Chrome/Firefox
           </p>
@@ -711,9 +703,9 @@ export default function LandingPage({ showFullWindow }) {
                 href="https://www.linkedin.com/in/tomas-lawton-512066199/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white transition"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-white transition hover:bg-blue-600"
               >
-                <LogoLinkedin width="24px" height="24px" color="#ffffff" />
+                <FaLinkedin size={20} />
               </a>
             </li>
             <li>
@@ -721,9 +713,9 @@ export default function LandingPage({ showFullWindow }) {
                 href="https://scholar.google.com/citations?hl=en&user=OeCxMCgAAAAJ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-orange-600 text-white transition"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-white transition hover:bg-orange-600"
               >
-                <LogoGoogle width="24px" height="24px" color="#ffffff" />
+                <FaGoogle size={20} />
               </a>
             </li>
             <li>
@@ -731,9 +723,9 @@ export default function LandingPage({ showFullWindow }) {
                 href="https://github.com/Tomas-Lawton"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-600 text-white transition"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-white transition hover:bg-purple-600"
               >
-                <LogoGithub width="24px" height="24px" color="#ffffff" />
+                <FaGithub size={20} />
               </a>
             </li>
           </ul>

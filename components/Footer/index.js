@@ -11,7 +11,7 @@ const Footer = ({}) => {
             className="tablet:text-3xl mob:text-xl xs:text-md text-[#7fff00] 
       uppercase font-tektur font-medium"
           >
-            Send me an email
+            Email Contact
           </h1>
           <h2 className="text-xl">{data["aboutpara"]}</h2>
           <h2 className="select-override font-bold w-full mt-2 mb-2">

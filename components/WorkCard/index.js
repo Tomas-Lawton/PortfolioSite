@@ -42,7 +42,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
       </div>
 
       <div className="flex items-center arrange-card">
-        <h2 className="text-xl">{description ? description : "Description"}</h2>
+        <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">{description ? description : "Description"}</p>
         {url !== "" && (
           <button
             onClick={onClick}

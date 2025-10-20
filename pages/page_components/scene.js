@@ -24,48 +24,6 @@ const handleMouseClick = () => {
   audio.play();
 };
 
-function DigitalClock() {
-  const [time, setTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <Html position={[0, 38, -39]} transform center>
-      <div 
-        className="digital-clock tek text-8xl font-bold opacity-80" 
-        style={{ 
-          color: '#7fff00',
-          textShadow: '0 0 15px #7fff00, 0 0 30px #7fff00'
-        }}
-      >
-        {time.toLocaleTimeString('en-US', { hour12: false })}
-      </div>
-    </Html>
-  );
-}
-function NeonSign({ position, text, color }) {
-  return (
-    <group position={position}>
-      <Html transform center>
-        <div 
-          className="tek text-9xl font-bold tracking-wider"
-          style={{ 
-            color: color,
-            textShadow: `0 0 10px ${color}, 0 0 20px ${color}, 0 0 40px ${color}`,
-            letterSpacing: '0.3em'
-          }}
-        >
-          {text}
-        </div>
-      </Html>
-      <pointLight position={[0, 0, 5]} color={color} intensity={6} distance={50} />
-    </group>
-  );
-}
-
 function Model(props) {
   const { nodes, materials } = useGLTF("/puter.glb");
   const mouseModel = useGLTF("/mouse.glb");
@@ -73,9 +31,10 @@ function Model(props) {
   const group = useRef();
   const keyboardRef = useRef();
   const mouseRef = useRef();
+  const computerMeshRef = useRef();
   const [mouseHover, setMouseHover] = useState(false);
 
-  const { camera } = useThree();
+  const { camera, raycaster: threeRaycaster } = useThree();
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
 
@@ -96,14 +55,42 @@ function Model(props) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Fix material transparency
+  useEffect(() => {
+    if (materials["ibm_3178"]) {
+      materials["ibm_3178"].transparent = false;
+      materials["ibm_3178"].opacity = 1;
+      materials["ibm_3178"].depthWrite = true;
+      materials["ibm_3178"].depthTest = true;
+    }
+    if (materials["ibm_3178_keyboard"]) {
+      materials["ibm_3178_keyboard"].transparent = false;
+      materials["ibm_3178_keyboard"].opacity = 1;
+      materials["ibm_3178_keyboard"].depthWrite = true;
+      materials["ibm_3178_keyboard"].depthTest = true;
+    }
+    if (mouseModel.materials["Mouse"]) {
+      mouseModel.materials["Mouse"].transparent = false;
+      mouseModel.materials["Mouse"].opacity = 1;
+      mouseModel.materials["Mouse"].depthWrite = true;
+      mouseModel.materials["Mouse"].depthTest = true;
+    }
+    if (mouseModel.materials["rubber_feet"]) {
+      mouseModel.materials["rubber_feet"].transparent = false;
+      mouseModel.materials["rubber_feet"].opacity = 1;
+      mouseModel.materials["rubber_feet"].depthWrite = true;
+      mouseModel.materials["rubber_feet"].depthTest = true;
+    }
+  }, [materials, mouseModel.materials]);
+
   return (
     <group ref={group} {...props} dispose={null}>
       <Html
         className="content"
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
-        position={[-1.3, -4, 14.2]}
+        position={[-1.3, -3.5, 14.2]}
         transform
-        occlude
+        occlude={[computerMeshRef, keyboardRef]}
         scale={0.5}
       >
         <div
@@ -119,15 +106,18 @@ function Model(props) {
       </Html>
 
       <mesh
+        ref={computerMeshRef}
         material={materials["ibm_3178"]}
         geometry={nodes["ibm_3178_0"].geometry}
         castShadow
+        receiveShadow
       />
       <mesh
         ref={keyboardRef}
         material={materials["ibm_3178_keyboard"]}
         geometry={nodes["ibm_3178_1"].geometry}
         castShadow
+        receiveShadow
         onClick={() => {
           if (!props.zoomed) {
             handleKeyboardClick();
@@ -146,6 +136,7 @@ function Model(props) {
           material={mouseModel.materials["Mouse"]}
           geometry={mouseModel.nodes["mouse_Mouse_0"].geometry}
           castShadow
+          receiveShadow
           onClick={() => {
             if (!props.zoomed) {
               handleMouseClick();
@@ -156,6 +147,7 @@ function Model(props) {
           material={mouseModel.materials["rubber_feet"]}
           geometry={mouseModel.nodes["mouse_rubber_feet_0"].geometry}
           castShadow
+          receiveShadow
         />
       </group>
       {mouseHover && !props.zoomed && (
@@ -169,6 +161,75 @@ function Model(props) {
     </group>
   );
 }
+
+
+
+
+function DigitalClock() {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <group position={[0, 38, -39]}>
+      <Html
+        transform
+        center
+        distanceFactor={15}
+        style={{
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          className="digital-clock tek text-8xl font-bold opacity-80"
+          style={{
+            color: "#7fff00",
+            textShadow: "0 0 15px #7fff00, 0 0 30px #7fff00",
+          }}
+        >
+          {time.toLocaleTimeString("en-US", { hour12: false })}
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+function NeonSign({ position, text, color }) {
+  return (
+    <group position={position}>
+      <Html
+        transform
+        center
+        distanceFactor={20}
+        style={{
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          className="tek text-9xl font-bold tracking-wider"
+          style={{
+            color: color,
+            textShadow: `0 0 10px ${color}, 0 0 20px ${color}, 0 0 40px ${color}`,
+            letterSpacing: "0.3em",
+          }}
+        >
+          {text}
+        </div>
+      </Html>
+      <pointLight
+        position={[0, 0, 5]}
+        color={color}
+        intensity={6}
+        distance={50}
+      />
+    </group>
+  );
+}
+
+
 
 function UpdateCameraPosition({ position }) {
   const { camera } = useThree();
@@ -187,17 +248,17 @@ export default function Scene() {
 
   const initialCameraPos = [-3, 2, 4];
 
-  let zoomedCameraPos = [0, 0.8, 8];
+  let zoomedCameraPos = [0, 1, 7];
 
   if (typeof window !== "undefined") {
     if (window.innerWidth > 1500) {
-      zoomedCameraPos = [0, 0.8, 8];
+      zoomedCameraPos = [0, 1, 7];
     } else if (window.innerWidth > 1300) {
-      zoomedCameraPos = [0, 0.8, 10];
+      zoomedCameraPos = [0, 1, 9];
     } else if (window.innerWidth > 980) {
-      zoomedCameraPos = [0, 0.8, 12];
+      zoomedCameraPos = [0, 1, 11];
     } else {
-      zoomedCameraPos = [0, 0.8, 20];
+      zoomedCameraPos = [0, 1, 18];
     }
   }
 
@@ -296,9 +357,14 @@ export default function Scene() {
         </div>
       )}
 
-      <Canvas ref={canvasRef} camera={{ position: cameraPosition }} shadows>
+      <Canvas
+        ref={canvasRef}
+        camera={{ position: cameraPosition }}
+        shadows
+        gl={{ antialias: true }}
+      >
         <UpdateCameraPosition position={cameraPosition} />
-        <fog attach="fog" args={['#0a0a0a', 100, 200]} />
+        <fog attach="fog" args={["#0a0a0a", 100, 200]} />
         <Suspense fallback={null}>
           <group
             castShadow
@@ -309,9 +375,9 @@ export default function Scene() {
           </group>
 
           <DigitalClock />
-          
-          <NeonSign position={[-70, 20, -38]} text="CHAOS"   color="#ff9500"/>
-          <NeonSign position={[70, 20, -38]} text="CODE"color="#7fff00" />
+
+          <NeonSign position={[-70, 20, -38]} text="CHAOS" color="#ff9500" />
+          <NeonSign position={[70, 20, -38]} text="CODE" color="#7fff00" />
 
           <mesh
             position={[-100, 10, 0]}
@@ -319,7 +385,11 @@ export default function Scene() {
             receiveShadow
           >
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color={0x1a1a1a} roughness={0.9} metalness={0.1} />
+            <meshStandardMaterial
+              color={0x1a1a1a}
+              roughness={0.9}
+              metalness={0.1}
+            />
           </mesh>
 
           <mesh
@@ -328,7 +398,11 @@ export default function Scene() {
             receiveShadow
           >
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color={0x1a1a1a} roughness={0.9} metalness={0.1} />
+            <meshStandardMaterial
+              color={0x1a1a1a}
+              roughness={0.9}
+              metalness={0.1}
+            />
           </mesh>
 
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
@@ -338,11 +412,15 @@ export default function Scene() {
 
           <mesh position={[0, 10, -40]} receiveShadow>
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color={0x1a1a1a} roughness={0.9} metalness={0.1} />
+            <meshStandardMaterial
+              color={0x1a1a1a}
+              roughness={0.9}
+              metalness={0.1}
+            />
           </mesh>
 
           <ambientLight intensity={0.1} />
-          
+
           <EffectComposer disableNormalPass>
             <Bloom
               mipmapBlur
@@ -378,7 +456,12 @@ export default function Scene() {
             />
           </mesh>
 
-          <pointLight position={[0, 25, 15]} color="#7fff00" intensity={1.5} distance={50} />
+          <pointLight
+            position={[0, 25, 15]}
+            color="#7fff00"
+            intensity={1.5}
+            distance={50}
+          />
 
           <directionalLight
             color={0x00ff00}

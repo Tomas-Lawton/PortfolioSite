@@ -129,27 +129,19 @@ export default function Panel({ onSelectMode }) {
         </div>
 
         <div className="p-8">
-          <div ref={titleRef} className="text-3xl tek mb-6 text-[#7fff00]">
-            Welcome to Tommy's Portfolio
-          </div>
+          <h2 ref={titleRef} className="text-2xl tek mb-6 text-[#7fff00]">
+            Tommy's Portfolio
+          </h2>
 
-          <div
-            ref={descRef}
-            className="tek mb-8 leading-relaxed space-y-3 text-[#7fff00] opacity-90"
-          >
-            <p>
-              This portfolio is{" "}
-              <span className="text-[#7fff00] font-bold">unique</span>: the page
-              displays a 3D scene, which itself shows a webpage on a monitor
-              that also contains a 3D scene—
-              <span className="text-[#7fff00] font-bold">
-                3D web inception!
-              </span>
-            </p>
-            <p>
-              Creative projects combining{" "}
-              <span className="italic">design, 3D web programming, and AI</span>
-              .
+          <div ref={descRef} className="tek mb-8 leading-relaxed text-white">
+            <p className="opacity-85">
+              Explore a 3D scene inside a webpage that itself contains another
+              webpage with a 3D scene.{" "}
+              <span className="text-[#7fff00] font-semibold">
+                That’s 3D web inception 🤯
+              </span>{" "}
+              Highlighting work at the intersection of human-centered design,
+              AI, and creative engineering.
             </p>
           </div>
 
@@ -157,7 +149,7 @@ export default function Panel({ onSelectMode }) {
             &gt; Select experience mode:
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+          <div className="flex flex-col sm:flex-row gap-3 mt-4">
             <button
               className={`tek border-2 px-8 py-4 transition-all duration-200 cursor-pointer flex-1 text-left relative group ${
                 selectedButton === 0

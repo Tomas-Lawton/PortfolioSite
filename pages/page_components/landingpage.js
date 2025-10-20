@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import ServiceCard from "../../components/ServiceCard";
 import Socials from "../../components/Socials";
@@ -9,13 +9,10 @@ import Head from "next/head";
 import * as THREE from "three";
 import ScrambleText from "scramble-text";
 
-// Local Data
 import data from "../../data/portfolio.json";
 
 export default function LandingPage({ showFullWindow }) {
-  // Ref
   const bodyRef = useRef();
-
   const workRef = useRef();
   const servicesRef = useRef();
   const contactRef = useRef();
@@ -24,9 +21,11 @@ export default function LandingPage({ showFullWindow }) {
   const textTwo = useRef();
   const textThree = useRef();
   const innerCanvas = useRef(null);
-  // Handling Scroll
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
+  const [currentTime, setCurrentTime] = useState("");
+
   const handleScroll = (targetRef) => {
-    console.log(targetRef.current ? targetRef.current.id : "no target");
     if (bodyRef.current && targetRef.current) {
       bodyRef.current.scrollTo({
         top: targetRef.current.offsetTop,
@@ -36,27 +35,82 @@ export default function LandingPage({ showFullWindow }) {
     }
   };
 
-  // Usage examples
-  const handleWorkScroll = () => {
-    console.log("work");
-    handleScroll(workRef);
+  const scrollToTop = () => {
+    if (bodyRef.current) {
+      bodyRef.current.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
-  const handleServicesScroll = () => {
-    console.log("services");
-    handleScroll(servicesRef);
-  };
+  const handleWorkScroll = () => handleScroll(workRef);
+  const handleServicesScroll = () => handleScroll(servicesRef);
+  const handleContactScroll = () => handleScroll(contactRef);
 
-  const handleContactScroll = () => {
-    console.log("contact");
-    handleScroll(contactRef);
-  };
-  
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(
+        now.toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleScrollProgress = () => {
+      if (bodyRef.current) {
+        const scrollTop = bodyRef.current.scrollTop;
+        const scrollHeight =
+          bodyRef.current.scrollHeight - bodyRef.current.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        setScrollProgress(progress);
+
+        const sections = [
+          { ref: workRef, id: "work" },
+          { ref: servicesRef, id: "services" },
+          { ref: contactRef, id: "contact" },
+        ];
+
+        const newVisible = {};
+        sections.forEach(({ ref, id }) => {
+          if (ref.current) {
+            const rect = ref.current.getBoundingClientRect();
+            newVisible[id] = rect.top < window.innerHeight * 0.75;
+          }
+        });
+
+        setIsVisible(newVisible);
+      }
+    };
+
+    const currentBody = bodyRef.current;
+    if (currentBody) {
+      currentBody.addEventListener("scroll", handleScrollProgress);
+      handleScrollProgress();
+    }
+
+    return () => {
+      if (currentBody) {
+        currentBody.removeEventListener("scroll", handleScrollProgress);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (window.innerWidth > 768) {
       const element = textOne.current;
       if (element && !element.hasAttribute("data-scrambled")) {
-        element.setAttribute("data-scrambled", "true"); // Mark as scrambled
+        element.setAttribute("data-scrambled", "true");
         const scrambleInstance = new ScrambleText(element);
 
         stagger(
@@ -71,9 +125,7 @@ export default function LandingPage({ showFullWindow }) {
 
   useEffect(() => {
     if (window.innerWidth <= 400) {
-      //768
-      console.log("Use Large Display for Animations");
-      return; // Skip initializing Three.js for small screens
+      return;
     }
 
     const width = window.innerWidth;
@@ -81,9 +133,14 @@ export default function LandingPage({ showFullWindow }) {
     const canvas = innerCanvas.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: false,
+      powerPreference: "high-performance",
+    });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -91,8 +148,6 @@ export default function LandingPage({ showFullWindow }) {
     camera.updateProjectionMatrix();
 
     const geometries = [
-      // new THREE.TorusGeometry(1, 0.4, 12, 48),
-      // new THREE.IcosahedronGeometry(1, 0),
       new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 1),
       new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 3),
       new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 4),
@@ -169,7 +224,6 @@ export default function LandingPage({ showFullWindow }) {
 
     function createShape() {
       let num = Math.floor(Math.random() * geometries.length);
-      console.log(num);
       const geometry = geometries[num];
       const shape = new THREE.Mesh(geometry, material);
       const wireframe = new THREE.WireframeGeometry(geometry);
@@ -179,15 +233,10 @@ export default function LandingPage({ showFullWindow }) {
       line.material.transparent = true;
       shape.add(line);
 
-      // shape.receiveShadow = true;
-      // shape.traverse(function (node) {
-      //   if (node.isMesh) node.castShadow = true;
-      // });
       shape.castShadow = true;
       shape.receiveShadow = false;
       scene.add(shape);
       shape.position.set(0, 0.3, 0);
-      console.log("Created Shape");
       return shape;
     }
 
@@ -214,12 +263,6 @@ export default function LandingPage({ showFullWindow }) {
 
     let targetIntensity = 0;
     let currentIntensity = 0;
-    const mouse = {
-      x: 0,
-      y: 0,
-      targetX: 0,
-      targetY: 0,
-    };
 
     let prevMouseX = null;
     let prevMouseY = null;
@@ -249,8 +292,6 @@ export default function LandingPage({ showFullWindow }) {
     });
     document.addEventListener("mouseleave", () => {
       targetIntensity = 0.0;
-      mouse.targetX = 0;
-      mouse.targetY = 0;
     });
 
     function onWindowResize() {
@@ -283,7 +324,7 @@ export default function LandingPage({ showFullWindow }) {
     animate();
 
     return () => {
-      scene.clear(); // Clear all children and objects
+      scene.clear();
       renderer.dispose();
     };
   }, []);
@@ -294,154 +335,378 @@ export default function LandingPage({ showFullWindow }) {
         data.showCursor && "cursor-none"
       }`}
     >
-      {/* {data.showCursor && <Cursor />} */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .fade-in-section {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-section.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        @keyframes pulse {
+          0%,
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(127, 255, 0, 0.7);
+          }
+          50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(127, 255, 0, 0);
+          }
+        }
+
+        .status-indicator {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          background: #7fff00;
+          border-radius: 50%;
+          margin-right: 8px;
+          animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+          0%,
+          100% {
+            opacity: 1;
+            box-shadow: 0 0 8px #7fff00;
+          }
+          50% {
+            opacity: 0.6;
+            box-shadow: 0 0 4px #7fff00;
+          }
+        }
+
+        .card-glow {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .card-glow::before {
+          content: "";
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
+          background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(127, 255, 0, 0.1),
+            transparent
+          );
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        .card-glow:hover::before {
+          opacity: 1;
+        }
+
+        .noise-bg {
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
+          background-size: 250px 250px;
+          will-change: transform;
+        }
+
+        .gradient-background {
+          background: linear-gradient(
+            135deg,
+            #000000 0%,
+            #0a0a0a 50%,
+            #000000 100%
+          );
+        }
+      `}</style>
+
       <div className="scanlines"></div>
+      <div className="noise-bg fixed inset-0 pointer-events-none z-50"></div>
+
       <Head>
-        <title>Where Chaos, Meets Code</title>
+        <title>Tomas Lawton - Where Chaos Meets Code</title>
+        <meta
+          name="description"
+          content="AI Specialist & Creative Technologist crafting intelligent human-centric experiences through design and code"
+        />
+        <meta
+          property="og:title"
+          content="Tomas Lawton - Where Chaos Meets Code"
+        />
+        <meta
+          property="og:description"
+          content="Portfolio of an AI Specialist & Creative Technologist"
+        />
       </Head>
 
       <div className="h-full intro-wrap mx-auto relative z-1" ref={bodyRef}>
-        {/* NAV */}
         <Header
           handleContactScroll={handleContactScroll}
           showFullWindow={showFullWindow}
+          scrollToTop={scrollToTop}
+          scrollProgress={scrollProgress}
+          bodyRef={bodyRef}
         />
 
-        {/* CANVAS */}
         <div className="absolute -z-10 top-0 right-0 tablet:w-10/12 overflow-hidden">
           <canvas ref={innerCanvas}></canvas>
         </div>
-
         <section
           className={`${
             showFullWindow ? "h-screen" : "h-full"
-          }  justify-center tablet:justify-start flex flex-col z-1 relative`}
+          } justify-center tablet:justify-start flex flex-col z-1 relative py-8 tablet:py-12`}
         >
-          <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden mob:block">
-            <h2>UPDATED</h2>
-            <h2 className="text-xs">2025.10.20</h2>
-            <p className="text-xs">Tommy</p>
-            {/* <p>_________</p> */}
+          <div className="absolute top-4 tablet:top-6 left-1/2 transform -translate-x-1/2 text-[#7fff00] font-mono opacity-70 hidden tablet:flex items-center bg-black/40 backdrop-blur-sm px-3 tablet:px-5 py-2 tablet:py-2.5 rounded-full border border-[#7fff00]/30 shadow-lg shadow-[#7fff00]/5">
+            <span className="status-indicator"></span>
+            <span className="text-[0.625rem] tablet:text-xs tracking-widest">
+              SYSTEM TIME: {currentTime}
+            </span>
+            <span className="mx-2 tablet:mx-3 opacity-50">•</span>
+            <span className="text-[0.625rem] tablet:text-xs tracking-widest">
+              STATUS: ONLINE
+            </span>
           </div>
 
-          <div className="absolute bottom-12 left-0 flex flex-col tablet:flex-row gap-3 text-white vhs-text hidden tablet:flex">
-            <div
-              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
-              data-splitting
-              onClick={() => handleWorkScroll()}
-            >
-              PROJECTS
+          <div className="absolute bottom-4 tablet:bottom-16 right-0 text-white rounded-lg hidden mob:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
+            <div className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 mb-1 tablet:mb-1.5 font-mono tracking-widest uppercase">
+              Last Updated
             </div>
-            <div
-              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
-              data-splitting
-              onClick={() => handleServicesScroll()}
-            >
-              SERVICES
-            </div>
-            <div
-              className="play mr-2 tablet:mr-20 rounded-md p-3 vhs-back cursor-pointer"
-              data-splitting
-              onClick={() => handleContactScroll()}
-            >
-              CONTACT
-            </div>
+            <h2 className="text-sm tablet:text-base font-semibold tracking-tight mb-0.5">
+              Jan 22, 2025
+            </h2>
+            <p className="text-[0.688rem] tablet:text-xs opacity-70 font-medium">
+              Tomas Lawton
+            </p>
           </div>
 
-          <div className="tablet:mt-44">
+         <div className="absolute bottom-4 tablet:bottom-16 hidden tablet:flex gap-2 tablet:gap-4 text-white flex-col tablet:flex-row">
+  <button
+    className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+    onClick={handleWorkScroll}
+  >
+    <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+      01
+    </span>
+    <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+      PROJECTS
+    </span>
+  </button>
+
+  <button
+    className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+    onClick={handleServicesScroll}
+  >
+    <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+      02
+    </span>
+    <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+      SERVICES
+    </span>
+  </button>
+
+  <button
+    className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+    onClick={handleContactScroll}
+  >
+    <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+      03
+    </span>
+    <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+      CONTACT
+    </span>
+  </button>
+</div>
+
+
+          <div className="tablet:mt-32 laptop:mt-44 px-4 tablet:px-6 laptop:px-0 max-w-6xl mx-auto tablet:mx-0 w-full">
+            <div className="inline-block mb-4 tablet:mb-6 px-3 tablet:px-4 py-1 tablet:py-1.5 border border-[#7fff00]/50 rounded-full text-[#7fff00] font-mono tracking-widest">
+              <span className="text-[0.688rem] tablet:text-xs">
+                &lt;/&gt; PORTFOLIO v2.0
+              </span>
+            </div>
+
             <h1
               ref={textOn}
-              className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
+              className="hero-font text-center tablet:text-left text-4xl mob:text-5xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-1 tablet:mb-2"
+              style={{ lineHeight: "1.1", letterSpacing: "-0.02em" }}
             >
               {data.headerTaglineOne}
             </h1>
+
             <h1
               ref={textOne}
-              className="hero-font text-center tablet:text-left text-4xl tablet:text-6xl laptop:text-8xl pt-1 tablet:pt-2 font-bold w-full"
+              className="hero-font text-center tablet:text-left text-4xl mob:text-5xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-6 tablet:mb-8"
+              style={{ lineHeight: "1.1", letterSpacing: "-0.02em" }}
             >
               {data.headerTaglineOnea}
             </h1>
-            <h1
+
+            <h2
               ref={textTwo}
-              className="text-center tablet:text-left text-2xl mob:text-2xl tablet:text-4xl laptop:text-6xl pt-1 tablet:pt-2 font-medium w-full"
+              className="text-center tablet:text-left text-lg mob:text-xl tablet:text-2xl laptop:text-3xl font-medium w-full text-white/90"
+              style={{ lineHeight: "1.4", letterSpacing: "0.01em" }}
             >
-              {data.headerTaglineTwo}
-            </h1>
-            <h1
-              ref={textThree}
-              className="text-center tablet:text-left text-2xl mob:text-2xl tablet:text-4xl laptop:text-6xl pt-1 tablet:pt-2 font-medium w-full"
+              AI Engineering & Creative Technology
+            </h2>
+
+            <p
+              className="text-center tablet:text-left text-sm mob:text-base tablet:text-lg laptop:text-xl mt-3 tablet:mt-4 text-white/70 font-normal max-w-3xl mx-auto tablet:mx-0"
+              style={{ lineHeight: "1.6" }}
             >
-              {data.headerTaglineThree}
-            </h1>
+              Building intelligent systems at the intersection of design and
+              code
+            </p>
           </div>
 
-          <Socials className="mt-5" handleContactScroll={handleContactScroll} />
+          <Socials
+            className="mt-8 tablet:mt-10 px-4 tablet:px-6 laptop:px-0"
+            handleContactScroll={handleContactScroll}
+          />
         </section>
+        <section
+          className={`mb-10 laptop:mb-30 p-4 laptop:p-0 fade-in-section ${
+            isVisible.work ? "visible" : ""
+          }`}
+          ref={workRef}
+        >
+          <div className="flex items-center gap-4 mb-10 relative">
+            <span className="text-[#7fff00] text-2xl font-bold font-mono">
+              01
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-[#7fff00] to-transparent"></div>
+          </div>
 
-        <section className="mb-10 laptop:mb-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold mb-10">
-            Projects
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
+            Featured Work
           </h1>
-          <h1 className="text-2xl text-center tablet:text-left mt-2">
-            As an <span className="font-bold">AI Specialist</span> by day and{" "}
-            <span className="font-bold">Creative Technologist</span> by night, I
-            generate concepts and architect systems from start to finish. Each
-            project below was hand-crafted by me from initial concept to the
-            polished product.
-          </h1>
+          <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
+            Building at the intersection of{" "}
+            <span className="font-semibold text-[#7fff00]">
+              artificial intelligence
+            </span>{" "}
+            and{" "}
+            <span className="font-semibold text-[#7fff00]">
+              human experience
+            </span>
+            . Every project represents a journey from abstract concept to
+            tangible impact—architected, designed, and engineered end-to-end
+            with obsessive attention to craft.
+          </p>
 
-          <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4">
-            {data.projects.map((project) => (
-              <WorkCard
+          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
+            {data.projects.map((project, index) => (
+              <div
                 key={project.id}
-                img={project.imageSrc}
-                name={project.title}
-                description={project.description}
-                onClick={() => project.url !== "" && window.open(project.url)}
-                url={project.url}
-              />
+                style={{ animationDelay: `${index * 0.1}s` }}
+                className="opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]"
+              >
+                <WorkCard
+                  img={project.imageSrc}
+                  name={project.title}
+                  description={project.description}
+                  onClick={() => project.url !== "" && window.open(project.url)}
+                  url={project.url}
+                />
+              </div>
             ))}
           </div>
         </section>
 
         <section
-          className="mt-10 laptop:mt-30 p-2 laptop:p-0"
+          className={`mt-10 laptop:mt-30 p-4 laptop:p-0 fade-in-section ${
+            isVisible.services ? "visible" : ""
+          }`}
           ref={servicesRef}
         >
-          <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
-            Services
+          <div className="flex items-center gap-4 mb-10 mt-44">
+            <span className="text-[#7fff00] text-2xl font-bold font-mono">
+              02
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-[#7fff00] to-transparent"></div>
+          </div>
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
+            Services & Capabilities
           </h1>
-          <h1 className="text-2xl text-center tablet:text-left mt-2">
-            I specialise in end-to-end development, product design, and creative
-            prototype research.
-          </h1>
-          <div className="grid dark-mode mt-5 laptop:mt-10 grid-cols-1 laptop:grid-cols-2 gap-6 transition-all ease-out duration-300 tablet:p-12 laptop:p-12 rounded-lg p-2">
+          <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
+            Full-stack expertise spanning{" "}
+            <span className="font-semibold text-[#7fff00]">AI systems</span>,
+            <span className="font-semibold text-[#7fff00]">
+              {" "}
+              product design
+            </span>
+            , and{" "}
+            <span className="font-semibold text-[#7fff00]">
+              interactive experiences
+            </span>
+            . Specializing in bringing ambitious ideas to life through rapid
+            prototyping, strategic architecture, and production-grade
+            implementation.
+          </p>
+          <div className="grid dark-mode mt-8 laptop:mt-12 grid-cols-1 laptop:grid-cols-2 gap-6 transition-all ease-out duration-300 tablet:p-12 laptop:p-12 rounded-lg p-2">
             {data.services.map((service, index) => (
-              <ServiceCard
+              <div
                 key={index}
-                name1={service.title}
-                name2={service.title1}
-                description={service.description}
-              />
+                style={{ animationDelay: `${index * 0.15}s` }}
+                className="opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]"
+              >
+                <ServiceCard
+                  name1={service.title}
+                  name2={service.title1}
+                  description={service.description}
+                />
+              </div>
             ))}
           </div>
         </section>
 
-        <section ref={contactRef} className="p-2 tablet:p-2 laptop:p-0 mb-44">
-          <h1 className="mt-44 hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold text-bold my-10">
-            Contact
+        <section
+          ref={contactRef}
+          className={`p-4 tablet:p-2 laptop:p-0 mb-44 fade-in-section ${
+            isVisible.contact ? "visible" : ""
+          }`}
+        >
+          <div className="flex items-center gap-4 mb-10 mt-44">
+            <span className="text-[#7fff00] text-2xl font-bold font-mono">
+              03
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-[#7fff00] to-transparent"></div>
+          </div>
+          <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
+            Let's Build Something
           </h1>
-          {/* <h1 className="text-2xl text-center tablet:text-left mt-2">
-            I blend creative technologies, generative AI, and end-to-end product
-            design to craft intelligent human-centric experiences.
-          </h1> */}
+          <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl mb-8">
+            Working on something ambitious? Whether it's an AI integration, a
+            creative prototype, or a full product vision—let's explore how we
+            can collaborate.
+          </p>
           <Footer />
         </section>
 
-        <hr className="custom-hr" />
-        <p className="text-center opacity-80 mb-10 mt-10">
-          3D experience available on large screens.
-        </p>
+        <hr className="custom-hr opacity-50" />
+        <div className="text-center py-10 my-12">
+          <p className="opacity-80 text-sm mb-2 font-mono tracking-wide">
+            © 2025 Tomas Lawton • Crafted with chaos & code
+          </p>
+          <p className="opacity-80 text-xs">
+            Interactive 3D experience available on desktop • Optimized for
+            Chrome/Firefox
+          </p>
+        </div>
       </div>
     </div>
   );

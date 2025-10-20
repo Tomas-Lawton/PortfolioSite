@@ -85,7 +85,9 @@ export default function Panel({ onSelectMode }) {
   };
 
   const handleSelect = (mode) => {
-    handleKeyPress();
+    const audio = new Audio("/mouseclick.mp3");
+    audio.volume = 0.5 + Math.random() * 0.4;
+    audio.play().catch(() => {}); // Catch in case audio fails
 
     if (mode === "landing") {
       router.push("/projects");

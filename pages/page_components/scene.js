@@ -162,9 +162,6 @@ function Model(props) {
   );
 }
 
-
-
-
 function DigitalClock() {
   const [time, setTime] = useState(new Date());
 
@@ -186,8 +183,8 @@ function DigitalClock() {
         <div
           className="digital-clock tek text-8xl font-bold opacity-80"
           style={{
-            color: "#7fff00",
-            textShadow: "0 0 15px #7fff00, 0 0 30px #7fff00",
+            color: "#00ffeaff",
+            textShadow: "0 0 15px #00ffeaff, 0 0 30px #00ffeaff",
           }}
         >
           {time.toLocaleTimeString("en-US", { hour12: false })}
@@ -228,8 +225,6 @@ function NeonSign({ position, text, color }) {
     </group>
   );
 }
-
-
 
 function UpdateCameraPosition({ position }) {
   const { camera } = useThree();

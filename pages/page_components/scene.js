@@ -13,27 +13,67 @@ import {
 import LandingPage from "./landingpage";
 import ScrambleText from "scramble-text";
 
-const handleKeyboardClick = (event) => {
-  console.log("keyboard");
+const handleKeyboardClick = () => {
   const audio = new Audio("/keypress.mp3");
   audio.volume = 0.5 + Math.random() * 0.4;
   audio.play();
 };
 
-const handleMouseClick = (event) => {
-  console.log("mouse");
+const handleMouseClick = () => {
   const audio = new Audio("/mouseclick.mp3");
   audio.play();
 };
+
+function DigitalClock() {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <Html position={[0, 38, -39]} transform center>
+      <div 
+        className="digital-clock tek text-8xl font-bold opacity-80" 
+        style={{ 
+          color: '#7fff00',
+          textShadow: '0 0 15px #7fff00, 0 0 30px #7fff00'
+        }}
+      >
+        {time.toLocaleTimeString('en-US', { hour12: false })}
+      </div>
+    </Html>
+  );
+}
+function NeonSign({ position, text, color }) {
+  return (
+    <group position={position}>
+      <Html transform center>
+        <div 
+          className="tek text-9xl font-bold tracking-wider"
+          style={{ 
+            color: color,
+            textShadow: `0 0 10px ${color}, 0 0 20px ${color}, 0 0 40px ${color}`,
+            letterSpacing: '0.3em'
+          }}
+        >
+          {text}
+        </div>
+      </Html>
+      <pointLight position={[0, 0, 5]} color={color} intensity={6} distance={50} />
+    </group>
+  );
+}
 
 function Model(props) {
   const { nodes, materials } = useGLTF("/puter.glb");
   const mouseModel = useGLTF("/mouse.glb");
 
-  // raycaster
   const group = useRef();
   const keyboardRef = useRef();
   const mouseRef = useRef();
+  const [mouseHover, setMouseHover] = useState(false);
 
   const { camera } = useThree();
   const raycaster = new THREE.Raycaster();
@@ -78,7 +118,6 @@ function Model(props) {
         </div>
       </Html>
 
-      {/* Computer */}
       <mesh
         material={materials["ibm_3178"]}
         geometry={nodes["ibm_3178_0"].geometry}
@@ -91,17 +130,17 @@ function Model(props) {
         castShadow
         onClick={() => {
           if (!props.zoomed) {
-            console.log("Keyboard clicked!");
-            handleKeyboardClick(); // Your custom function
+            handleKeyboardClick();
           }
         }}
       />
-      {/* Mouse */}
       <group
         ref={mouseRef}
         rotation={[-0.15, -0.6, 0.3]}
         position={[19.5, -18, 0]}
         scale={[29, 29, 29]}
+        onPointerOver={() => !props.zoomed && setMouseHover(true)}
+        onPointerOut={() => setMouseHover(false)}
       >
         <mesh
           material={mouseModel.materials["Mouse"]}
@@ -109,8 +148,7 @@ function Model(props) {
           castShadow
           onClick={() => {
             if (!props.zoomed) {
-              console.log("Mouse clicked!");
-              handleMouseClick(); // Your custom function
+              handleMouseClick();
             }
           }}
         />
@@ -120,6 +158,14 @@ function Model(props) {
           castShadow
         />
       </group>
+      {mouseHover && !props.zoomed && (
+        <pointLight
+          position={[0.67, -0.62, 0]}
+          color="#7fff00"
+          intensity={2}
+          distance={5}
+        />
+      )}
     </group>
   );
 }
@@ -140,20 +186,8 @@ export default function Scene() {
   const canvasRef = useRef();
 
   const initialCameraPos = [-3, 2, 4];
-  // let zoomedCameraPos
-  // if (window.current.width > 1500) {
-  //   zoomedCameraPos = [0, 0.8, 8];
-  // } else if (window.innerWidth > 1200) {
-  //   zoomedCameraPos = [0, 0.8, 12];
-  // } else if (window.innerWidth > 900) {
-  //   zoomedCameraPos = [0, 0.8, 16];
-  // } else {
-  //   zoomedCameraPos = [0, 0.8, 20];
-  // }
 
-  // const zoomedCameraPos = [0, 0.8, 8];
-
-  let zoomedCameraPos = [0, 0.8, 8]; // Fallback for server-side rendering
+  let zoomedCameraPos = [0, 0.8, 8];
 
   if (typeof window !== "undefined") {
     if (window.innerWidth > 1500) {
@@ -182,7 +216,7 @@ export default function Scene() {
   useEffect(() => {
     const element = textOne.current;
     if (element && !element.hasAttribute("data-scrambled")) {
-      element.setAttribute("data-scrambled", "true"); // Mark as scrambled
+      element.setAttribute("data-scrambled", "true");
       const scrambleInstance = new ScrambleText(element);
 
       stagger(
@@ -206,13 +240,13 @@ export default function Scene() {
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-      renderer.setClearColor(0x5b5b5b, 1); // Black background
+      renderer.setClearColor(0x0a0a0a, 1);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Call it once to set the initial size
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -238,7 +272,6 @@ export default function Scene() {
               strokeWidth="4"
             />
           </svg>
-          {/* <span className="tooltip">Zoom Out</span> */}
         </button>
       )}
 
@@ -258,7 +291,6 @@ export default function Scene() {
             </div>
             <div className="mt-4 tek">Login Complete.</div>
             <div className="text tek">Click the screen to explore...</div>
-
             <div className="mt-4 tek">Made by Tommy.</div>
           </div>
         </div>
@@ -266,6 +298,7 @@ export default function Scene() {
 
       <Canvas ref={canvasRef} camera={{ position: cameraPosition }} shadows>
         <UpdateCameraPosition position={cameraPosition} />
+        <fog attach="fog" args={['#0a0a0a', 100, 200]} />
         <Suspense fallback={null}>
           <group
             castShadow
@@ -275,58 +308,57 @@ export default function Scene() {
             <Model zoomed={zoomed} toggleZoom={toggleZoom} />
           </group>
 
-          {/* Left wall */}
+          <DigitalClock />
+          
+          <NeonSign position={[-70, 20, -38]} text="CHAOS"   color="#ff9500"/>
+          <NeonSign position={[70, 20, -38]} text="CODE"color="#7fff00" />
+
           <mesh
             position={[-100, 10, 0]}
             rotation={[0, Math.PI / 2, 0]}
             receiveShadow
           >
             <planeGeometry args={[200, 200]} />
-            <meshPhongMaterial color={0x5b5b5b} />
+            <meshStandardMaterial color={0x1a1a1a} roughness={0.9} metalness={0.1} />
           </mesh>
 
-          {/* Right wall */}
           <mesh
             position={[100, 10, 0]}
             rotation={[0, -Math.PI / 2, 0]}
             receiveShadow
           >
             <planeGeometry args={[200, 200]} />
-            <meshPhongMaterial color={0x5b5b5b} />
+            <meshStandardMaterial color={0x1a1a1a} roughness={0.9} metalness={0.1} />
           </mesh>
 
-          {/* Back wall */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[200, 200]} />
-            <meshPhongMaterial color={0x5b5b5b} />
+            <meshStandardMaterial color={0x0a0a0a} roughness={1} />
           </mesh>
 
-          {/* Wall behind the computer */}
           <mesh position={[0, 10, -40]} receiveShadow>
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color={0x5b5b5b} />
+            <meshStandardMaterial color={0x1a1a1a} roughness={0.9} metalness={0.1} />
           </mesh>
 
-          <ambientLight intensity={0.05} />
+          <ambientLight intensity={0.1} />
+          
           <EffectComposer disableNormalPass>
             <Bloom
               mipmapBlur
               luminanceThreshold={1}
               levels={10}
-              intensity={0.3}
+              intensity={0.35}
             />
             <ToneMapping />
           </EffectComposer>
 
-          {/* <pointLight intensity={10} position={[-98, 0, -39]}/> */}
-
           <mesh
             scale={10}
             position={[95, 10, -39]}
-            // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
           >
-            <cylinderGeometry args={[0.1, 0.1, 2]} />
+            <cylinderGeometry args={[0.1, 0.1, 5]} />
             <meshStandardMaterial
               emissiveIntensity={8}
               color={0x7fff00}
@@ -336,10 +368,9 @@ export default function Scene() {
           <mesh
             scale={10}
             position={[-98, 10, -39]}
-            // rotation={[0, 0, Math.PI / 2]}
             rotation={[0, Math.PI / 2, 0]}
           >
-            <cylinderGeometry args={[0.1, 0.1, 2]} />
+            <cylinderGeometry args={[0.1, 0.1, 5]} />
             <meshStandardMaterial
               emissiveIntensity={9}
               color={"orange"}
@@ -347,14 +378,12 @@ export default function Scene() {
             />
           </mesh>
 
-          {/* Glowing rectangle */}
+          <pointLight position={[0, 25, 15]} color="#7fff00" intensity={1.5} distance={50} />
 
-          {/* Lights */}
           <directionalLight
             color={0x00ff00}
             position={[5, 5, 3]}
-            // intensity={0.5}
-            intensity={0.14}
+            intensity={0.2}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
@@ -366,8 +395,7 @@ export default function Scene() {
           <directionalLight
             color={0xffa500}
             position={[-2, 0, -2]}
-            // intensity={0.5}
-            intensity={0.27}
+            intensity={0.35}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
@@ -383,10 +411,10 @@ export default function Scene() {
           minDistance={distance}
           enablePan={true}
           enableZoom={false}
-          minPolarAngle={1.2}
-          maxPolarAngle={Math.PI / 2.2}
-          minAzimuthAngle={-Math.PI / 7.4}
-          maxAzimuthAngle={Math.PI / 7.4}
+          minPolarAngle={0.8}
+          maxPolarAngle={Math.PI / 1.8}
+          minAzimuthAngle={-Math.PI / 3}
+          maxAzimuthAngle={Math.PI / 3}
         />
       </Canvas>
     </>

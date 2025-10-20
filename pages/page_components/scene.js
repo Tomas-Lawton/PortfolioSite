@@ -25,27 +25,27 @@ const handleMouseClick = () => {
 };
 
 function createTextTexture(text, color, fontSize = 180) {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
   canvas.width = 4096;
   canvas.height = 1024;
-  
+
   ctx.font = `bold ${fontSize}px monospace`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
   ctx.shadowColor = color;
   ctx.shadowBlur = 50;
   ctx.fillStyle = color;
-  
+
   for (let i = 0; i < 4; i++) {
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
   }
-  
+
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
-  
+
   return texture;
 }
 
@@ -61,15 +61,15 @@ function Particles() {
     }
     return pos;
   }, []);
-  
+
   const pointsRef = useRef();
-  
+
   useFrame((state) => {
     if (pointsRef.current) {
       pointsRef.current.rotation.y = state.clock.elapsedTime * 0.02;
     }
   });
-  
+
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
@@ -99,6 +99,8 @@ function Model(props) {
   const group = useRef();
   const keyboardRef = useRef();
   const mouseRef = useRef();
+  const mouseMesh1Ref = useRef();
+  const mouseMesh2Ref = useRef();
   const computerMeshRef = useRef();
   const screenOccluderRef = useRef();
   const [mouseHover, setMouseHover] = useState(false);
@@ -109,7 +111,7 @@ function Model(props) {
 
   const handleMouseMove = (event) => {
     if (!keyboardRef.current || !mouseRef.current) return;
-    
+
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -157,11 +159,11 @@ function Model(props) {
     <group ref={group} {...props} dispose={null}>
       <mesh
         ref={screenOccluderRef}
-        position={[-1.3, -3.5, 14.15]}
+        position={[-1.3, -3.5, 14.0]} // moved closer (was 14.15)
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         visible={false}
       >
-        <planeGeometry args={[2.8, 1.8]} />
+        <planeGeometry args={[4.5, 3.5]} /> // larger (was 2.8, 1.8)
         <meshBasicMaterial
           colorWrite={false}
           depthWrite={true}
@@ -174,8 +176,9 @@ function Model(props) {
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         position={[-1.3, -3.5, 14.2]}
         transform
-        occlude={[computerMeshRef, keyboardRef, screenOccluderRef]}
+        occlude={props.zoomed ? false : "blending"} // disable occlusion when zoomed
         scale={0.5}
+        zIndexRange={[0, 0]}
       >
         <div
           className={`wrapper custom-body overflow-hidden ${
@@ -194,7 +197,20 @@ function Model(props) {
         material={materials["ibm_3178"]}
         geometry={nodes["ibm_3178_0"].geometry}
         receiveShadow
-        renderOrder={0}
+        renderOrder={1}
+        onClick={() => {
+          if (!props.zoomed) {
+            props.toggleZoom();
+          }
+        }}
+        onPointerOver={() => {
+          if (!props.zoomed) {
+            document.body.style.cursor = "pointer";
+          }
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = "default";
+        }}
       />
       <mesh
         ref={keyboardRef}
@@ -217,6 +233,7 @@ function Model(props) {
         onPointerOut={() => setMouseHover(false)}
       >
         <mesh
+          ref={mouseMesh1Ref}
           material={mouseModel.materials["Mouse"]}
           geometry={mouseModel.nodes["mouse_Mouse_0"].geometry}
           receiveShadow
@@ -228,6 +245,7 @@ function Model(props) {
           renderOrder={0}
         />
         <mesh
+          ref={mouseMesh2Ref}
           material={mouseModel.materials["rubber_feet"]}
           geometry={mouseModel.nodes["mouse_rubber_feet_0"].geometry}
           receiveShadow
@@ -245,22 +263,13 @@ function Model(props) {
     </group>
   );
 }
-
 function DigitalClock() {
   const [time, setTime] = useState(new Date());
-  const textRef = useRef();
-  
+
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
-
-  useFrame((state) => {
-    if (textRef.current) {
-      const pulse = Math.sin(state.clock.elapsedTime * 2) * 0.1 + 0.9;
-      textRef.current.fillOpacity = pulse;
-    }
-  });
 
   const timeString = time.toLocaleTimeString("en-US", { hour12: false });
 
@@ -268,50 +277,48 @@ function DigitalClock() {
     <group position={[0, 38, -39]}>
       <mesh position={[0, 0, -0.1]}>
         <planeGeometry args={[28, 6]} />
-        <meshBasicMaterial 
-          color="#000000" 
-          transparent 
+        <meshBasicMaterial
+          color="#000000"
+          transparent
           opacity={0.9}
           depthWrite={true}
           depthTest={true}
         />
       </mesh>
-      
+
       <Text
-        ref={textRef}
         position={[0, 0, 0]}
         fontSize={2.5}
-        color="#00ffeaff"
+        color="#ff0000"
         anchorX="center"
         anchorY="middle"
         outlineWidth={0.1}
-        outlineColor="#00ffeaff"
+        outlineColor="#ff0000"
         outlineOpacity={1}
         depthTest={true}
         depthWrite={false}
       >
         {timeString}
         <meshStandardMaterial
-          color="#00ffeaff"
-          emissive="#00ffeaff"
-          emissiveIntensity={2}
+          color="#ff0000"
+          emissive="#ff0000"
+          emissiveIntensity={5}
           toneMapped={false}
         />
       </Text>
-      
+
       <pointLight
         position={[0, 0, 3]}
-        color="#00ffeaff"
+        color="#ff0000"
         intensity={3}
         distance={15}
       />
     </group>
   );
 }
-
 function NeonSign({ position, text, color }) {
   const textRef = useRef();
-  
+
   useFrame((state) => {
     if (textRef.current) {
       const flicker = Math.random() > 0.97 ? 0.7 : 1;
@@ -324,15 +331,15 @@ function NeonSign({ position, text, color }) {
     <group position={position}>
       <mesh position={[0, 0, -0.2]}>
         <planeGeometry args={[40, 10]} />
-        <meshBasicMaterial 
-          color="#000000" 
-          transparent 
+        <meshBasicMaterial
+          color="#000000"
+          transparent
           opacity={0.8}
           depthWrite={true}
           depthTest={true}
         />
       </mesh>
-      
+
       <Text
         ref={textRef}
         position={[0, 0, 0]}
@@ -355,7 +362,7 @@ function NeonSign({ position, text, color }) {
           toneMapped={false}
         />
       </Text>
-      
+
       <pointLight
         position={[0, 0, 5]}
         color={color}
@@ -378,12 +385,7 @@ function UpdateCameraPosition({ position }) {
 
 function Wall({ position, rotation, args, color = 0x0d0d0d }) {
   return (
-    <mesh
-      position={position}
-      rotation={rotation}
-      receiveShadow
-      renderOrder={0}
-    >
+    <mesh position={position} rotation={rotation} receiveShadow renderOrder={0}>
       <planeGeometry args={args} />
       <meshStandardMaterial
         color={color}
@@ -399,14 +401,14 @@ function Wall({ position, rotation, args, color = 0x0d0d0d }) {
 function CylinderLight({ position, color, intensity = 8 }) {
   const colorValue = color === "orange" ? 0xff9500 : 0x7fff00;
   const meshRef = useRef();
-  
+
   useFrame((state) => {
     if (meshRef.current) {
       const pulse = Math.sin(state.clock.elapsedTime * 3) * 0.2 + 1;
       meshRef.current.material.emissiveIntensity = intensity * pulse;
     }
   });
-  
+
   return (
     <mesh
       ref={meshRef}
@@ -432,9 +434,9 @@ export default function Scene() {
   const textOne = useRef();
   const canvasRef = useRef();
 
-  const initialCameraPos = [0, 12, 24];
+  const initialCameraPos = [0, 5, 4];
 
-  let zoomedCameraPos = [0, 1, 7];
+  let zoomedCameraPos = [0, 0.8, 8];
 
   if (typeof window !== "undefined") {
     if (window.innerWidth > 1500) {
@@ -479,7 +481,7 @@ export default function Scene() {
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      
+
       const canvas = canvasRef.current;
       if (canvas) {
         const scene = canvas.__r3f;
@@ -535,7 +537,9 @@ export default function Scene() {
               </div>
             </div>
             <div className="mt-4 tek">Login Complete.</div>
-            <div ref={textOne} className="text tek">Click the screen to explore...</div>
+            <div ref={textOne} className="text tek">
+              Click the screen to explore...
+            </div>
             <div className="mt-4 tek">Made by Tommy.</div>
           </div>
         </div>
@@ -545,7 +549,7 @@ export default function Scene() {
         ref={canvasRef}
         camera={{ position: cameraPosition, fov: 75 }}
         shadows
-        gl={{ 
+        gl={{
           antialias: true,
           alpha: true,
           depth: true,
@@ -554,7 +558,7 @@ export default function Scene() {
       >
         <UpdateCameraPosition position={cameraPosition} />
         <fog attach="fog" args={["#050505", 20, 200]} />
-        
+
         <Suspense fallback={null}>
           <group
             castShadow
@@ -569,27 +573,27 @@ export default function Scene() {
           <NeonSign position={[-70, 20, -38]} text="CHAOS" color="#ff9500" />
           <NeonSign position={[70, 20, -38]} text="CODE" color="#7fff00" />
 
-          <Wall 
-            position={[-100, 10, 0]} 
-            rotation={[0, Math.PI / 2, 0]} 
-            args={[200, 200]} 
+          <Wall
+            position={[-100, 10, 0]}
+            rotation={[0, Math.PI / 2, 0]}
+            args={[200, 200]}
           />
-          <Wall 
-            position={[100, 10, 0]} 
-            rotation={[0, -Math.PI / 2, 0]} 
-            args={[200, 200]} 
+          <Wall
+            position={[100, 10, 0]}
+            rotation={[0, -Math.PI / 2, 0]}
+            args={[200, 200]}
           />
-          <Wall 
-            position={[0, 10, -40]} 
-            rotation={[0, 0, 0]} 
-            args={[200, 200]} 
+          <Wall
+            position={[0, 10, -40]}
+            rotation={[0, 0, 0]}
+            args={[200, 200]}
           />
 
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow renderOrder={0}>
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial 
-              color={0x050505} 
-              roughness={0.95} 
+            <meshStandardMaterial
+              color={0x050505}
+              roughness={0.95}
               depthWrite={true}
               depthTest={true}
             />
@@ -599,15 +603,15 @@ export default function Scene() {
 
           <ambientLight intensity={0.45} color="#001a00" />
 
-          <CylinderLight 
-            position={[95, 10, -39]} 
-            color={0x7fff00} 
-            intensity={10} 
+          <CylinderLight
+            position={[95, 10, -39]}
+            color={0x7fff00}
+            intensity={10}
           />
-          <CylinderLight 
-            position={[-98, 10, -39]} 
-            color={"orange"} 
-            intensity={11} 
+          <CylinderLight
+            position={[-98, 10, -39]}
+            color={"orange"}
+            intensity={11}
           />
 
           <EffectComposer>
@@ -658,10 +662,10 @@ export default function Scene() {
           minDistance={distance}
           enablePan={true}
           enableZoom={false}
-          minPolarAngle={0.8}
-          maxPolarAngle={Math.PI / 1.8}
-          minAzimuthAngle={-Math.PI / 3}
-          maxAzimuthAngle={Math.PI / 3}
+          minPolarAngle={1}
+          maxPolarAngle={Math.PI / 2.2}
+          minAzimuthAngle={zoomed ? -Math.PI / 5 : -Math.PI / 2}
+          maxAzimuthAngle={zoomed ? Math.PI / 5 : Math.PI / 2}
         />
       </Canvas>
     </>

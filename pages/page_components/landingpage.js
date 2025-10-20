@@ -606,7 +606,7 @@ export default function LandingPage({ showFullWindow }) {
             with obsessive attention to craft.
           </p>
 
-          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-12">
+          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-8">
             {data.projects.map((project, index) => (
               <div
                 key={project.id}
@@ -685,7 +685,7 @@ export default function LandingPage({ showFullWindow }) {
             <div className="h-px flex-1 bg-gradient-to-r from-[#7fff00] to-transparent"></div>
           </div>
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
-            Let's Build Something
+            Let's Build Together
           </h1>
           <p className="text-xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl mb-8">
             Working on something ambitious? Whether it's an AI integration, a

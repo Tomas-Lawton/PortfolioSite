@@ -61,7 +61,7 @@ const Header = ({ handleContactScroll, showFullWindow, scrollToTop, scrollProgre
               height={45}
             />
             <span className="hidden laptop:block text-sm font-mono font-bold opacity-80 group-hover:opacity-100 transition-opacity">
-              TOMAS
+              TOMMY
             </span>
           </button>
 

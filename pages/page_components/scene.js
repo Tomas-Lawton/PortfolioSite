@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import React, { Suspense, useRef, useEffect, useState } from "react";
+import React, { Suspense, useRef, useEffect, useState, useMemo } from "react";
 
-import { Canvas, useThree } from "@react-three/fiber";
-import { Html, useGLTF, OrbitControls } from "@react-three/drei";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import { Html, useGLTF, OrbitControls, Text } from "@react-three/drei";
 import { stagger } from "../../animations";
 import {
   EffectComposer,
@@ -24,6 +24,74 @@ const handleMouseClick = () => {
   audio.play();
 };
 
+function createTextTexture(text, color, fontSize = 180) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  
+  canvas.width = 4096;
+  canvas.height = 1024;
+  
+  ctx.font = `bold ${fontSize}px monospace`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 50;
+  ctx.fillStyle = color;
+  
+  for (let i = 0; i < 4; i++) {
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  }
+  
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  
+  return texture;
+}
+
+// Simple particles
+function Particles() {
+  const count = 25;
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 150;
+      pos[i * 3 + 1] = Math.random() * 80 + 10;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 80 - 20;
+    }
+    return pos;
+  }, []);
+  
+  const pointsRef = useRef();
+  
+  useFrame((state) => {
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y = state.clock.elapsedTime * 0.02;
+    }
+  });
+  
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.3}
+        color="#00ff00"
+        transparent
+        opacity={0.3}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
+  );
+}
+
 function Model(props) {
   const { nodes, materials } = useGLTF("/puter.glb");
   const mouseModel = useGLTF("/mouse.glb");
@@ -32,13 +100,16 @@ function Model(props) {
   const keyboardRef = useRef();
   const mouseRef = useRef();
   const computerMeshRef = useRef();
+  const screenOccluderRef = useRef();
   const [mouseHover, setMouseHover] = useState(false);
 
-  const { camera, raycaster: threeRaycaster } = useThree();
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
+  const { camera } = useThree();
+  const raycaster = useMemo(() => new THREE.Raycaster(), []);
+  const mouse = useMemo(() => new THREE.Vector2(), []);
 
   const handleMouseMove = (event) => {
+    if (!keyboardRef.current || !mouseRef.current) return;
+    
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -53,9 +124,8 @@ function Model(props) {
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [camera]);
 
-  // Fix material transparency
   useEffect(() => {
     if (materials["ibm_3178"]) {
       materials["ibm_3178"].transparent = false;
@@ -85,12 +155,26 @@ function Model(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
+      <mesh
+        ref={screenOccluderRef}
+        position={[-1.3, -3.5, 14.15]}
+        rotation={[Math.PI / 2 - 0.18, 0, 0]}
+        visible={false}
+      >
+        <planeGeometry args={[2.8, 1.8]} />
+        <meshBasicMaterial
+          colorWrite={false}
+          depthWrite={true}
+          depthTest={true}
+        />
+      </mesh>
+
       <Html
         className="content"
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         position={[-1.3, -3.5, 14.2]}
         transform
-        occlude={[computerMeshRef, keyboardRef]}
+        occlude={[computerMeshRef, keyboardRef, screenOccluderRef]}
         scale={0.5}
       >
         <div
@@ -109,20 +193,20 @@ function Model(props) {
         ref={computerMeshRef}
         material={materials["ibm_3178"]}
         geometry={nodes["ibm_3178_0"].geometry}
-        castShadow
         receiveShadow
+        renderOrder={0}
       />
       <mesh
         ref={keyboardRef}
         material={materials["ibm_3178_keyboard"]}
         geometry={nodes["ibm_3178_1"].geometry}
-        castShadow
         receiveShadow
         onClick={() => {
           if (!props.zoomed) {
             handleKeyboardClick();
           }
         }}
+        renderOrder={0}
       />
       <group
         ref={mouseRef}
@@ -135,19 +219,19 @@ function Model(props) {
         <mesh
           material={mouseModel.materials["Mouse"]}
           geometry={mouseModel.nodes["mouse_Mouse_0"].geometry}
-          castShadow
           receiveShadow
           onClick={() => {
             if (!props.zoomed) {
               handleMouseClick();
             }
           }}
+          renderOrder={0}
         />
         <mesh
           material={mouseModel.materials["rubber_feet"]}
           geometry={mouseModel.nodes["mouse_rubber_feet_0"].geometry}
-          castShadow
           receiveShadow
+          renderOrder={0}
         />
       </group>
       {mouseHover && !props.zoomed && (
@@ -164,63 +248,119 @@ function Model(props) {
 
 function DigitalClock() {
   const [time, setTime] = useState(new Date());
-
+  const textRef = useRef();
+  
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  useFrame((state) => {
+    if (textRef.current) {
+      const pulse = Math.sin(state.clock.elapsedTime * 2) * 0.1 + 0.9;
+      textRef.current.fillOpacity = pulse;
+    }
+  });
+
+  const timeString = time.toLocaleTimeString("en-US", { hour12: false });
+
   return (
     <group position={[0, 38, -39]}>
-      <Html
-        transform
-        center
-        distanceFactor={15}
-        style={{
-          pointerEvents: "none",
-        }}
+      <mesh position={[0, 0, -0.1]}>
+        <planeGeometry args={[28, 6]} />
+        <meshBasicMaterial 
+          color="#000000" 
+          transparent 
+          opacity={0.9}
+          depthWrite={true}
+          depthTest={true}
+        />
+      </mesh>
+      
+      <Text
+        ref={textRef}
+        position={[0, 0, 0]}
+        fontSize={2.5}
+        color="#00ffeaff"
+        anchorX="center"
+        anchorY="middle"
+        outlineWidth={0.1}
+        outlineColor="#00ffeaff"
+        outlineOpacity={1}
+        depthTest={true}
+        depthWrite={false}
       >
-        <div
-          className="digital-clock tek text-8xl font-bold opacity-80"
-          style={{
-            color: "#00ffeaff",
-            textShadow: "0 0 15px #00ffeaff, 0 0 30px #00ffeaff",
-          }}
-        >
-          {time.toLocaleTimeString("en-US", { hour12: false })}
-        </div>
-      </Html>
+        {timeString}
+        <meshStandardMaterial
+          color="#00ffeaff"
+          emissive="#00ffeaff"
+          emissiveIntensity={2}
+          toneMapped={false}
+        />
+      </Text>
+      
+      <pointLight
+        position={[0, 0, 3]}
+        color="#00ffeaff"
+        intensity={3}
+        distance={15}
+      />
     </group>
   );
 }
 
 function NeonSign({ position, text, color }) {
+  const textRef = useRef();
+  
+  useFrame((state) => {
+    if (textRef.current) {
+      const flicker = Math.random() > 0.97 ? 0.7 : 1;
+      const pulse = Math.sin(state.clock.elapsedTime * 1.5) * 0.08 + 0.92;
+      textRef.current.fillOpacity = pulse * flicker;
+    }
+  });
+
   return (
     <group position={position}>
-      <Html
-        transform
-        center
-        distanceFactor={20}
-        style={{
-          pointerEvents: "none",
-        }}
+      <mesh position={[0, 0, -0.2]}>
+        <planeGeometry args={[40, 10]} />
+        <meshBasicMaterial 
+          color="#000000" 
+          transparent 
+          opacity={0.8}
+          depthWrite={true}
+          depthTest={true}
+        />
+      </mesh>
+      
+      <Text
+        ref={textRef}
+        position={[0, 0, 0]}
+        fontSize={4}
+        color={color}
+        anchorX="center"
+        anchorY="middle"
+        letterSpacing={0.15}
+        outlineWidth={0.15}
+        outlineColor={color}
+        outlineOpacity={1}
+        depthTest={true}
+        depthWrite={false}
       >
-        <div
-          className="tek text-9xl font-bold tracking-wider"
-          style={{
-            color: color,
-            textShadow: `0 0 10px ${color}, 0 0 20px ${color}, 0 0 40px ${color}`,
-            letterSpacing: "0.3em",
-          }}
-        >
-          {text}
-        </div>
-      </Html>
+        {text}
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={2.5}
+          toneMapped={false}
+        />
+      </Text>
+      
       <pointLight
         position={[0, 0, 5]}
         color={color}
-        intensity={6}
-        distance={50}
+        intensity={8}
+        distance={60}
       />
     </group>
   );
@@ -236,12 +376,63 @@ function UpdateCameraPosition({ position }) {
   return null;
 }
 
+function Wall({ position, rotation, args, color = 0x0d0d0d }) {
+  return (
+    <mesh
+      position={position}
+      rotation={rotation}
+      receiveShadow
+      renderOrder={0}
+    >
+      <planeGeometry args={args} />
+      <meshStandardMaterial
+        color={color}
+        roughness={0.95}
+        metalness={0.05}
+        depthWrite={true}
+        depthTest={true}
+      />
+    </mesh>
+  );
+}
+
+function CylinderLight({ position, color, intensity = 8 }) {
+  const colorValue = color === "orange" ? 0xff9500 : 0x7fff00;
+  const meshRef = useRef();
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      const pulse = Math.sin(state.clock.elapsedTime * 3) * 0.2 + 1;
+      meshRef.current.material.emissiveIntensity = intensity * pulse;
+    }
+  });
+  
+  return (
+    <mesh
+      ref={meshRef}
+      scale={10}
+      position={position}
+      rotation={[0, Math.PI / 2, 0]}
+      renderOrder={1}
+    >
+      <cylinderGeometry args={[0.1, 0.1, 5]} />
+      <meshStandardMaterial
+        emissiveIntensity={intensity}
+        color={colorValue}
+        emissive={colorValue}
+        depthWrite={true}
+        depthTest={true}
+      />
+    </mesh>
+  );
+}
+
 export default function Scene() {
   const textOn = useRef();
   const textOne = useRef();
   const canvasRef = useRef();
 
-  const initialCameraPos = [-3, 2, 4];
+  const initialCameraPos = [0, 12, 24];
 
   let zoomedCameraPos = [0, 1, 7];
 
@@ -288,17 +479,15 @@ export default function Scene() {
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
+      
       const canvas = canvasRef.current;
-      const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-      renderer.setClearColor(0x0a0a0a, 1);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
+      if (canvas) {
+        const scene = canvas.__r3f;
+        if (scene && scene.camera) {
+          scene.camera.aspect = width / height;
+          scene.camera.updateProjectionMatrix();
+        }
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -346,7 +535,7 @@ export default function Scene() {
               </div>
             </div>
             <div className="mt-4 tek">Login Complete.</div>
-            <div className="text tek">Click the screen to explore...</div>
+            <div ref={textOne} className="text tek">Click the screen to explore...</div>
             <div className="mt-4 tek">Made by Tommy.</div>
           </div>
         </div>
@@ -354,12 +543,18 @@ export default function Scene() {
 
       <Canvas
         ref={canvasRef}
-        camera={{ position: cameraPosition }}
+        camera={{ position: cameraPosition, fov: 75 }}
         shadows
-        gl={{ antialias: true }}
+        gl={{ 
+          antialias: true,
+          alpha: true,
+          depth: true,
+        }}
+        performance={{ min: 0.5 }}
       >
         <UpdateCameraPosition position={cameraPosition} />
-        <fog attach="fog" args={["#0a0a0a", 100, 200]} />
+        <fog attach="fog" args={["#050505", 20, 200]} />
+        
         <Suspense fallback={null}>
           <group
             castShadow
@@ -374,94 +569,68 @@ export default function Scene() {
           <NeonSign position={[-70, 20, -38]} text="CHAOS" color="#ff9500" />
           <NeonSign position={[70, 20, -38]} text="CODE" color="#7fff00" />
 
-          <mesh
-            position={[-100, 10, 0]}
-            rotation={[0, Math.PI / 2, 0]}
-            receiveShadow
-          >
+          <Wall 
+            position={[-100, 10, 0]} 
+            rotation={[0, Math.PI / 2, 0]} 
+            args={[200, 200]} 
+          />
+          <Wall 
+            position={[100, 10, 0]} 
+            rotation={[0, -Math.PI / 2, 0]} 
+            args={[200, 200]} 
+          />
+          <Wall 
+            position={[0, 10, -40]} 
+            rotation={[0, 0, 0]} 
+            args={[200, 200]} 
+          />
+
+          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow renderOrder={0}>
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial
-              color={0x1a1a1a}
-              roughness={0.9}
-              metalness={0.1}
+            <meshStandardMaterial 
+              color={0x050505} 
+              roughness={0.95} 
+              depthWrite={true}
+              depthTest={true}
             />
           </mesh>
 
-          <mesh
-            position={[100, 10, 0]}
-            rotation={[0, -Math.PI / 2, 0]}
-            receiveShadow
-          >
-            <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial
-              color={0x1a1a1a}
-              roughness={0.9}
-              metalness={0.1}
-            />
-          </mesh>
+          <Particles />
 
-          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color={0x0a0a0a} roughness={1} />
-          </mesh>
+          <ambientLight intensity={0.45} color="#001a00" />
 
-          <mesh position={[0, 10, -40]} receiveShadow>
-            <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial
-              color={0x1a1a1a}
-              roughness={0.9}
-              metalness={0.1}
-            />
-          </mesh>
+          <CylinderLight 
+            position={[95, 10, -39]} 
+            color={0x7fff00} 
+            intensity={10} 
+          />
+          <CylinderLight 
+            position={[-98, 10, -39]} 
+            color={"orange"} 
+            intensity={11} 
+          />
 
-          <ambientLight intensity={0.1} />
-
-          <EffectComposer disableNormalPass>
+          <EffectComposer>
             <Bloom
               mipmapBlur
-              luminanceThreshold={1}
-              levels={10}
-              intensity={0.35}
+              luminanceThreshold={0.5}
+              levels={9}
+              intensity={1.2}
             />
             <ToneMapping />
           </EffectComposer>
 
-          <mesh
-            scale={10}
-            position={[95, 10, -39]}
-            rotation={[0, Math.PI / 2, 0]}
-          >
-            <cylinderGeometry args={[0.1, 0.1, 5]} />
-            <meshStandardMaterial
-              emissiveIntensity={8}
-              color={0x7fff00}
-              emissive={0x7fff00}
-            />
-          </mesh>
-          <mesh
-            scale={10}
-            position={[-98, 10, -39]}
-            rotation={[0, Math.PI / 2, 0]}
-          >
-            <cylinderGeometry args={[0.1, 0.1, 5]} />
-            <meshStandardMaterial
-              emissiveIntensity={9}
-              color={"orange"}
-              emissive={"orange"}
-            />
-          </mesh>
-
           <pointLight
             position={[0, 25, 15]}
-            color="#7fff00"
-            intensity={1.5}
-            distance={50}
+            color="#00ff00"
+            intensity={2}
+            distance={60}
           />
 
           <directionalLight
             color={0x00ff00}
             position={[5, 5, 3]}
-            intensity={0.2}
+            intensity={0.3}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
@@ -473,7 +642,7 @@ export default function Scene() {
           <directionalLight
             color={0xffa500}
             position={[-2, 0, -2]}
-            intensity={0.35}
+            intensity={0.4}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}

@@ -137,7 +137,7 @@ export default function Panel({ onSelectMode }) {
 
           <div ref={descRef} className="tek mb-8 leading-relaxed text-white">
             <p className="opacity-85">
-              Explore a 3D scene inside a webpage that itself contains another
+              Explore a 3D scene inside a webpage containing another
               webpage with a 3D scene.{" "}
               <span className="text-[#7fff00] font-semibold">
                 That’s 3D web inception 🤯
@@ -164,9 +164,9 @@ export default function Panel({ onSelectMode }) {
                 handleKeyPress();
               }}
             >
-              <span className="text-xl">→ Interactive Mode</span>
+              <span className="text-xl">→ Interactive Mode (Start Here)</span>
               <div className="text-sm mt-2 opacity-70">
-                Interactive 3D experience
+                Interactive 3D web experience powered by THREE and Fiber
               </div>
               {selectedButton === 0 && (
                 <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl ">
@@ -188,7 +188,7 @@ export default function Panel({ onSelectMode }) {
               }}
             >
               <span className="text-xl">→ Project Mode</span>
-              <div className="text-sm mt-2 opacity-70">Standard web layout</div>
+              <div className="text-sm mt-2 opacity-70">Directly view projects at /projects for recruiters</div>
               {selectedButton === 1 && (
                 <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl ">
                   ▶

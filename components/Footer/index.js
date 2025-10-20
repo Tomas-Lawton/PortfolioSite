@@ -15,12 +15,12 @@ const Footer = ({}) => {
           </h1>
           <h2 className="text-xl">{data["aboutpara"]}</h2>
           <h2 className="select-override font-bold w-full mt-2 mb-2">
-            tomaslawton@gmail.com
+            thetomaslawton@gmail.com
           </h2>
           <button
             onClick={() =>
               window.open(
-                "mailto:tomaslawton@gmail.com?subject=Hello&body=Hello%20Tomas%2C%0D%0A%0D%0A"
+                "mailto:thetomaslawton@gmail.com?subject=Hello&body=Hello%20Tomas%2C%0D%0A%0D%0A"
               )
             }
             target="_blank"

@@ -95,6 +95,7 @@ function Model(props) {
     const intersects = raycaster.intersectObjects([
       keyboardRef.current,
       mouseRef.current,
+      computerMeshRef.current,
     ]);
     document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
   };
@@ -135,11 +136,11 @@ function Model(props) {
     <group ref={group} {...props} dispose={null}>
       <mesh
         ref={screenOccluderRef}
-        position={[-1.3, -3.5, 14.0]} // moved closer (was 14.15)
+        position={[-1.3, -3.5, 14.0]} 
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         visible={false}
       >
-        <planeGeometry args={[4.5, 3.5]} /> // larger (was 2.8, 1.8)
+        <planeGeometry args={[4.5, 3.5]} /> 
         <meshBasicMaterial
           colorWrite={false}
           depthWrite={true}

@@ -9,9 +9,8 @@ import Head from "next/head";
 import * as THREE from "three";
 import ScrambleText from "scramble-text";
 import data from "../../data/portfolio.json";
-import { IonIcon } from "@ionic/react";
 
-import { logoLinkedin, logoGithub, logoGoogle } from "ionicons/icons";
+import { LogoLinkedin, LogoGithub, LogoGoogle } from "react-ionicons";
 
 export default function LandingPage({ showFullWindow }) {
   const bodyRef = useRef();
@@ -714,7 +713,7 @@ export default function LandingPage({ showFullWindow }) {
                 rel="noopener noreferrer"
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white transition"
               >
-                <IonIcon icon={logoLinkedin} className="w-6 h-6" />
+                <LogoLinkedin width="24px" height="24px" color="#ffffff" />
               </a>
             </li>
             <li>
@@ -724,7 +723,7 @@ export default function LandingPage({ showFullWindow }) {
                 rel="noopener noreferrer"
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-orange-600 text-white transition"
               >
-                <IonIcon icon={logoGoogle} className="w-6 h-6" />
+                <LogoGoogle width="24px" height="24px" color="#ffffff" />
               </a>
             </li>
             <li>
@@ -734,7 +733,7 @@ export default function LandingPage({ showFullWindow }) {
                 rel="noopener noreferrer"
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-600 text-white transition"
               >
-                <IonIcon icon={logoGithub} className="w-6 h-6" />
+                <LogoGithub width="24px" height="24px" color="#ffffff" />
               </a>
             </li>
           </ul>

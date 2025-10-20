@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // Make it fully static
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['raw.githubusercontent.com', 'miro.medium.com', 'i.ibb.co', 'lh4.googleusercontent.com', 'drive.usercontent.google.com'], 
+    unoptimized: true, // Required for static export
   },
 }
 

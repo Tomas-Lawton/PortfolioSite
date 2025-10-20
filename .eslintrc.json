@@ -1,3 +1,48 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/no-unknown-property": [
+      "error",
+      {
+        "ignore": [
+          "jsx",
+          "attach",
+          "args",
+          "object",
+          "position",
+          "rotation",
+          "scale",
+          "castShadow",
+          "receiveShadow",
+          "geometry",
+          "material",
+          "intensity",
+          "distance",
+          "transparent",
+          "opacity",
+          "depthWrite",
+          "depthTest",
+          "renderOrder",
+          "emissive",
+          "emissiveIntensity",
+          "toneMapped",
+          "roughness",
+          "metalness",
+          "count",
+          "array",
+          "itemSize",
+          "sizeAttenuation",
+          "colorWrite",
+          "dispose",
+          "visible",
+          "shadow-camera-left",
+          "shadow-camera-right",
+          "shadow-camera-top",
+          "shadow-camera-bottom",
+          "shadow-mapSize-width",
+          "shadow-mapSize-height"
+        ]
+      }
+    ]
+  }
 }

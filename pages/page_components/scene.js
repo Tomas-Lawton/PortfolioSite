@@ -26,25 +26,6 @@ const handleMouseClick = (event) => {
   audio.play();
 };
 
-//   useFrame((state) => {
-//     const angle = state.clock.getElapsedTime();
-//     console.log(angle)
-//     // Smoothly interpolate the camera's rotation
-//     state.camera.position.x = Math.sin(angle) * 30
-//     state.camera.position.z = Math.cos(angle) * 30
-//     state.camera.lookAt(0, 0, 0)
-//     // Ensure the camera updates its matrix
-//     state.camera.updateProjectionMatrix();
-// });
-
-// useFrame((state) => {
-//   const t = state.clock.getElapsedTime()
-//   group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, Math.cos(t / 2) / 20 + 0.25, 0.1)
-//   group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, Math.sin(t / 4) / 20, 0.1)
-//   group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, Math.sin(t / 8) / 20, 0.1)
-//   group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, (-2 + Math.sin(t / 2)) / 2, 0.1)
-// })
-
 function Model(props) {
   const { nodes, materials } = useGLTF("/puter.glb");
   const mouseModel = useGLTF("/mouse.glb");

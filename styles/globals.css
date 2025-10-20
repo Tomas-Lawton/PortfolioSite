@@ -762,12 +762,12 @@ main,
 .terminal-loader {
   border: 0.1em solid #1e1e1eed;
   /* background-color: #1a1a1a; */
-  background: #00000063;
+  background: #28282863;
   color: #0f0;
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
   padding: 1.5em 1em;
-  width: 20em;
+  min-width: 30em;
   box-shadow: 4px 5px 11px rgba(18, 24, 7, 0.73);
   border-radius: 4px;
   position: relative;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import LandingPage from "./pages/landingpage";
-import Scene from "./pages/scene";
+import LandingPage from "./page_components/landingpage";
+import Scene from "./page_components/scene";
+import Panel from "../components/Panel";
 
 export default function App() {
+  const [mode, setMode] = useState(null);
   const [immersiveMode, setImmersiveMode] = useState(true);
   const [largeScreen, setlargeScreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,49 +40,67 @@ export default function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (!mode) {
+    return (
+      <>
+        <Panel onSelectMode={setMode} />
+        {largeScreen && (
+          <div
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              pointerEvents: "none",
+            }}
+          >
+            <Scene />
+          </div>
+        )}
+      </>
+    );
+  }
+
+  const showScene = largeScreen && mode === "scene" && immersiveMode;
+
   return (
     <div className="overlay-black">
-      {largeScreen && immersiveMode ? (
-        <Scene />
-      ) : (
-        <LandingPage showFullWindow={true} />
-      )}
+      {showScene ? <Scene /> : <LandingPage showFullWindow={true} />}
 
-      {largeScreen && (
+      {largeScreen && mode === "scene" && (
         <button
           className="fullscreen-btn"
           onClick={() => {
             if (immersiveMode) {
-              // mute when fullscreen
               audioRef.current?.pause();
-              setIsPlaying(false)
+              setIsPlaying(false);
             }
-            setImmersiveMode((prev) => !prev)}
-          }
+            setImmersiveMode((prev) => !prev);
+          }}
         >
           <svg
             viewBox="0 0 448 512"
             xmlns="http://www.w3.org/2000/svg"
-            className={largeScreen && immersiveMode ? "" : "activebutton"}
+            className={immersiveMode ? "" : "activebutton"}
           >
             <path d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"></path>
           </svg>
           <span className="tooltip">
-            {largeScreen && immersiveMode ? "Fullscreen" : "Immersive"}
+            {immersiveMode ? "Fullscreen" : "Immersive"}
           </span>
         </button>
       )}
 
-      {largeScreen && immersiveMode && (
+      {largeScreen && mode === "scene" && immersiveMode && (
         <div className="room-text text-2 tek">
-          {/* <p ref={textOne}>Made by Tommy</p> */}
           <input
             type="checkbox"
             id="checkboxInput"
             defaultChecked
             onClick={() => playMusic()}
           />
-          <label htmlFor="checkboxInput" className="toggleSwitch fullscreen-btn">
+          <label
+            htmlFor="checkboxInput"
+            className="toggleSwitch fullscreen-btn"
+          >
             <div className="speaker">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

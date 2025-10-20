@@ -319,9 +319,9 @@ export default function LandingPage({ showFullWindow }) {
         >
           <div className="absolute bottom-12 right-0 p-3 text-white vhs-text vhs-back rounded-md hidden mob:block">
             <h2>UPDATED</h2>
-            <h2 className="text-xs">2025.22.01</h2>
-            <p className="text-xs ">한국 서울</p>
-            <p>_________</p>
+            <h2 className="text-xs">2025.10.20</h2>
+            <p className="text-xs">Tommy</p>
+            {/* <p>_________</p> */}
           </div>
 
           <div className="absolute bottom-12 left-0 flex flex-col tablet:flex-row gap-3 text-white vhs-text hidden tablet:flex">

@@ -24,30 +24,6 @@ const handleMouseClick = () => {
   audio.play();
 };
 
-function createTextTexture(text, color, fontSize = 180) {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = 4096;
-  canvas.height = 1024;
-
-  ctx.font = `bold ${fontSize}px monospace`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 50;
-  ctx.fillStyle = color;
-
-  for (let i = 0; i < 4; i++) {
-    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-  }
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.needsUpdate = true;
-
-  return texture;
-}
 
 // Simple particles
 function Particles() {

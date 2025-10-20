@@ -169,7 +169,7 @@ export default function Panel({ onSelectMode }) {
                 Interactive 3D experience
               </div>
               {selectedButton === 0 && (
-                <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl animate-pulse">
+                <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl ">
                   ▶
                 </div>
               )}
@@ -190,7 +190,7 @@ export default function Panel({ onSelectMode }) {
               <span className="text-xl">→ Project Mode</span>
               <div className="text-sm mt-2 opacity-70">Standard web layout</div>
               {selectedButton === 1 && (
-                <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl animate-pulse">
+                <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl ">
                   ▶
                 </div>
               )}

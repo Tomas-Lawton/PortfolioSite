@@ -8,8 +8,10 @@ import Footer from "../../components/Footer";
 import Head from "next/head";
 import * as THREE from "three";
 import ScrambleText from "scramble-text";
-
 import data from "../../data/portfolio.json";
+import { IonIcon } from "@ionic/react";
+
+import { logoLinkedin, logoGithub, logoGoogle } from "ionicons/icons";
 
 export default function LandingPage({ showFullWindow }) {
   const bodyRef = useRef();
@@ -696,13 +698,46 @@ export default function LandingPage({ showFullWindow }) {
 
         <hr className="custom-hr opacity-50" />
         <div className="text-center py-10 my-12">
-          <p className="opacity-80 text-sm mb-2 font-mono tracking-wide">
+          <p className="text-sm mb-2 font-mono tracking-wide">
             © 2025 Tomas Lawton • Crafted with chaos & code
           </p>
-          <p className="opacity-80 text-xs">
+          <p className="text-xs">
             Interactive 3D experience available on desktop • Optimized for
             Chrome/Firefox
           </p>
+
+          <ul className="flex justify-center gap-6 list-none mt-6">
+            <li>
+              <a
+                href="https://www.linkedin.com/in/tomas-lawton-512066199/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white transition"
+              >
+                <IonIcon icon={logoLinkedin} className="w-6 h-6" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://scholar.google.com/citations?hl=en&user=OeCxMCgAAAAJ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-orange-600 text-white transition"
+              >
+                <IonIcon icon={logoGoogle} className="w-6 h-6" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/Tomas-Lawton"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-purple-600 text-white transition"
+              >
+                <IonIcon icon={logoGithub} className="w-6 h-6" />
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

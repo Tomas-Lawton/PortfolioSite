@@ -103,7 +103,7 @@ function Model(props) {
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [camera]);
+  }, [camera, handleMouseMove]);
 
   useEffect(() => {
     if (materials["ibm_3178"]) {

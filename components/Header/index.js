@@ -35,7 +35,7 @@ const Header = ({
   return (
     <>
       <div
-        className={`sticky top-0 w-full z-50 custom-p hidden tablet:block pointer-events-none ${
+        className={`sticky top-0 w-full z-50 custom-p tablet:block pointer-events-none ${
           isScrolled ? "bg-black bg-opacity-30 backdrop-blur-sm" : ""
         }`}
         style={{
@@ -64,7 +64,7 @@ const Header = ({
               width={45}
               height={45}
             />
-            <span className="hidden laptop:block text-sm font-mono font-bold opacity-80 group-hover:opacity-100 transition-opacity">
+            <span className="hidden mob:block text-sm font-mono font-bold opacity-80 group-hover:opacity-100 transition-opacity">
               TOMMY
             </span>
           </button>

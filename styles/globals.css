@@ -782,9 +782,9 @@ li:hover a {
    ============================================ */
 
 @media (max-width: 1024px) {
-  section {
+  /* section {
     margin: 0 2rem;
-  }
+  } */
 
   .custom-p {
     padding: 1rem 2rem;
@@ -796,36 +796,6 @@ li:hover a {
 
   .gap-4 {
     gap: 2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  section {
-    margin: 0 1.5rem;
-  }
-
-  .custom-p {
-    padding: 1rem 1.5rem;
-  }
-
-  .terminal-loader {
-    font-size: 0.9em;
-    padding: 1.2em 0.8em;
-  }
-
-  .fullscreen-btn {
-    width: 45px;
-    height: 45px;
-    margin: 0.5rem;
-  }
-
-  .fullscreen-btn:hover {
-    width: 50px;
-    height: 50px;
-  }
-
-  .hero-font {
-    text-shadow: 0 0 50px #80ff0092;
   }
 }
 

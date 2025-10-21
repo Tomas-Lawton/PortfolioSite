@@ -24,7 +24,6 @@ const handleMouseClick = () => {
   audio.play();
 };
 
-
 // Simple particles
 function Particles() {
   const count = 25;
@@ -136,11 +135,11 @@ function Model(props) {
     <group ref={group} {...props} dispose={null}>
       <mesh
         ref={screenOccluderRef}
-        position={[-1.3, -3.5, 14.0]} 
+        position={[-1.3, -3.5, 14.0]}
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         visible={false}
       >
-        <planeGeometry args={[4.5, 3.5]} /> 
+        <planeGeometry args={[4.5, 3.5]} />
         <meshBasicMaterial
           colorWrite={false}
           depthWrite={true}
@@ -148,27 +147,27 @@ function Model(props) {
         />
       </mesh>
 
-<Html
-  className="content"
-  rotation={[Math.PI / 2 - 0.18, 0, 0]}
-  position={[-1.3, -4, 14.2]}
-  transform
-  occlude={props.zoomed ? false : true}
-  scale={0.5}
->
-  <div style={{ width: '1300px', height: '900px' }}>
-    <div
-      className={`wrapper custom-body overflow-hidden ${
-        !props.zoomed && "cursor-pointer"
-      }`}
-      onClick={() => {
-        !props.zoomed && props.toggleZoom();
-      }}
-    >
-      <LandingPage showFullWindow={false} />
-    </div>
-  </div>
-</Html>
+      <Html
+        className="content"
+        rotation={[Math.PI / 2 - 0.18, 0, 0]}
+        position={[-1.3, -4, 14.2]}
+        transform
+        occlude={props.zoomed ? false : true}
+        scale={0.5}
+      >
+        <div style={{ width: "1300px", height: "880px" }}>
+          <div
+            className={`wrapper custom-body overflow-hidden ${
+              !props.zoomed && "cursor-pointer"
+            }`}
+            onClick={() => {
+              !props.zoomed && props.toggleZoom();
+            }}
+          >
+            <LandingPage showFullWindow={false} />
+          </div>
+        </div>
+      </Html>
 
       <mesh
         ref={computerMeshRef}

@@ -11,7 +11,6 @@ import * as THREE from "three";
 import ScrambleText from "scramble-text";
 import data from "../../data/portfolio.json";
 
-
 export default function LandingPage({ showFullWindow }) {
   const bodyRef = useRef();
   const workRef = useRef();
@@ -468,7 +467,7 @@ export default function LandingPage({ showFullWindow }) {
           <canvas ref={innerCanvas}></canvas>
         </div>
 
-        <div className="absolute top-4 tablet:top-6 left-1/2 transform -translate-x-1/2 text-[#7fff00] font-mono opacity-70 hidden tablet:flex items-center bg-black/40 backdrop-blur-sm px-3 tablet:px-5 py-2 tablet:py-2.5 rounded-full border border-[#7fff00]/30 shadow-lg shadow-[#7fff00]/5">
+        <div className="hidden absolute top-4 tablet:top-6 left-1/2 transform -translate-x-1/2 text-[#7fff00] font-mono opacity-70 tablet:flex items-center bg-black/40 backdrop-blur-sm px-3 tablet:px-5 py-2 tablet:py-2.5 rounded-full border border-[#7fff00]/30 shadow-lg shadow-[#7fff00]/5">
           <span className="status-indicator"></span>
           <span className="text-[0.625rem] tablet:text-xs tracking-widest">
             SYSTEM TIME: {currentTime}
@@ -479,8 +478,8 @@ export default function LandingPage({ showFullWindow }) {
           </span>
         </div>
 
-<section className="min-h-[100svh] tablet:min-h-0 tablet:h-[calc(100vh-93px)] justify-center tablet:justify-start flex flex-col z-1 relative tablet:-mt-[73px] tablet:pt-[73px] py-8 tablet:py-0">
-          <div className="absolute bottom-4 tablet:bottom-16 right-0 text-white rounded-lg hidden mob:block tablet:hidden laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
+        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-10">
+          <div className="absolute bottom-24  right-0 text-white rounded-lg laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
             <div className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 mb-1 tablet:mb-1.5 font-mono tracking-widest uppercase">
               Last Updated
             </div>
@@ -492,39 +491,39 @@ export default function LandingPage({ showFullWindow }) {
             </p>
           </div>
 
-          <div className="absolute bottom-4 tablet:bottom-16 left-0 hidden laptop:flex gap-2 tablet:gap-4 text-white flex-col tablet:flex-row">
+          <div className="hidden mob-block absolute bottom-24 left-0 w-full tablet:flex gap-2 mob:gap-4 text-white flex flex-row">
             <button
-              className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+              className="group flex items-center rounded-lg px-3 py-2.5 laptop:px-5 laptop:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
               onClick={handleWorkScroll}
             >
-              <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+              <span className="text-[0.563rem] laptop:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
                 01
               </span>
-              <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+              <span className="text-xs laptop:text-sm font-semibold tracking-wide">
                 PROJECTS
               </span>
             </button>
 
             <button
-              className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+              className="group flex items-center rounded-lg px-3 py-2.5 laptop:px-5 laptop:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
               onClick={handleServicesScroll}
             >
-              <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+              <span className="text-[0.563rem] laptop:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
                 02
               </span>
-              <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+              <span className="text-xs laptop:text-sm font-semibold tracking-wide">
                 SERVICES
               </span>
             </button>
 
             <button
-              className="group flex items-center rounded-lg px-3 py-2.5 tablet:px-5 tablet:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
+              className="group flex items-center rounded-lg px-3 py-2.5 laptop:px-5 laptop:py-3.5 cursor-pointer border border-[#7fff00]/30 hover:border-[#7fff00]/80 hover:bg-[#7fff00]/5 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5"
               onClick={handleContactScroll}
             >
-              <span className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
+              <span className="text-[0.563rem] laptop:text-[0.625rem] opacity-50 font-mono tracking-widest group-hover:opacity-70 transition-opacity mr-2">
                 03
               </span>
-              <span className="text-xs tablet:text-sm font-semibold tracking-wide">
+              <span className="text-xs laptop:text-sm font-semibold tracking-wide">
                 CONTACT
               </span>
             </button>

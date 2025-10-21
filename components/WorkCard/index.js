@@ -5,7 +5,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
   return (
     <div
       className={`${
-        url !== "" && "cursor-pointer hover:-translate-y-1"
+        url !== "" && "hover:-translate-y-1"
       } flex flex-col overflow-hidden rounded-xl border border-white/10 bg-black/40 backdrop-blur-sm transition-all duration-300 hover:border-[#7fff00]/80 hover:shadow-2xl hover:shadow-[#7fff00]/40 group relative`}
     >
       <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -39,7 +39,7 @@ const WorkCard = ({ img, name, description, onClick, url }) => {
 
         {url !== "" && (
           <div
-            className="flex items-center gap-2 text-[#7fff00] text-sm font-medium mt-2 group-hover:gap-3 transition-all"
+            className="flex items-center gap-2 text-[#7fff00] text-sm font-medium mt-2 group-hover:gap-3 transition-all cursor-pointer"
             onClick={url !== "" ? onClick : undefined}
           >
             <span>View Project</span>

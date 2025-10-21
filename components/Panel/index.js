@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import ScrambleText from "scramble-text";
 import { useRouter } from "next/router";
+import BottomInfo from "../../components/BottomInfo";
 
 export default function Panel({ onSelectMode }) {
   const titleRef = useRef();
@@ -119,18 +120,16 @@ export default function Panel({ onSelectMode }) {
   }
 
   return (
-    <div className="overlay-black flex items-center justify-center min-h-screen p-4">
-
-{/* <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-950">
+    <div className="overlay-black flex items-center justify-end min-h-screen p-4 flex-col">
+      {/* <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-950">
   <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(127,255,0,0.08),transparent_60%)]" />
   <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(0,255,200,0.05),transparent_70%)]" />
 </div> */}
 
-<div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-950">
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_45%,rgba(127,255,0,0.1),transparent_65%)]" />
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_55%,rgba(255, 166, 0, 0.04),transparent_70%)]" />
-</div>
-      
+      <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-950">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_45%,rgba(127,255,0,0.1),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_55%,rgba(255, 166, 0, 0.04),transparent_70%)]" />
+      </div>
 
       <div className="terminal-loader max-w-3xl w-full">
         <div className="terminal-header">
@@ -149,13 +148,13 @@ export default function Panel({ onSelectMode }) {
 
           <div ref={descRef} className="tek mb-8 leading-relaxed text-white">
             <p className="opacity-85">
-              Explore a 3D scene inside a webpage containing another
-              webpage with a 3D scene.{" "}
+              You are about to explore a 3D scene inside a webpage containing
+              another webpage with a 3D scene.{" "}
               <span className="text-[#7fff00] font-semibold">
-                That’s 3D web inception 🤯
+                That’s 3D-inception 🤯
               </span>{" "}
-              Highlighting work at the intersection of human-centered design,
-              AI, and creative engineering.
+              Here you will find projects at the intersection of human-centered
+              design, AI, and creative engineering.
             </p>
           </div>
 
@@ -200,7 +199,9 @@ export default function Panel({ onSelectMode }) {
               }}
             >
               <span className="text-xl">→ Project Mode</span>
-              <div className="text-sm mt-2 opacity-70">View projects directly at /projects for quick access</div>
+              <div className="text-sm mt-2 opacity-70">
+                View projects directly at /projects for quick access
+              </div>
               {selectedButton === 1 && (
                 <div className="absolute -left-2 top-1/2 -translate-y-1/2 text-[#7fff00] text-2xl ">
                   ▶
@@ -214,6 +215,8 @@ export default function Panel({ onSelectMode }) {
           </div>
         </div>
       </div>
+
+      <BottomInfo />
     </div>
   );
 }

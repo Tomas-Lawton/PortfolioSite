@@ -211,7 +211,7 @@ export default function Panel({ onSelectMode }) {
           </div>
 
           <div className="mt-6 tek text-sm text-[#7fff00] opacity-60 text-center">
-            Use arrow keys, Tab, or press 1/2 to select • Enter to confirm
+            Use arrow keys or Tab • Enter to confirm
           </div>
         </div>
       </div>

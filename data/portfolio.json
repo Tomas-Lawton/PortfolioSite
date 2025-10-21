@@ -40,7 +40,7 @@
     {
       "id": "Portfolio",
       "title": "Portfolio Website",
-      "description": "Interactive portfolio with immersive 3D environment built using Three.js and Next.js. Features project showcase, terminal inspired UI, and cyberpunk aesthetics.",
+      "description": "Interactive portfolio with 3D environment, project showcase, terminal inspired UI, and cyberpunk aesthetics.",
       "imageSrc": "/images/portfolio.png",
       "url": "https://tomaslawton.netlify.app"
     },

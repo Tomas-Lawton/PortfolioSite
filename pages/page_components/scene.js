@@ -153,7 +153,7 @@ function Model(props) {
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         position={[-1.3, -3.5, 14.2]}
         transform
-        occlude={props.zoomed ? false : "blending"} // disable occlusion when zoomed
+        occlude={props.zoomed ? false : "blending"}
         scale={0.5}
         zIndexRange={[0, 0]}
       >

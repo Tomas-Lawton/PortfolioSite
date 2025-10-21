@@ -17,6 +17,13 @@
   ],
   "projects": [
     {
+      "id": "SafeMates",
+      "title": "SafeMates",
+      "description": "Consumer app available on iOS and Android. Privacy first safety companion with offline alerts, gamification, and more.",
+      "imageSrc": "/images/safemates.png",
+      "url": "https://safemates.netlify.app"
+    },
+    {
       "id": "Reframer",
       "title": "Reframer",
       "description": "Functional AI vector drawing platform using modified CLIP. Published on Google Scholar.",
@@ -29,13 +36,6 @@
       "description": "AI drum machine for Ableton that autocompletes musical ideas with real samples in context.",
       "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/AutoBeat/master/Screenshot.png",
       "url": "https://github.com/Tomas-Lawton/AutoBeat"
-    },
-    {
-      "id": "SafeMates",
-      "title": "SafeMates",
-      "description": "Consumer app available on iOS and Android. Privacy first safety companion with offline alerts, gamification, and more.",
-      "imageSrc": "/images/safemates.png",
-      "url": "https://safemates.netlify.app"
     },
     {
       "id": "Portfolio",

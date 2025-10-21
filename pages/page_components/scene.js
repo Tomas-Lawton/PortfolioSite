@@ -91,11 +91,11 @@ function Model(props) {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects([
-      keyboardRef.current,
-      mouseRef.current,
-      computerMeshRef.current,
-    ]);
+
+    const objectsToIntersect = [keyboardRef.current, mouseRef.current];
+    if (!props.zoomed) objectsToIntersect.push(computerMeshRef.current);
+
+    const intersects = raycaster.intersectObjects(objectsToIntersect);
     document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
   };
 
@@ -157,9 +157,7 @@ function Model(props) {
       >
         <div style={{ width: "1300px", height: "880px" }}>
           <div
-            className={`wrapper custom-body overflow-hidden ${
-              !props.zoomed && "cursor-pointer"
-            }`}
+            className={`wrapper custom-body overflow-hidden`}
             onClick={() => {
               !props.zoomed && props.toggleZoom();
             }}

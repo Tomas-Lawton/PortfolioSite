@@ -148,26 +148,27 @@ function Model(props) {
         />
       </mesh>
 
-      <Html
-        className="content"
-        rotation={[Math.PI / 2 - 0.18, 0, 0]}
-        position={[-1.3, -3.5, 14.2]}
-        transform
-        occlude={props.zoomed ? false : "blending"}
-        scale={0.5}
-        zIndexRange={[0, 0]}
-      >
-        <div
-          className={`wrapper custom-body overflow-hidden ${
-            !props.zoomed && "cursor-pointer"
-          }`}
-          onClick={() => {
-            !props.zoomed && props.toggleZoom();
-          }}
-        >
-          <LandingPage showFullWindow={false} />
-        </div>
-      </Html>
+<Html
+  className="content"
+  rotation={[Math.PI / 2 - 0.18, 0, 0]}
+  position={[-1.3, -4, 14.2]}
+  transform
+  occlude={props.zoomed ? false : true}
+  scale={0.5}
+>
+  <div style={{ width: '1300px', height: '900px' }}>
+    <div
+      className={`wrapper custom-body overflow-hidden ${
+        !props.zoomed && "cursor-pointer"
+      }`}
+      onClick={() => {
+        !props.zoomed && props.toggleZoom();
+      }}
+    >
+      <LandingPage showFullWindow={false} />
+    </div>
+  </div>
+</Html>
 
       <mesh
         ref={computerMeshRef}
@@ -524,7 +525,7 @@ export default function Scene() {
 
       <Canvas
         ref={canvasRef}
-        camera={{ position: cameraPosition, fov: 75 }}
+        camera={{ position: cameraPosition }}
         shadows
         gl={{
           antialias: true,

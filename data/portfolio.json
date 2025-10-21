@@ -38,6 +38,13 @@
       "url": "https://safemates.netlify.app"
     },
     {
+      "id": "Portfolio",
+      "title": "Portfolio Website",
+      "description": "Interactive portfolio with immersive 3D environment built using Three.js and Next.js. Features project showcase, terminal inspired UI, and cyberpunk aesthetics.",
+      "imageSrc": "/images/portfolio.png",
+      "url": "https://tomaslawton.netlify.app"
+    },
+    {
       "id": "BlockNotes",
       "title": "BlockNotes",
       "description": "Neobrutalist note taking app for people who move fast. Available on Chrome Store.",

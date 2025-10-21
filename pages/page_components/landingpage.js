@@ -531,7 +531,9 @@ export default function LandingPage({ showFullWindow }) {
 
           <div className="tablet:mt-32 laptop:mt-18 px-4 tablet:px-6 laptop:px-0 max-w-6xl mx-auto tablet:mx-0 w-full flex flex-col items-center tablet:items-start">
             <div className="mb-4 tablet:mb-6 px-3 tablet:px-4 py-1 tablet:py-1.5 border border-[#7fff00]/50 rounded-full text-[#7fff00] font-mono tracking-widest text-xs">
-              <span>&lt;/&gt; PORTFOLIO v2.0</span>
+              <span>
+                {data.hero?.badge || "AI ENGINEER • DESIGN COMPUTING • SYDNEY"}
+              </span>
             </div>
 
             <h1
@@ -552,18 +554,19 @@ export default function LandingPage({ showFullWindow }) {
 
             <h2
               ref={textTwo}
-              className="text-center tablet:text-left text-base mob:text-lg tablet:text-2xl laptop:text-3xl font-medium w-full text-white/90"
+              className="text-center tablet:text-left text-base mob:text-lg tablet:text-2xl laptop:text-3xl font-medium w-full text-white/90 mb-3"
               style={{ lineHeight: "1.4", letterSpacing: "0.01em" }}
             >
-              AI Development & Creative Technology
+              {data.hero?.subtitle ||
+                "I'm an AI engineer who thinks like a designer"}
             </h2>
 
             <p
-              className="text-center tablet:text-left text-sm tablet:text-lg laptop:text-xl mt-3 tablet:mt-4 text-white/90 font-normal max-w-3xl mx-auto tablet:mx-0"
+              className="text-center tablet:text-left text-sm tablet:text-base laptop:text-lg mt-3 tablet:mt-4 text-white/80 font-normal max-w-3xl mx-auto tablet:mx-0"
               style={{ lineHeight: "1.6" }}
             >
-              Building intelligent systems at the intersection of design and
-              code
+              {data.hero?.description ||
+                "Building intelligent systems at the intersection of design and code"}
             </p>
           </div>
 
@@ -602,7 +605,20 @@ export default function LandingPage({ showFullWindow }) {
             architected and engineered with attention to craft.
           </p>
 
-          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-8">
+          {data.hero?.credentials && (
+            <div className="flex flex-wrap gap-3 mt-6 tablet:mt-8 justify-center tablet:justify-start">
+              {data.hero.credentials.map((cred, i) => (
+                <div
+                  key={i}
+                  className="px-3 py-1.5 bg-[#7fff00]/10 border border-[#7fff00]/30 rounded-full text-xs text-[#7fff00] font-mono hover:bg-[#7fff00]/20 transition-all"
+                >
+                  {cred}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-8 laptop:mt-12 grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-2 gap-12">
             {data.projects.map((project, index) => (
               <div
                 key={project.id}
@@ -612,9 +628,12 @@ export default function LandingPage({ showFullWindow }) {
                 <WorkCard
                   img={project.imageSrc}
                   name={project.title}
+                  // featured={project.featured}
+                  tags={project.tags}
                   description={project.description}
                   onClick={() => project.url && window.open(project.url)}
                   url={project.url}
+                  hoverGif={project.hoverGif}
                 />
               </div>
             ))}
@@ -634,7 +653,7 @@ export default function LandingPage({ showFullWindow }) {
             <div className="h-px flex-1 bg-gradient-to-r from-[#7fff00] to-transparent"></div>
           </div>
           <h1 className="hero-font text-center tablet:text-left text-3xl tablet:text-5xl font-bold mb-6 tracking-tight">
-            Services & Capabilities
+            Capabilities
           </h1>
           <p className="text-lg tablet:text-xl laptop:text-2xl text-center tablet:text-left mt-2 opacity-90 leading-relaxed max-w-4xl">
             Full stack expertise spanning{" "}

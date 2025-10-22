@@ -155,7 +155,7 @@ function Model(props) {
         occlude={props.zoomed ? false : true}
         scale={0.5}
       >
-        <div style={{ width: "1300px", height: "900px" }}>
+        <div style={{ width: "1300px", height: "920px" }}>
           <div
             className={`wrapper custom-body overflow-hidden`}
             onClick={() => {

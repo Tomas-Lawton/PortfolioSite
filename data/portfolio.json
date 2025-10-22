@@ -48,7 +48,7 @@
     {
       "id": "Reframer",
       "title": "Reframer",
-      "subtitle": "AI Creative Tool • Published Research",
+      "subtitle": "AI Creativity Tools • Custom Algorithms • Google Scholar",
       "description": "An AI drawing tool that lets people create vector graphics through natural language. Built this exploring how AI can work alongside human creativity.",
       "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/Reframer/master/repo_img/reframer_interface.png",
       "hoverGif": "/gifs/reframer.gif",
@@ -60,18 +60,18 @@
     {
       "id": "SafeMates",
       "title": "SafeMates",
-      "subtitle": "Consumer Mobile App • iOS & Android",
+      "subtitle": "Consumer App • Google Cloud • Cross-Platform",
       "description": "A safety app that turns checking in with friends into a habit through gamification. Building it from the ground up and launching soon.",
       "imageSrc": "/images/safemates.png",
       "url": "https://safemates.netlify.app",
       "tags": ["Mobile", "Consumer", "Product"],
       "featured": true,
-      "stats": "Launching Q2 2025"
+      "stats": "Launching 2025"
     },
     {
       "id": "Autobeat",
       "title": "Autobeat",
-      "subtitle": "AI Music Tool • Ableton Integration",
+      "subtitle": "Machine Learning • Ableton Plugin  • Max4Live",
       "description": "An AI drum machine for music producers that autocompletes drum patterns in context. Merges my background in drumming with machine learning.",
       "imageSrc": "https://raw.githubusercontent.com/Tomas-Lawton/AutoBeat/master/Screenshot.png",
       "hoverGif": "/gifs/autobeat.gif",
@@ -83,7 +83,7 @@
     {
       "id": "QStream",
       "title": "QStream",
-      "subtitle": "Competition Winner • Enterprise AI",
+      "subtitle": "Realtime RAG • Transcription • Generative AI",
       "description": "A system that surfaces relevant knowledge during conversations in real time. Won an internal competition, then runner up globally.",
       "imageSrc": "/images/qstream.png",
       "url": "",
@@ -95,7 +95,7 @@
     {
       "id": "3DSpaceInvaders",
       "title": "3D Space Invaders",
-      "subtitle": "Interactive Game",
+      "subtitle": "3D Web Game • Built from Scratch",
       "description": "Three.js space exploration game: procedural starfield, fight enemies, save planets, mine space-ore, upgrade and unlock new ships.",
       "imageSrc": "https://i.ibb.co/kGZ8Y4r/Screenshot-2024-11-26-at-7-12-54-PM.png",
       "hoverGif": "/gifs/spacegame.gif",
@@ -107,26 +107,26 @@
     {
       "id": "Portfolio",
       "title": "Interactive Portfolio",
-      "subtitle": "Custom 3D Experience",
+      "subtitle": "Custom 3D Portfolio Site",
       "description": "This website. Built from scratch with custom shaders and animations because I wanted to learn Three.js properly.",
       "imageSrc": "/images/portfolio.png",
       "hoverGif": "/gifs/portfolio.gif",
       "url": "https://tomaslawton.netlify.app",
       "tags": ["Three.js", "React", "Design"],
       "featured": false,
-      "stats": "Custom shaders"
+      "stats": "Web inception"
     },
     {
       "id": "BlockNotes",
       "title": "BlockNotes",
-      "subtitle": "Chrome Extension",
+      "subtitle": "Productivity Extensione • Chrome Web Store",
       "description": "A note taking app for people who move fast. Available on the Chrome Web Store.",
       "imageSrc": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6rmKNqX0fTZRPdhfNQ22Uw.png",
       "hoverGif": "",
       "url": "https://github.com/Tomas-Lawton/BlockNotes",
       "tags": ["Extension", "Productivity"],
       "featured": false,
-      "stats": "Published"
+      "stats": "Published app"
     },
     {
       "id": "InteractiveEarth",
@@ -138,7 +138,7 @@
       "url": "https://github.com/Tomas-Lawton/InteractiveEarth",
       "tags": ["Visualization", "Education"],
       "featured": false,
-      "stats": "UN data"
+      "stats": "Interactive exhibit"
     }
   ],
   "old_projects": [

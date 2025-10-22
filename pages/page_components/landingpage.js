@@ -628,12 +628,14 @@ export default function LandingPage({ showFullWindow }) {
                 <WorkCard
                   img={project.imageSrc}
                   name={project.title}
+                  subtitle={project.subtitle}
                   // featured={project.featured}
                   tags={project.tags}
                   description={project.description}
                   onClick={() => project.url && window.open(project.url)}
                   url={project.url}
                   hoverGif={project.hoverGif}
+                  stats={project.stats}
                 />
               </div>
             ))}

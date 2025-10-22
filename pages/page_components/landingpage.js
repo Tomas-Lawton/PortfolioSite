@@ -478,8 +478,8 @@ export default function LandingPage({ showFullWindow }) {
           </span>
         </div>
 
-        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-10">
-          <div className="absolute bottom-24  right-0 text-white rounded-lg laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
+        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-24">
+          <div className="hidden mob-block  absolute bottom-24  right-0 text-white rounded-lg laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
             <div className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 mb-1 tablet:mb-1.5 font-mono tracking-widest uppercase">
               Last Updated
             </div>
@@ -538,7 +538,7 @@ export default function LandingPage({ showFullWindow }) {
 
             <h1
               ref={textOn}
-              className="hero-font text-center tablet:text-left text-3xl mob:text-4xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-1 tablet:mb-2"
+              className="hero-font text-center tablet:text-left text-4xl mob:text-4xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-1 tablet:mb-2"
               style={{ lineHeight: "1.1", letterSpacing: "-0.02em" }}
             >
               {data.headerTaglineOne}
@@ -546,7 +546,7 @@ export default function LandingPage({ showFullWindow }) {
 
             <h1
               ref={textOne}
-              className="hero-font text-center tablet:text-left text-3xl mob:text-4xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-6 tablet:mb-8"
+              className="hero-font text-center tablet:text-left text-4xl mob:text-4xl tablet:text-6xl laptop:text-7xl desktop:text-8xl font-bold w-full mb-6 tablet:mb-8"
               style={{ lineHeight: "1.1", letterSpacing: "-0.02em" }}
             >
               {data.headerTaglineOnea}

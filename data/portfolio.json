@@ -131,14 +131,14 @@
     {
       "id": "InteractiveEarth",
       "title": "Interactive Earth",
-      "subtitle": "Data Visualization",
+      "subtitle": "Data Visualization • Linear Regression",
       "description": "A 3D visualization showing global child mortality rates with future predictions. Built as an educational tool.",
       "imageSrc": "https://lh4.googleusercontent.com/j3nahRVaZ9wRe2YTDdO1Xql_87W_kyPYbCIbvf9rHOOEdSls-mNMxOJnGUb1HB5s8Ok=w2400",
-      "hoverGif": "",
+      "hoverGif": "/gifs/globe.gif",
       "url": "https://github.com/Tomas-Lawton/InteractiveEarth",
       "tags": ["Visualization", "Education"],
       "featured": false,
-      "stats": "Interactive exhibit"
+      "stats": "Interactive exhibit • Data journalism"
     }
   ],
   "old_projects": [

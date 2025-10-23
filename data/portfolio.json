@@ -105,6 +105,18 @@
       "stats": "Procedural generation"
     },
     {
+      "id": "BlockNotes v2.0",
+      "title": "BlockNotes v2.0",
+      "subtitle": "Productivity • Chrome Web Store • AI Naming",
+      "description": "A text-expander note app for people who move fast. Neobrutalist inspired and works accross the web.",
+      "imageSrc": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6rmKNqX0fTZRPdhfNQ22Uw.png",
+      "hoverGif": "/gifs/blocknotes.gif",
+      "url": "https://github.com/Tomas-Lawton/BlockNotes",
+      "tags": ["Extension", "Productivity"],
+      "featured": false,
+      "stats": "Published app"
+    },
+    {
       "id": "Portfolio",
       "title": "Interactive Portfolio",
       "subtitle": "Custom 3D Portfolio Site",
@@ -115,18 +127,6 @@
       "tags": ["Three.js", "React", "Design"],
       "featured": false,
       "stats": "Web inception"
-    },
-    {
-      "id": "BlockNotes",
-      "title": "BlockNotes",
-      "subtitle": "Productivity Extensione • Chrome Web Store",
-      "description": "A note taking app for people who move fast. Available on the Chrome Web Store.",
-      "imageSrc": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6rmKNqX0fTZRPdhfNQ22Uw.png",
-      "hoverGif": "",
-      "url": "https://github.com/Tomas-Lawton/BlockNotes",
-      "tags": ["Extension", "Productivity"],
-      "featured": false,
-      "stats": "Published app"
     },
     {
       "id": "InteractiveEarth",

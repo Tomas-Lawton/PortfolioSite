@@ -109,7 +109,7 @@
       "title": "BlockNotes v2.0",
       "subtitle": "Productivity • Chrome Web Store • AI Naming",
       "description": "A text-expander note app for people who move fast. Neobrutalist inspired and works accross the web.",
-      "imageSrc": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*6rmKNqX0fTZRPdhfNQ22Uw.png",
+      "imageSrc": "/images/blocknotes2.png",
       "hoverGif": "/gifs/blocknotes.gif",
       "url": "https://github.com/Tomas-Lawton/BlockNotes",
       "tags": ["Extension", "Productivity"],

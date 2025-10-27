@@ -24,17 +24,29 @@ const handleMouseClick = () => {
   audio.play();
 };
 
-// Simple particles
+// Simple particles with mixed colors
 function Particles() {
   const count = 25;
-  const positions = useMemo(() => {
+  const { positions, colors } = useMemo(() => {
     const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 150;
       pos[i * 3 + 1] = Math.random() * 80 + 10;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 80 - 20;
+
+      // 60% green, 40% orange
+      if (Math.random() > 0.6) {
+        col[i * 3] = 1.0; // R
+        col[i * 3 + 1] = 0.4; // G
+        col[i * 3 + 2] = 0.0; // B (orange)
+      } else {
+        col[i * 3] = 0.0; // R
+        col[i * 3 + 1] = 1.0; // G
+        col[i * 3 + 2] = 0.0; // B (green)
+      }
     }
-    return pos;
+    return { positions: pos, colors: col };
   }, []);
 
   const pointsRef = useRef();
@@ -54,14 +66,20 @@ function Particles() {
           array={positions}
           itemSize={3}
         />
+        <bufferAttribute
+          attach="attributes-color"
+          count={colors.length / 3}
+          array={colors}
+          itemSize={3}
+        />
       </bufferGeometry>
       <pointsMaterial
         size={0.3}
-        color="#00ff00"
         transparent
         opacity={0.3}
         sizeAttenuation
         depthWrite={false}
+        vertexColors
       />
     </points>
   );
@@ -250,17 +268,6 @@ function DigitalClock() {
 
   return (
     <group position={[0, 38, -39]}>
-      <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[28, 6]} />
-        <meshBasicMaterial
-          color="#000000"
-          transparent
-          opacity={0.9}
-          depthWrite={true}
-          depthTest={true}
-        />
-      </mesh>
-
       <Text
         position={[0, 0, 0]}
         fontSize={2.5}
@@ -304,17 +311,6 @@ function NeonSign({ position, text, color }) {
 
   return (
     <group position={position}>
-      <mesh position={[0, 0, -0.2]}>
-        <planeGeometry args={[40, 10]} />
-        <meshBasicMaterial
-          color="#000000"
-          transparent
-          opacity={0.8}
-          depthWrite={true}
-          depthTest={true}
-        />
-      </mesh>
-
       <Text
         ref={textRef}
         position={[0, 0, 0]}
@@ -358,14 +354,14 @@ function UpdateCameraPosition({ position }) {
   return null;
 }
 
-function Wall({ position, rotation, args, color = 0x0d0d0d }) {
+function Wall({ position, rotation, args, color = 0x2a2a2a }) {
   return (
     <mesh position={position} rotation={rotation} receiveShadow renderOrder={0}>
       <planeGeometry args={args} />
       <meshStandardMaterial
         color={color}
-        roughness={0.95}
-        metalness={0.05}
+        roughness={0.5}
+        metalness={0.5}
         depthWrite={true}
         depthTest={true}
       />
@@ -523,16 +519,18 @@ export default function Scene() {
       <Canvas
         ref={canvasRef}
         camera={{ position: cameraPosition }}
-        shadows
+        shadows="basic"
         gl={{
           antialias: true,
           alpha: true,
           depth: true,
+          powerPreference: "high-performance",
         }}
         performance={{ min: 0.5 }}
+        dpr={[1, 1.5]}
       >
         <UpdateCameraPosition position={cameraPosition} />
-        <fog attach="fog" args={["#050505", 20, 200]} />
+        <fog attach="fog" args={["#1a1a1a", 40, 150]} />
 
         <Suspense fallback={null}>
           <group
@@ -564,11 +562,27 @@ export default function Scene() {
             args={[200, 200]}
           />
 
+          <mesh
+            position={[0, 100, 0]}
+            rotation={[Math.PI / 2, 0, 0]}
+            receiveShadow
+          >
+            <planeGeometry args={[200, 200]} />
+            <meshStandardMaterial
+              color={0x1a1a1a}
+              roughness={0.9}
+              metalness={0.1}
+              depthWrite={true}
+              depthTest={true}
+            />
+          </mesh>
+
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow renderOrder={0}>
             <planeGeometry args={[200, 200]} />
             <meshStandardMaterial
-              color={0x050505}
-              roughness={0.95}
+              color={0x1a1a1a}
+              roughness={0.6}
+              metalness={0.4}
               depthWrite={true}
               depthTest={true}
             />
@@ -576,7 +590,14 @@ export default function Scene() {
 
           <Particles />
 
-          <ambientLight intensity={0.45} color="#001a00" />
+          <hemisphereLight
+            skyColor="#004422"
+            groundColor="#001a0a"
+            intensity={0.6}
+            position={[0, 50, 0]}
+          />
+
+          <ambientLight intensity={0.8} color="#003315" />
 
           <CylinderLight
             position={[95, 10, -39]}
@@ -593,42 +614,70 @@ export default function Scene() {
             <Bloom
               mipmapBlur
               luminanceThreshold={0.5}
-              levels={9}
+              levels={7}
               intensity={1.2}
             />
-            <ToneMapping />
+            <ToneMapping mode={0} />
           </EffectComposer>
 
           <pointLight
             position={[0, 25, 15]}
             color="#00ff00"
+            intensity={3.5}
+            distance={80}
+          />
+
+          <pointLight
+            position={[0, 15, 30]}
+            color="#00ffff"
+            intensity={3}
+            distance={100}
+          />
+
+          <pointLight
+            position={[-50, 20, 0]}
+            color="#ff6600"
             intensity={2}
-            distance={60}
+            distance={100}
+          />
+
+          <pointLight
+            position={[50, 20, 0]}
+            color="#00ff88"
+            intensity={2}
+            distance={100}
+          />
+
+          <pointLight
+            position={[0, 40, -20]}
+            color="#ffffff"
+            intensity={1}
+            distance={80}
           />
 
           <directionalLight
             color={0x00ff00}
             position={[5, 5, 3]}
-            intensity={0.3}
+            intensity={0.6}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
             shadow-camera-top={150}
             shadow-camera-bottom={-150}
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
+            shadow-mapSize-width={512}
+            shadow-mapSize-height={512}
           />
           <directionalLight
             color={0xffa500}
             position={[-2, 0, -2]}
-            intensity={0.4}
+            intensity={0.7}
             castShadow
             shadow-camera-left={-150}
             shadow-camera-right={150}
             shadow-camera-top={150}
             shadow-camera-bottom={-150}
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
+            shadow-mapSize-width={512}
+            shadow-mapSize-height={512}
           />
         </Suspense>
 
@@ -641,6 +690,9 @@ export default function Scene() {
           maxPolarAngle={Math.PI / 2.2}
           minAzimuthAngle={zoomed ? -Math.PI / 5 : -Math.PI / 2}
           maxAzimuthAngle={zoomed ? Math.PI / 5 : Math.PI / 2}
+          enableDamping={true}
+          dampingFactor={0.05}
+          makeDefault
         />
       </Canvas>
     </>

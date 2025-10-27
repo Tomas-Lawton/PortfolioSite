@@ -131,6 +131,9 @@ export default function LandingPage({ showFullWindow }) {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const canvas = innerCanvas.current;
+
+    if (!canvas) return;
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({
@@ -140,18 +143,18 @@ export default function LandingPage({ showFullWindow }) {
       powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
 
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
     const geometries = [
-      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 1),
-      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 3),
-      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 4),
-      new THREE.TorusKnotGeometry(0.8, 0.3, 130, 12, 2, 6),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 64, 12, 2, 1),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 64, 12, 2, 3),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 64, 12, 2, 4),
+      new THREE.TorusKnotGeometry(0.8, 0.3, 64, 12, 2, 6),
     ];
 
     const material = new THREE.ShaderMaterial({
@@ -172,10 +175,13 @@ export default function LandingPage({ showFullWindow }) {
         void main() {
           vUv = uv;
           vNormal = normal;
-          float displacement = sin(position.x * 5.0 + time) * 
+          
+          float t = time + position.x * 5.0;
+          float displacement = sin(t) * 
                                sin(position.y * 5.0 + time) * 
                                sin(position.z * 5.0 + time) * 
                                (0.1 + mouseIntensity * 0.2);
+          
           vec3 newPosition = position + normal * displacement;
           vPosition = newPosition;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
@@ -196,10 +202,10 @@ export default function LandingPage({ showFullWindow }) {
           float t = time * 0.2;
           float cx = p.x + 0.5 * sin(t * 0.7);
           float cy = p.y + 0.5 * cos(t * 0.3);
-          float v1 = sin(cx * 10.0 + t);
-          float v2 = cos(cy * 8.0 + t * 1.2);
-          float v3 = sin((cx + cy + t) * 5.0);
-          float intensity = sin(v1 + v2 + v3) * 0.5 + 0.5;
+          
+          float v = sin((cx + cy) * 6.0 + t * 0.8);
+          float intensity = v * 0.5 + 0.5;
+          
           return mix(baseColor, secondaryColor, intensity);
         }
   
@@ -207,14 +213,18 @@ export default function LandingPage({ showFullWindow }) {
           vec3 normal = normalize(vNormal);
           vec3 viewDir = normalize(-vPosition);
           vec3 plasmaColor = plasma(vUv, time + mouseIntensity);
+          
           float depth = length(vPosition) / 2.0;
           plasmaColor *= 1.0 - depth * 0.5;
+          
           float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0);
           plasmaColor += vec3(1.0) * fresnel * 0.5;
+          
           vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
           vec3 halfwayDir = normalize(lightDir + viewDir);
           float spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
           plasmaColor += vec3(1.0) * spec * 0.5;
+          
           gl_FragColor = vec4(plasmaColor, 1.0);
         }
       `,
@@ -247,6 +257,10 @@ export default function LandingPage({ showFullWindow }) {
     scene.add(directionalLight);
     directionalLight.position.set(4, 20, -1);
     directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 1024;
+    directionalLight.shadow.mapSize.height = 1024;
+    directionalLight.shadow.camera.near = 0.5;
+    directionalLight.shadow.camera.far = 50;
 
     const groundGeometry = new THREE.PlaneGeometry(500, 500);
     const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.2 });
@@ -307,8 +321,21 @@ export default function LandingPage({ showFullWindow }) {
     window.addEventListener("resize", onWindowResize);
     onWindowResize();
 
+    let animationFrameId;
+    let isTabActive = true;
+
+    const handleVisibilityChange = () => {
+      isTabActive = !document.hidden;
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     function animate() {
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
+
+      if (!isTabActive) {
+        return;
+      }
 
       if (currentShape) {
         currentShape.rotation.y += 0.015;
@@ -324,6 +351,12 @@ export default function LandingPage({ showFullWindow }) {
     animate();
 
     return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      cancelAnimationFrame(animationFrameId);
+
+      geometries.forEach((geometry) => geometry.dispose());
+      material.dispose();
+
       scene.clear();
       renderer.dispose();
     };

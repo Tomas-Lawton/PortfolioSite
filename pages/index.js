@@ -14,6 +14,7 @@ export default function App() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       audioRef.current = new Audio("/scifi-fantasy-soundscape-21618.mp3");
+      audioRef.current.volume = 0.5; // Set reasonable default volume
     }
   }, []);
 
@@ -22,7 +23,9 @@ export default function App() {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch((err) => {
+          console.log("Audio play prevented:", err);
+        });
       }
       setIsPlaying(!isPlaying);
     }
@@ -31,34 +34,46 @@ export default function App() {
   useEffect(() => {
     const handleResize = () => {
       if (typeof window !== "undefined") {
-        setlargeScreen(window.innerWidth >= 768);
+        const isLarge = window.innerWidth >= 768;
+        setlargeScreen(isLarge);
+
+        // If user resizes to mobile while in scene mode, switch to landing
+        if (!isLarge && mode === "scene") {
+          setMode("landing");
+          if (audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+          }
+        }
       }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, [mode]);
+
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, []);
 
+  // Mobile devices skip Panel and go straight to LandingPage
   if (!mode) {
-    return (
-      <>
-        <Panel onSelectMode={setMode} />
-        {largeScreen && (
-          <div
-            style={{
-              position: "absolute",
-              left: "-9999px",
-              pointerEvents: "none",
-            }}
-          >
-            <Scene />
-          </div>
-        )}
-      </>
-    );
+    if (largeScreen) {
+      return <Panel onSelectMode={setMode} />;
+    } else {
+      // Mobile: go directly to landing page
+      return <LandingPage showFullWindow={true} />;
+    }
   }
 
+  // Force mobile users to landing page
   const showScene = largeScreen && mode === "scene" && immersiveMode;
 
   return (
@@ -75,6 +90,9 @@ export default function App() {
             }
             setImmersiveMode((prev) => !prev);
           }}
+          aria-label={
+            immersiveMode ? "Exit fullscreen" : "Enter immersive mode"
+          }
         >
           <svg
             viewBox="0 0 448 512"
@@ -95,7 +113,8 @@ export default function App() {
             type="checkbox"
             id="checkboxInput"
             defaultChecked
-            onClick={() => playMusic()}
+            onChange={() => playMusic()}
+            aria-label="Toggle music"
           />
           <label
             htmlFor="checkboxInput"
@@ -106,6 +125,7 @@ export default function App() {
                 xmlns="http://www.w3.org/2000/svg"
                 version="1.0"
                 viewBox="0 0 75 75"
+                aria-hidden="true"
               >
                 <path d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z"></path>
                 <path d="M48,27.6a19.5,19.5 0 0 1 0,21.4M55.1,20.5a30,30 0 0 1 0,35.6M61.6,14a38.8,38.8 0 0 1 0,48.6"></path>
@@ -118,6 +138,7 @@ export default function App() {
                 viewBox="0 0 75 75"
                 stroke="#7fff00"
                 strokeWidth="5"
+                aria-hidden="true"
               >
                 <path
                   d="m39,14-17,15H6V48H22l17,15z"

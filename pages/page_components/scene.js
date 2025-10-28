@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { Suspense, useRef, useEffect, useState, useMemo } from "react";
+import React, { Suspense, useRef, useEffect, useState, useMemo, useCallback } from "react";
 
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { Html, useGLTF, OrbitControls, Text } from "@react-three/drei";
@@ -95,14 +95,13 @@ function Model(props) {
   const mouseMesh1Ref = useRef();
   const mouseMesh2Ref = useRef();
   const computerMeshRef = useRef();
-  const screenOccluderRef = useRef();
   const [mouseHover, setMouseHover] = useState(false);
 
   const { camera } = useThree();
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const mouse = useMemo(() => new THREE.Vector2(), []);
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = useCallback((event) => {
     if (!keyboardRef.current || !mouseRef.current) return;
 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -115,7 +114,7 @@ function Model(props) {
 
     const intersects = raycaster.intersectObjects(objectsToIntersect);
     document.body.style.cursor = intersects.length > 0 ? "pointer" : "default";
-  };
+  }, [camera, mouse, raycaster, props.zoomed]);
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
@@ -128,6 +127,7 @@ function Model(props) {
       materials["ibm_3178"].opacity = 1;
       materials["ibm_3178"].depthWrite = true;
       materials["ibm_3178"].depthTest = true;
+      materials["ibm_3178"].side = THREE.DoubleSide;
     }
     if (materials["ibm_3178_keyboard"]) {
       materials["ibm_3178_keyboard"].transparent = false;
@@ -151,31 +151,15 @@ function Model(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <mesh
-        ref={screenOccluderRef}
-        position={[-1.3, -3.5, 14.5]}
-        rotation={[Math.PI / 2 - 0.18, 0, 0]}
-        visible={false}
-        renderOrder={2}
-      >
-        <planeGeometry args={[5.5, 4.5]} />
-        <meshBasicMaterial
-          colorWrite={false}
-          depthWrite={true}
-          depthTest={true}
-        />
-      </mesh>
-
       <Html
         className="content"
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
-        position={[-1.3, -4.5, 14.2]}
+        position={[-1.3, -3.65, 14]}
         transform
-        occlude={props.zoomed ? false : true}
+        occlude="blending"
         scale={0.5}
-        zIndexRange={[0, 0]}
       >
-        <div style={{ width: "1300px", height: "920px" }}>
+        <div style={{ width: "1250px", height: "920px" }}>
           <div
             className={`wrapper custom-body overflow-hidden`}
             onClick={() => {
@@ -192,7 +176,6 @@ function Model(props) {
         material={materials["ibm_3178"]}
         geometry={nodes["ibm_3178_0"].geometry}
         receiveShadow
-        renderOrder={1}
         onClick={() => {
           if (!props.zoomed) {
             props.toggleZoom();
@@ -217,7 +200,6 @@ function Model(props) {
             handleKeyboardClick();
           }
         }}
-        renderOrder={0}
       />
       <group
         ref={mouseRef}
@@ -237,14 +219,12 @@ function Model(props) {
               handleMouseClick();
             }
           }}
-          renderOrder={0}
         />
         <mesh
           ref={mouseMesh2Ref}
           material={mouseModel.materials["rubber_feet"]}
           geometry={mouseModel.nodes["mouse_rubber_feet_0"].geometry}
           receiveShadow
-          renderOrder={0}
         />
       </group>
       {mouseHover && !props.zoomed && (
@@ -358,7 +338,7 @@ function UpdateCameraPosition({ position }) {
 
 function Wall({ position, rotation, args, color = 0x2a2a2a }) {
   return (
-    <mesh position={position} rotation={rotation} receiveShadow renderOrder={0}>
+    <mesh position={position} rotation={rotation} receiveShadow>
       <planeGeometry args={args} />
       <meshStandardMaterial
         color={color}
@@ -388,7 +368,6 @@ function CylinderLight({ position, color, intensity = 8 }) {
       scale={10}
       position={position}
       rotation={[0, Math.PI / 2, 0]}
-      renderOrder={1}
     >
       <cylinderGeometry args={[0.1, 0.1, 5]} />
       <meshStandardMaterial
@@ -530,6 +509,7 @@ export default function Scene() {
         }}
         performance={{ min: 0.5 }}
         dpr={[1, 1.5]}
+        style={{zIndex: 0}}
       >
         <UpdateCameraPosition position={cameraPosition} />
         <fog attach="fog" args={["#1a1a1a", 40, 150]} />
@@ -575,7 +555,7 @@ export default function Scene() {
             />
           </mesh>
 
-          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow renderOrder={0}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[200, 200]} />
             <meshStandardMaterial
               color={0x1a1a1a}
@@ -591,11 +571,9 @@ export default function Scene() {
           <hemisphereLight
             skyColor="#004422"
             groundColor="#001a0a"
-            intensity={0.6}
+            intensity={0.4}
             position={[0, 50, 0]}
           />
-
-          <ambientLight intensity={0.8} color="#003315" />
 
           <CylinderLight
             position={[95, 10, -39]}
@@ -612,8 +590,8 @@ export default function Scene() {
             <Bloom
               mipmapBlur
               luminanceThreshold={0.5}
-              levels={7}
-              intensity={1.2}
+              levels={6}
+              intensity={1.0}
             />
             <ToneMapping mode={0} />
           </EffectComposer>

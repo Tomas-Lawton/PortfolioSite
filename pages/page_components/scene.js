@@ -34,14 +34,14 @@ function Particles() {
       pos[i * 3] = (Math.random() - 0.5) * 150;
       pos[i * 3 + 1] = Math.random() * 80 + 10;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 80 - 20;
-
+      
       // 60% green, 40% orange
       if (Math.random() > 0.6) {
-        col[i * 3] = 1.0; // R
+        col[i * 3] = 1.0;     // R
         col[i * 3 + 1] = 0.4; // G
         col[i * 3 + 2] = 0.0; // B (orange)
       } else {
-        col[i * 3] = 0.0; // R
+        col[i * 3] = 0.0;     // R
         col[i * 3 + 1] = 1.0; // G
         col[i * 3 + 2] = 0.0; // B (green)
       }
@@ -153,11 +153,12 @@ function Model(props) {
     <group ref={group} {...props} dispose={null}>
       <mesh
         ref={screenOccluderRef}
-        position={[-1.3, -3.5, 14.0]}
+        position={[-1.3, -3.5, 14.5]}
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
         visible={false}
+        renderOrder={2}
       >
-        <planeGeometry args={[4.5, 3.5]} />
+        <planeGeometry args={[5.5, 4.5]} />
         <meshBasicMaterial
           colorWrite={false}
           depthWrite={true}
@@ -168,10 +169,11 @@ function Model(props) {
       <Html
         className="content"
         rotation={[Math.PI / 2 - 0.18, 0, 0]}
-        position={[-1.3, -4, 14.2]}
+        position={[-1.3, -4.5, 14.2]}
         transform
         occlude={props.zoomed ? false : true}
         scale={0.5}
+        zIndexRange={[0, 0]}
       >
         <div style={{ width: "1300px", height: "920px" }}>
           <div
@@ -562,11 +564,7 @@ export default function Scene() {
             args={[200, 200]}
           />
 
-          <mesh
-            position={[0, 100, 0]}
-            rotation={[Math.PI / 2, 0, 0]}
-            receiveShadow
-          >
+          <mesh position={[0, 100, 0]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[200, 200]} />
             <meshStandardMaterial
               color={0x1a1a1a}

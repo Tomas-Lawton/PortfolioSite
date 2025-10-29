@@ -9,7 +9,14 @@ import React, {
 } from "react";
 
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { Html, useGLTF, OrbitControls, Text } from "@react-three/drei";
+import {
+  Html,
+  useGLTF,
+  OrbitControls,
+  Text,
+  RoundedBox,
+  useTexture,
+} from "@react-three/drei";
 import { stagger } from "../../animations";
 import {
   EffectComposer,
@@ -18,7 +25,6 @@ import {
 } from "@react-three/postprocessing";
 
 import LandingPage from "./landingpage";
-import ScrambleText from "scramble-text";
 
 const handleKeyboardClick = () => {
   const audio = new Audio("/keypress.mp3");
@@ -32,15 +38,15 @@ const handleMouseClick = () => {
 };
 
 // Simple particles with mixed colors
-function Particles() {
-  const count = 25;
+function Particles({ position = [0, 55, -60], spread = 40 }) {
+  const count = 20;
   const { positions, colors } = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 150;
-      pos[i * 3 + 1] = Math.random() * 80 + 10;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 80 - 20;
+      pos[i * 3] = (Math.random() - 0.5) * spread + position[0]; // X
+      pos[i * 3 + 1] = (Math.random() - 0.5) * spread + position[1]; // Y
+      pos[i * 3 + 2] = (Math.random() - 0.5) * spread + position[2]; // Z
 
       // 60% green, 40% orange
       if (Math.random() > 0.6) {
@@ -54,15 +60,15 @@ function Particles() {
       }
     }
     return { positions: pos, colors: col };
-  }, []);
+  }, [position, spread]);
 
   const pointsRef = useRef();
 
-  useFrame((state) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.elapsedTime * 0.02;
-    }
-  });
+  // useFrame((state) => {
+  //   if (pointsRef.current) {
+  //     pointsRef.current.rotation.y = state.clock.elapsedTime * 0.005;
+  //   }
+  // });
 
   return (
     <points ref={pointsRef}>
@@ -81,14 +87,101 @@ function Particles() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.3}
+        size={0.5}
         transparent
-        opacity={0.3}
+        opacity={0.8}
         sizeAttenuation
         depthWrite={false}
         vertexColors
+        emissive={true}
+        toneMapped={false}
       />
     </points>
+  );
+}
+
+function Door({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/door.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function Couch({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/couch.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function Cat({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/cat.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function ElectricBox({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/electricbox.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function Generator({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/generator.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+// Parallax Cityscape Background
+function ParallaxCityscape({ position, rotation = [0, 0, 0] }) {
+  const texture = useTexture("/city.jpg");
+  const meshRef = useRef();
+  const { camera } = useThree();
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.position.x = position[0] + camera.position.x * 0.02;
+      meshRef.current.position.y = camera.position.y * 0.02 + position[1];
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={position} rotation={rotation} scale={2}>
+      <planeGeometry args={[200, 150]} />
+      <meshBasicMaterial
+        map={texture}
+        side={THREE.DoubleSide}
+        toneMapped={false}
+      />
+    </mesh>
   );
 }
 
@@ -141,6 +234,42 @@ function SciFiLight({ position, rotation, scale = 1 }) {
   );
 }
 
+function HangingLight({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/hanginglight.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function HangingLED({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/hangingled.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function WallLight({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/walllight.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
 function ElectricCable({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/cable.glb");
   return (
@@ -177,6 +306,18 @@ function PlantPot({ position, rotation, scale = 1 }) {
   );
 }
 
+function Chair({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/chair.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
 function Model(props) {
   const { nodes, materials } = useGLTF("/puter.glb");
   const mouseModel = useGLTF("/mouse.glb");
@@ -195,7 +336,8 @@ function Model(props) {
 
   const handleMouseMove = useCallback(
     (event) => {
-      if (!keyboardRef.current || !mouseRef.current) return;
+      if (!keyboardRef.current || !mouseRef.current || !computerMeshRef.current)
+        return;
 
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -205,7 +347,7 @@ function Model(props) {
       const objectsToIntersect = [keyboardRef.current, mouseRef.current];
       if (!props.zoomed) objectsToIntersect.push(computerMeshRef.current);
 
-      const intersects = raycaster.intersectObjects(objectsToIntersect);
+      const intersects = raycaster.intersectObjects(objectsToIntersect, true);
       document.body.style.cursor =
         intersects.length > 0 ? "pointer" : "default";
     },
@@ -215,7 +357,7 @@ function Model(props) {
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [camera, handleMouseMove]);
+  }, [handleMouseMove]);
 
   useEffect(() => {
     if (materials["ibm_3178"]) {
@@ -296,14 +438,30 @@ function Model(props) {
             handleKeyboardClick();
           }
         }}
+        onPointerOver={() => {
+          if (!props.zoomed) {
+            document.body.style.cursor = "pointer";
+          }
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = "default";
+        }}
       />
       <group
         ref={mouseRef}
         rotation={[-0.15, -0.6, 0.3]}
         position={[19.5, -18, 0]}
         scale={[29, 29, 29]}
-        onPointerOver={() => !props.zoomed && setMouseHover(true)}
-        onPointerOut={() => setMouseHover(false)}
+        onPointerOver={() => {
+          if (!props.zoomed) {
+            setMouseHover(true);
+            document.body.style.cursor = "pointer";
+          }
+        }}
+        onPointerOut={() => {
+          setMouseHover(false);
+          document.body.style.cursor = "default";
+        }}
       >
         <mesh
           ref={mouseMesh1Ref}
@@ -346,7 +504,7 @@ function DigitalClock() {
   const timeString = time.toLocaleTimeString("en-US", { hour12: false });
 
   return (
-    <group position={[0, 72, -79]} scale={2}>
+    <group position={[0, 82, -79]} scale={2}>
       <Text
         position={[0, 0, 0]}
         fontSize={2.5}
@@ -484,19 +642,19 @@ export default function Scene() {
   const textOne = useRef();
   const canvasRef = useRef();
 
-  const initialCameraPos = [0, 15, 60];
+  const initialCameraPos = [0, 55, 70];
 
-  let zoomedCameraPos = [0, 0.8, 8];
+  let zoomedCameraPos = [0, 57, -50];
 
   if (typeof window !== "undefined") {
     if (window.innerWidth > 1500) {
-      zoomedCameraPos = [0, 1, 7];
+      zoomedCameraPos = [0, 57, -50];
     } else if (window.innerWidth > 1300) {
-      zoomedCameraPos = [0, 1, 9];
+      zoomedCameraPos = [0, 57, -49];
     } else if (window.innerWidth > 980) {
-      zoomedCameraPos = [0, 1, 11];
+      zoomedCameraPos = [0, 57, -48];
     } else {
-      zoomedCameraPos = [0, 1, 18];
+      zoomedCameraPos = [0, 57, -46];
     }
   }
 
@@ -505,27 +663,48 @@ export default function Scene() {
   const [zoomed, setZoomed] = useState(false);
   const [showTerminal, setShowTerminal] = useState(true);
 
-  const toggleZoom = () => {
-    setZoomed((prev) => !prev);
-    setCameraPosition(zoomed ? initialCameraPos : zoomedCameraPos);
-    setDistance(zoomed ? 48 : 1);
-    if (!zoomed) handleMouseClick();
+  const animateCamera = (start, end, duration = 1000) => {
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function (ease-in-out)
+      const eased =
+        progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+      const newPos = [
+        start[0] + (end[0] - start[0]) * eased,
+        start[1] + (end[1] - start[1]) * eased,
+        start[2] + (end[2] - start[2]) * eased,
+      ];
+
+      setCameraPosition(newPos);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
   };
 
-  useEffect(() => {
-    const element = textOne.current;
-    if (element && !element.hasAttribute("data-scrambled")) {
-      element.setAttribute("data-scrambled", "true");
-      const scrambleInstance = new ScrambleText(element);
+  const toggleZoom = () => {
+    const newZoomed = !zoomed;
+    setZoomed(newZoomed);
+    setDistance(newZoomed ? 1 : 48);
 
-      stagger(
-        [textOn.current, textOne.current],
-        { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-        { y: 0, x: 0, transform: "scale(1)" },
-        () => scrambleInstance.start()
-      );
-    }
-  }, []);
+    animateCamera(
+      cameraPosition,
+      newZoomed ? zoomedCameraPos : initialCameraPos,
+      800 // Duration in ms
+    );
+
+    if (!newZoomed) handleMouseClick();
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -588,7 +767,7 @@ export default function Scene() {
             </div>
             <div className="mt-4 tek">Login Complete.</div>
             <div ref={textOne} className="text tek">
-              Click the screen to explore...
+              Click on monitor to explore...
             </div>
             <div className="mt-4 tek">Made by Tommy.</div>
           </div>
@@ -610,7 +789,7 @@ export default function Scene() {
         style={{ zIndex: 0 }}
       >
         <UpdateCameraPosition position={cameraPosition} />
-        <fog attach="fog" args={["#1a1a1a", 100, 300]} />
+        <fog attach="fog" args={["#1a1a1a", 100, 400]} />
 
         <Suspense fallback={null}>
           <group
@@ -621,16 +800,158 @@ export default function Scene() {
             <Model zoomed={zoomed} toggleZoom={toggleZoom} />
           </group>
 
+          <Particles position={[0, 55, -60]} spread={50} />
+
+          {/* PARALLAX CITYSCAPE - Further behind the window so visible through glass */}
+          <ParallaxCityscape
+            position={[200, 70, 50]}
+            rotation={[0, -Math.PI / 2, 0]}
+          />
+
+          {/* RIGHT WALL with window cutout - 4 separate pieces */}
+          <Wall
+            position={[130, 10, 30]}
+            rotation={[0, -Math.PI / 2, 0]}
+            args={[220, 50]}
+          />
+          <Wall
+            position={[130, 138, 30]}
+            rotation={[0, -Math.PI / 2, 0]}
+            args={[220, 65]}
+          />
+          <Wall
+            position={[130, 50, -85]}
+            rotation={[0, -Math.PI / 2, 0]}
+            args={[70, 200]}
+          />
+          <Wall
+            position={[130, 50, 135]}
+            rotation={[0, -Math.PI / 2, 0]}
+            args={[50, 200]}
+          />
+
+          {/* GLASS WINDOW with hollow CSG frame */}
+          <group position={[130, 70, 30]} rotation={[0, -Math.PI / 2, 0]}>
+            {/* Glass Window */}
+            <mesh position={[0, 0, 0]}>
+              <planeGeometry args={[160, 70]} />
+              <meshPhysicalMaterial
+                color="#88ccff"
+                transparent
+                opacity={0.05}
+                side={THREE.DoubleSide}
+                depthWrite={false}
+              />
+            </mesh>
+
+            {/* Frame bars - metallic */}
+            <mesh position={[0, 35, 0]}>
+              <boxGeometry args={[168, 4, 1]} />
+              <meshStandardMaterial
+                color="#2a2a2a"
+                metalness={0.95}
+                roughness={0.15}
+              />
+            </mesh>
+            <mesh position={[0, -35, 0]}>
+              <boxGeometry args={[168, 4, 1]} />
+              <meshStandardMaterial
+                color="#2a2a2a"
+                metalness={0.95}
+                roughness={0.15}
+              />
+            </mesh>
+            <mesh position={[-84, 0, 0]}>
+              <boxGeometry args={[4, 74, 1]} />
+              <meshStandardMaterial
+                color="#2a2a2a"
+                metalness={0.95}
+                roughness={0.15}
+              />
+            </mesh>
+            <mesh position={[84, 0, 0]}>
+              <boxGeometry args={[4, 74, 1]} />
+              <meshStandardMaterial
+                color="#2a2a2a"
+                metalness={0.95}
+                roughness={0.15}
+              />
+            </mesh>
+          </group>
+
+          {/* LEFT WALL */}
+          <Wall
+            position={[-130, 50, 30]}
+            rotation={[0, Math.PI / 2, 0]}
+            args={[220, 160]}
+          />
+
+          {/* BACK WALL */}
+          <Wall
+            position={[0, 50, -80]}
+            rotation={[0, 0, 0]}
+            args={[260, 160]}
+          />
+
+          {/* FRONT WALL */}
+          <Wall
+            position={[0, 50, 140]}
+            rotation={[0, Math.PI, 0]}
+            args={[260, 160]}
+          />
+
           {/* NEW PROPS - Strategically placed around room */}
+          {/* Door - on front wall */}
+          <Door position={[0, 0, 138]} rotation={[0, Math.PI, 0]} scale={35} />
+
+          {/* Couch - left side of room */}
+          <Couch
+            position={[-100, 0, 35]}
+            rotation={[0, Math.PI / 2, 0]}
+            scale={0.4}
+          />
+
+          {/* Cat - on desk or floor */}
+          {/* <Cat
+            position={[100, 3, 100]}
+            rotation={[0, (-5 * Math.PI) / 6, 0]}
+            scale={8}
+          /> */}
+          <Cat
+            position={[-30, 3, -65]}
+            rotation={[0, (-Math.PI) / 4, 0]}
+            scale={8}
+          />
+
+          {/* Electric Box - on left wall */}
+          <ElectricBox
+            position={[-128, 40, 100]}
+            rotation={[0, Math.PI / 2, 0]}
+            scale={11}
+          />
+
+          {/* Generator - back corner */}
+          <Generator
+            position={[-90, -7.7, 40]}
+            rotation={[0, Math.PI / 4, 0]}
+            scale={30}
+          />
+
+          {/* Chair - Behind the desk */}
+          <Chair
+            position={[13, 0, -15]}
+            rotation={[0, (-2 * Math.PI) / 3, 0]}
+            scale={0.5}
+          />
 
           {/* Noodle Sign - Left side wall */}
           <NoodleSign
             position={[-55, 65, -78]}
             rotation={[0, Math.PI, 0]}
-            scale={.4}
+            scale={0.4}
           />
 
-          {/* Hanging Lamp - Normal scale, should be visible now */}
+          {/* Hanging Lamp */}
           <LantianLamp
             position={[-55, 39, -48]}
             rotation={[0, (-3 * Math.PI) / 4, 0]}
@@ -639,19 +960,45 @@ export default function Scene() {
 
           {/* Sci-Fi Lights - Higher with new ceiling */}
           <SciFiLight
-            position={[-70, 100, -20]}
+            position={[-70, 129, -20]}
             rotation={[Math.PI, 0, 0]}
             scale={0.2}
           />
           <SciFiLight
-            position={[70, 100, -20]}
+            position={[70, 129, -20]}
             rotation={[Math.PI, 0, 0]}
             scale={0.2}
           />
           <SciFiLight
-            position={[0, 100, 10]}
+            position={[-70, 129, 80]}
             rotation={[Math.PI, 0, 0]}
             scale={0.2}
+          />
+          <SciFiLight
+            position={[70, 129, 80]}
+            rotation={[Math.PI, 0, 0]}
+            scale={0.2}
+          />
+
+          {/* 4 Hanging Lights */}
+          {/* <HangingLight position={[-70, 40, -20]} rotation={[0, 0, 0]} scale={6} /> */}
+          {/* <HangingLight position={[70, 40, -20]} rotation={[0, 0, 0]} scale={6} /> */}
+          {/* <HangingLight position={[-70, 40, 80]} rotation={[0, 0, 0]} scale={6} /> */}
+          {/* <HangingLight position={[70, 40, 80]} rotation={[0, 0, 0]} scale={6} /> */}
+
+          {/* 1 Hanging LED in center */}
+          <HangingLED position={[0, 113, 30]} rotation={[0, 0, 0]} scale={14} />
+
+          {/* 2 Wall Lights */}
+          <WallLight
+            position={[121, 65, 120]}
+            rotation={[0, -Math.PI / 3, 0]}
+            scale={1.45}
+          />
+          <WallLight
+            position={[121, 65, -75]}
+            rotation={[0, -Math.PI / 3, 0]}
+            scale={1.45}
           />
 
           {/* Desk - 1.5x bigger, pushed to back wall */}
@@ -659,11 +1006,11 @@ export default function Scene() {
 
           {/* Plant - Double size */}
           <PlantPot position={[70, 0, -55]} rotation={[0, 0, 0]} scale={6} />
-          <PlantPot position={[-70, 0, -55]} rotation={[0, .8, 0]} scale={5} />
+          <PlantPot position={[-70, 0, -55]} rotation={[0, 0.8, 0]} scale={5} />
 
           {/* Modular Cable - On back wall, rotated 180 to face front */}
-          <ModularCables position={[0, 100, -77]} scale={130} />
-          <ModularCables position={[130, 100, -77]} scale={130} />
+          <ModularCables position={[0, 130, -77]} scale={130} />
+          <ModularCables position={[130, 130, -77]} scale={130} />
 
           {/* Electric Cable - On back wall, flipped upside down */}
           <ElectricCable
@@ -677,30 +1024,13 @@ export default function Scene() {
           <NeonSign position={[-100, 72, -79]} text="CHAOS" color="#ff9500" />
           <NeonSign position={[100, 72, -79]} text="CODE" color="#7fff00" />
 
-          <Wall
-            position={[-130, 20, 0]}
-            rotation={[0, Math.PI / 2, 0]}
-            args={[300, 300]}
-          />
-          <Wall
-            position={[130, 20, 0]}
-            rotation={[0, -Math.PI / 2, 0]}
-            args={[300, 300]}
-          />
-          <Wall
-            position={[0, 20, -80]}
-            rotation={[0, 0, 0]}
-            args={[400, 300]}
-          />
-          <Wall position={[0, 20, 140]} rotation={[0, Math.PI, 0]} args={[400, 300]} />
-
           {/* Ceiling/Roof - Higher with proper material */}
           <mesh
-            position={[0, 101, 0]}
+            position={[0, 130, 0]}
             rotation={[Math.PI / 2, 0, 0]}
             receiveShadow
           >
-            <planeGeometry args={[400, 300]} />
+            <planeGeometry args={[260, 300]} />
             <meshStandardMaterial
               color={0x2a2a2a}
               roughness={0.5}
@@ -712,7 +1042,7 @@ export default function Scene() {
 
           {/* Ground */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[400, 300]} />
+            <planeGeometry args={[260, 300]} />
             <meshStandardMaterial
               color={0x1a1a1a}
               roughness={0.6}
@@ -722,22 +1052,23 @@ export default function Scene() {
             />
           </mesh>
 
-          <Particles />
+          <ambientLight intensity={0.7} color="#ffffff" />
 
+          {/* Boost hemisphere light */}
           <hemisphereLight
-            skyColor="#004422"
-            groundColor="#001a0a"
-            intensity={0.8}
-            position={[0, 50, 0]}
+            skyColor="#006633"
+            groundColor="#002211"
+            intensity={1.0}
+            position={[0, 80, 0]}
           />
 
-          <CylinderLight
-            position={[128, 50, -78]}
+          {/* <CylinderLight
+            position={[125, 70, -78]}
             color={0x7fff00}
             intensity={10}
-          />
+          /> */}
           <CylinderLight
-            position={[-128, 50, -78]}
+            position={[-125, 70, -78]}
             color={"orange"}
             intensity={11}
           />
@@ -751,75 +1082,20 @@ export default function Scene() {
             />
             <ToneMapping mode={0} />
           </EffectComposer>
-
-          <pointLight
-            position={[0, 25, 15]}
-            color="#00ff00"
-            intensity={3.5}
-            distance={80}
-          />
-
-          <pointLight
-            position={[0, 15, 30]}
-            color="#00ffff"
-            intensity={3}
-            distance={100}
-          />
-
-          <pointLight
-            position={[-50, 20, 0]}
-            color="#ff6600"
-            intensity={2}
-            distance={100}
-          />
-
-          <pointLight
-            position={[50, 20, 0]}
-            color="#00ff88"
-            intensity={2}
-            distance={100}
-          />
-
-          <pointLight
-            position={[0, 40, -20]}
-            color="#ffffff"
-            intensity={1}
-            distance={80}
-          />
-
-          <directionalLight
-            color={0x00ff00}
-            position={[5, 5, 3]}
-            intensity={0.6}
-            castShadow
-            shadow-camera-left={-150}
-            shadow-camera-right={150}
-            shadow-camera-top={150}
-            shadow-camera-bottom={-150}
-            shadow-mapSize-width={512}
-            shadow-mapSize-height={512}
-          />
-          <directionalLight
-            color={0xffa500}
-            position={[-2, 0, -2]}
-            intensity={0.7}
-            castShadow
-            shadow-camera-left={-150}
-            shadow-camera-right={150}
-            shadow-camera-top={150}
-            shadow-camera-bottom={-150}
-            shadow-mapSize-width={512}
-            shadow-mapSize-height={512}
-          />
         </Suspense>
 
         <OrbitControls
-          target={[0, 14, 0]}
+          target={[0, 55, -60]}
           minDistance={distance}
-          enablePan={true}
+          enableRotate={true}
+          enablePan={false}
           enableZoom={false}
-          enableDamping={true}
+          enableDamping={false}
           dampingFactor={0.05}
+          maxAzimuthAngle={zoomed ? Math.PI / 8 : Math.PI / 2}
+          minAzimuthAngle={zoomed ? -Math.PI / 8 : -Math.PI / 2}
+          maxPolarAngle={zoomed ? Math.PI / 2.2 : (2.6 * Math.PI) / 5}
+          minPolarAngle={zoomed ? Math.PI / 2.5 : (1.5 * Math.PI) / 5}
           makeDefault
         />
       </Canvas>

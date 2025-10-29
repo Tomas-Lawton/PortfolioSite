@@ -24,7 +24,7 @@ import {
   Bloom,
   ToneMapping,
 } from "@react-three/postprocessing";
-import { throttle } from 'lodash';
+import { throttle } from "lodash";
 
 import LandingPage from "./landingpage";
 
@@ -121,6 +121,18 @@ function Door({ position, rotation, scale = 1 }) {
 
 function Couch({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/couch.glb");
+  return (
+    <primitive
+      object={scene.clone()}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function Poster({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/posters.glb");
   return (
     <primitive
       object={scene.clone()}
@@ -334,35 +346,29 @@ function Model(props) {
   const mouse = useMemo(() => new THREE.Vector2(), []);
 
   const handleMouseMove = useCallback(
-    (event) => {
-      throttle((event) => {
-        if (
-          !keyboardRef.current ||
-          !mouseRef.current ||
-          !computerMeshRef.current
-        )
-          return;
+    throttle((event) => {
+      if (!keyboardRef.current || !mouseRef.current || !computerMeshRef.current)
+        return;
 
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-        raycaster.setFromCamera(mouse, camera);
+      raycaster.setFromCamera(mouse, camera);
 
-        const objectsToIntersect = [keyboardRef.current, mouseRef.current];
-        if (!props.zoomed) {
-          objectsToIntersect.push(computerMeshRef.current);
+      const objectsToIntersect = [keyboardRef.current, mouseRef.current];
+      if (!props.zoomed) {
+        objectsToIntersect.push(computerMeshRef.current);
 
-          if (props.catRef?.current) {
-            objectsToIntersect.push(props.catRef.current);
-          }
+        if (props.catRef?.current) {
+          objectsToIntersect.push(props.catRef.current);
         }
+      }
 
-        const intersects = raycaster.intersectObjects(objectsToIntersect, true);
-        document.body.style.cursor =
-          intersects.length > 0 ? "pointer" : "default";
-      }, 50);
-    },
-    [camera, mouse, raycaster, props.zoomed]
+      const intersects = raycaster.intersectObjects(objectsToIntersect, true);
+      document.body.style.cursor =
+        intersects.length > 0 ? "pointer" : "default";
+    }, 50),
+    [camera, mouse, raycaster, props.zoomed, props.catRef]
   );
 
   useEffect(() => {
@@ -989,6 +995,11 @@ export default function Scene() {
             scale={0.4}
           />
 
+          {/* Strong lights focused on couch area */}
+
+          {/* Poster - above couch on left wall */}
+          <Poster position={[-128, 60, 35]} rotation={[0, 0, 0]} scale={25} />
+
           {/* Cat - on desk or floor */}
           <Cat
             position={[-30, 3, -65]}
@@ -1121,6 +1132,7 @@ export default function Scene() {
           {/* ff0000 */}
           {/* 0x7fff00 */}
           {/* Cyber punk magenta FF10F0 */}
+          {/* Green 0x00ff41 */}
           <CylinderLight
             position={[125, 110, 30]}
             color={0xff10f0}
@@ -1135,6 +1147,15 @@ export default function Scene() {
             rotation={[0, Math.PI / 2, Math.PI / 2]}
             intensity={4}
           />
+          {/* Additional left wall accent */}
+          <CylinderLight
+            position={[-125, 110, 30]}
+            rotation={[Math.PI / 2, 0, 0]}
+            color={0xff10f0}
+            length={8}
+            intensity={10}
+          />
+
           <CylinderLight
             position={[-125, 70, -78]}
             color={0xff9500}

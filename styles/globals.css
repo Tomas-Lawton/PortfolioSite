@@ -37,6 +37,22 @@ p:not(.select-override) {
 
 section {
   margin: 0 8rem;
+  margin-bottom: 8rem; /* Add vertical spacing */
+}
+
+/* Update media queries */
+@media (max-width: 768px) {
+  section {
+    margin: 0 2rem;
+    margin-bottom: 4rem; /* Reduce vertical spacing on tablet */
+  }
+}
+
+@media (max-width: 500px) {
+  section {
+    margin: 0 1rem;
+    margin-bottom: 3rem; /* Further reduce on mobile */
+  }
 }
 
 .custom-p {
@@ -780,11 +796,6 @@ li:hover a {
     display: none;
   }
 
-  /* Add responsive section spacing */
-  section {
-    margin: 0 2rem;
-  }
-
   /* Keep scanlines but reduce intensity slightly */
   .scanlines {
     opacity: 0.4;
@@ -809,10 +820,6 @@ li:hover a {
 }
 
 @media (max-width: 500px) {
-  section {
-    margin: 0 1rem;
-  }
-
   .custom-p {
     padding: 0.75rem 1rem;
   }

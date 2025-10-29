@@ -511,7 +511,8 @@ export default function LandingPage({ showFullWindow }) {
           </span>
         </div>
 
-        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-24">
+        {/* <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-24"> */}
+        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative tablet:-mt-24">
           <div className="hidden mob-block  absolute bottom-24  right-0 text-white rounded-lg laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
             <div className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 mb-1 tablet:mb-1.5 font-mono tracking-widest uppercase">
               Last Updated
@@ -609,10 +610,14 @@ export default function LandingPage({ showFullWindow }) {
           />
         </section>
 
-        <section
+        {/* <section
           className={`mb-10 laptop:mb-30 p-4 laptop:p-0 fade-in-section ${
             isVisible.work ? "visible" : ""
           }`}
+          ref={workRef}
+        > */}
+        <section
+          className="mb-16 tablet:mb-24 laptop:mb-32 p-4 laptop:p-0"
           ref={workRef}
         >
           <div className="flex items-center gap-4 mb-10 relative">
@@ -675,10 +680,14 @@ export default function LandingPage({ showFullWindow }) {
           </div>
         </section>
 
-        <section
+        {/* <section
           className={`mt-10 laptop:mt-30 p-4 laptop:p-0 fade-in-section ${
             isVisible.services ? "visible" : ""
           }`}
+          ref={servicesRef}
+        > */}
+        <section
+          className="mt-16 tablet:mt-24 laptop:mt-32 mb-16 tablet:mb-24 laptop:mb-32 p-4 laptop:p-0"
           ref={servicesRef}
         >
           <div className="flex items-center gap-4 mb-10 mt-44">
@@ -718,11 +727,15 @@ export default function LandingPage({ showFullWindow }) {
           </div>
         </section>
 
-        <section
+        {/* <section
           ref={contactRef}
           className={`p-4 tablet:p-2 laptop:p-0 mb-44 fade-in-section ${
             isVisible.contact ? "visible" : ""
           }`}
+        > */}
+        <section
+          ref={contactRef}
+          className="p-4 tablet:p-2 laptop:p-0 mt-16 tablet:mt-24 laptop:mt-32 mb-24 tablet:mb-32 laptop:mb-44"
         >
           <div className="flex items-center gap-4 mb-10 mt-44">
             <span className="text-[#7fff00] text-2xl font-bold font-mono">

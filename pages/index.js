@@ -4,17 +4,37 @@ import Scene from "./page_components/scene";
 import Panel from "../components/Panel";
 
 export default function App() {
-  const [mode, setMode] = useState(null);
+  const [isClient, setIsClient] = useState(false);
+
+  const [largeScreen, setlargeScreen] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= 768;
+    }
+    return true; // Default for SSR
+  });
+
+  const [mode, setMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 768 ? "landing" : null;
+    }
+    return null;
+  });
+
   const [immersiveMode, setImmersiveMode] = useState(true);
-  const [largeScreen, setlargeScreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audioRef = useRef(null);
 
+  // Hydration safety
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       audioRef.current = new Audio("/scifi-fantasy-soundscape-21618.mp3");
-      audioRef.current.volume = 0.5; // Set reasonable default volume
+      audioRef.current.volume = 0.5;
+      audioRef.current.loop = true; // Optional: loop the music
     }
   }, []);
 
@@ -63,14 +83,14 @@ export default function App() {
     };
   }, []);
 
+  // Prevent hydration issues
+  if (!isClient) {
+    return null;
+  }
+
   // Mobile devices skip Panel and go straight to LandingPage
   if (!mode) {
-    if (largeScreen) {
-      return <Panel onSelectMode={setMode} />;
-    } else {
-      // Mobile: go directly to landing page
-      return <LandingPage showFullWindow={true} />;
-    }
+    return <Panel onSelectMode={setMode} />;
   }
 
   // Force mobile users to landing page

@@ -16,6 +16,7 @@ import {
   Text,
   RoundedBox,
   useTexture,
+  useProgress,
 } from "@react-three/drei";
 import { stagger } from "../../animations";
 import {
@@ -23,6 +24,7 @@ import {
   Bloom,
   ToneMapping,
 } from "@react-three/postprocessing";
+import { throttle } from 'lodash';
 
 import LandingPage from "./landingpage";
 
@@ -34,6 +36,11 @@ const handleKeyboardClick = () => {
 
 const handleMouseClick = () => {
   const audio = new Audio("/mouseclick.mp3");
+  audio.play();
+};
+
+const handleCatClick = () => {
+  const audio = new Audio("/cat.mp3");
   audio.play();
 };
 
@@ -124,15 +131,19 @@ function Couch({ position, rotation, scale = 1 }) {
   );
 }
 
-function Cat({ position, rotation, scale = 1 }) {
+function Cat({ position, rotation, scale = 1, zoomed = false, catRef }) {
   const { scene } = useGLTF("/cat.glb");
   return (
-    <primitive
-      object={scene.clone()}
-      position={position}
-      rotation={rotation}
-      scale={scale}
-    />
+    <group ref={catRef} position={position} rotation={rotation} scale={scale}>
+      <primitive
+        object={scene.clone()}
+        onClick={() => {
+          if (!zoomed) {
+            handleCatClick();
+          }
+        }}
+      />
+    </group>
   );
 }
 
@@ -234,18 +245,6 @@ function SciFiLight({ position, rotation, scale = 1 }) {
   );
 }
 
-function HangingLight({ position, rotation, scale = 1 }) {
-  const { scene } = useGLTF("/hanginglight.glb");
-  return (
-    <primitive
-      object={scene.clone()}
-      position={position}
-      rotation={rotation}
-      scale={scale}
-    />
-  );
-}
-
 function HangingLED({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/hangingled.glb");
   return (
@@ -336,20 +335,32 @@ function Model(props) {
 
   const handleMouseMove = useCallback(
     (event) => {
-      if (!keyboardRef.current || !mouseRef.current || !computerMeshRef.current)
-        return;
+      throttle((event) => {
+        if (
+          !keyboardRef.current ||
+          !mouseRef.current ||
+          !computerMeshRef.current
+        )
+          return;
 
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      raycaster.setFromCamera(mouse, camera);
+        raycaster.setFromCamera(mouse, camera);
 
-      const objectsToIntersect = [keyboardRef.current, mouseRef.current];
-      if (!props.zoomed) objectsToIntersect.push(computerMeshRef.current);
+        const objectsToIntersect = [keyboardRef.current, mouseRef.current];
+        if (!props.zoomed) {
+          objectsToIntersect.push(computerMeshRef.current);
 
-      const intersects = raycaster.intersectObjects(objectsToIntersect, true);
-      document.body.style.cursor =
-        intersects.length > 0 ? "pointer" : "default";
+          if (props.catRef?.current) {
+            objectsToIntersect.push(props.catRef.current);
+          }
+        }
+
+        const intersects = raycaster.intersectObjects(objectsToIntersect, true);
+        document.body.style.cursor =
+          intersects.length > 0 ? "pointer" : "default";
+      }, 50);
     },
     [camera, mouse, raycaster, props.zoomed]
   );
@@ -592,23 +603,43 @@ function UpdateCameraPosition({ position }) {
   return null;
 }
 
+// function Wall({ position, rotation, args, color = 0x2a2a2a }) {
+//   return (
+//     <mesh position={position} rotation={rotation} receiveShadow>
+//       <planeGeometry args={args} />
+//       <meshStandardMaterial
+//         color={color}
+//         roughness={0.5}
+//         metalness={0.5}
+//         depthWrite={true}
+//         depthTest={true}
+//       />
+//     </mesh>
+//   );
+// }
+
 function Wall({ position, rotation, args, color = 0x2a2a2a }) {
   return (
     <mesh position={position} rotation={rotation} receiveShadow>
       <planeGeometry args={args} />
       <meshStandardMaterial
         color={color}
-        roughness={0.5}
-        metalness={0.5}
-        depthWrite={true}
-        depthTest={true}
+        roughness={3}
+        metalness={0.4}
+        emissive={0x0a0a0a}
+        emissiveIntensity={0.3}
       />
     </mesh>
   );
 }
 
-function CylinderLight({ position, color, intensity = 8 }) {
-  const colorValue = color === "orange" ? 0xff9500 : 0x7fff00;
+function CylinderLight({
+  position,
+  color,
+  length = 5,
+  intensity = 8,
+  rotation = [0, Math.PI / 2, 0],
+}) {
   const meshRef = useRef();
 
   useFrame((state) => {
@@ -619,17 +650,12 @@ function CylinderLight({ position, color, intensity = 8 }) {
   });
 
   return (
-    <mesh
-      ref={meshRef}
-      scale={10}
-      position={position}
-      rotation={[0, Math.PI / 2, 0]}
-    >
-      <cylinderGeometry args={[0.1, 0.1, 5]} />
+    <mesh ref={meshRef} scale={10} position={position} rotation={rotation}>
+      <cylinderGeometry args={[0.1, 0.1, length]} />
       <meshStandardMaterial
         emissiveIntensity={intensity}
-        color={colorValue}
-        emissive={colorValue}
+        color={color}
+        emissive={color}
         depthWrite={true}
         depthTest={true}
       />
@@ -641,7 +667,7 @@ export default function Scene() {
   const textOn = useRef();
   const textOne = useRef();
   const canvasRef = useRef();
-
+  const catRef = useRef();
   const initialCameraPos = [0, 55, 70];
 
   let zoomedCameraPos = [0, 57, -50];
@@ -662,6 +688,9 @@ export default function Scene() {
   const [distance, setDistance] = useState(48);
   const [zoomed, setZoomed] = useState(false);
   const [showTerminal, setShowTerminal] = useState(true);
+
+  const { progress } = useProgress();
+  const isLoaded = progress === 100;
 
   const animateCamera = (start, end, duration = 1000) => {
     const startTime = Date.now();
@@ -761,21 +790,70 @@ export default function Scene() {
                   className="control close cursor-pointer"
                   onClick={() => setShowTerminal(false)}
                 ></div>
-                <div className="control minimize"></div>
-                <div className="control maximize"></div>
+                {/* <div
+                  className="control minimize cursor-pointer"
+                  onClick={() => setShowTerminal(false)}
+                ></div> */}
+                {/* <div
+                  className="control maximize cursor-pointer"
+                  onClick={() => setShowTerminal(false)}
+                ></div> */}
               </div>
             </div>
-            <div className="mt-4 tek">Login Complete.</div>
-            <div ref={textOne} className="text tek">
-              Click on monitor to explore...
-            </div>
-            <div className="mt-4 tek">Made by Tommy.</div>
+
+            {!isLoaded ? (
+              <>
+                <div className="mt-4 tek text-green-400">
+                  <span ref={textOn} className="text-orange-400">
+                    &gt;
+                  </span>{" "}
+                  INITIALIZING SYSTEM...
+                </div>
+                <div className="mt-2 tek text-cyan-400">
+                  <span className="text-orange-400">&gt;</span> LOADING 3D
+                  ENVIRONMENT... {Math.round(progress)}%
+                </div>
+                <div className="mt-3 mb-3">
+                  <div className="tek text-gray-500 text-xs mb-1">
+                    [PROGRESS]
+                  </div>
+                  <div className="w-full h-5 bg-black border border-green-400 relative shadow-[0_0_10px_rgba(0,255,65,0.3)]">
+                    <div
+                      className="h-full bg-gradient-to-r from-green-400 to-lime-300 transition-all duration-300 shadow-[0_0_10px_rgba(0,255,65,0.8)]"
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                  </div>
+                  <div className="tek text-green-400 text-xs mt-1">
+                    {"▓".repeat(Math.floor(progress / 5))}
+                    {"░".repeat(20 - Math.floor(progress / 5))}
+                  </div>
+                </div>
+                <div className="mt-2 tek text-orange-400">
+                  <span className="text-orange-400">&gt;</span> PLEASE WAIT...
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mt-4 tek text-green-400">Loading...</div>
+                <div ref={textOne} className="mt-2 tek text-green-400">
+                  LOGIN COMPLETE.
+                </div>
+                <div ref={textOne} className="text tek text-green-400 mt-3">
+                  <span className="text-orange-400">&gt;</span> Click on monitor
+                  to explore...
+                </div>
+                <div className="mt-4 tek text-gray-500 text-sm">
+                  Made by Tommy.
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
 
       <Canvas
         ref={canvasRef}
+        frameloop="demand" // Only render when needed
         camera={{ position: cameraPosition }}
         shadows="basic"
         gl={{
@@ -784,7 +862,7 @@ export default function Scene() {
           depth: true,
           powerPreference: "high-performance",
         }}
-        performance={{ min: 0.5 }}
+        performance={{ min: 0.5, max: 1 }}
         dpr={[1, 1.5]}
         style={{ zIndex: 0 }}
       >
@@ -797,7 +875,7 @@ export default function Scene() {
             rotation={[Math.PI / 2, Math.PI, Math.PI]}
             position={[0, 40.5, -62]}
           >
-            <Model zoomed={zoomed} toggleZoom={toggleZoom} />
+            <Model zoomed={zoomed} toggleZoom={toggleZoom} catRef={catRef} />
           </group>
 
           <Particles position={[0, 55, -60]} spread={50} />
@@ -912,15 +990,12 @@ export default function Scene() {
           />
 
           {/* Cat - on desk or floor */}
-          {/* <Cat
-            position={[100, 3, 100]}
-            rotation={[0, (-5 * Math.PI) / 6, 0]}
-            scale={8}
-          /> */}
           <Cat
             position={[-30, 3, -65]}
-            rotation={[0, (-Math.PI) / 4, 0]}
+            rotation={[0, -Math.PI / 4, 0]}
             scale={8}
+            zoomed={zoomed}
+            catRef={catRef}
           />
 
           {/* Electric Box - on left wall */}
@@ -980,12 +1055,6 @@ export default function Scene() {
             scale={0.2}
           />
 
-          {/* 4 Hanging Lights */}
-          {/* <HangingLight position={[-70, 40, -20]} rotation={[0, 0, 0]} scale={6} /> */}
-          {/* <HangingLight position={[70, 40, -20]} rotation={[0, 0, 0]} scale={6} /> */}
-          {/* <HangingLight position={[-70, 40, 80]} rotation={[0, 0, 0]} scale={6} /> */}
-          {/* <HangingLight position={[70, 40, 80]} rotation={[0, 0, 0]} scale={6} /> */}
-
           {/* 1 Hanging LED in center */}
           <HangingLED position={[0, 113, 30]} rotation={[0, 0, 0]} scale={14} />
 
@@ -1024,34 +1093,21 @@ export default function Scene() {
           <NeonSign position={[-100, 72, -79]} text="CHAOS" color="#ff9500" />
           <NeonSign position={[100, 72, -79]} text="CODE" color="#7fff00" />
 
-          {/* Ceiling/Roof - Higher with proper material */}
-          <mesh
+          {/* Ceiling */}
+          <Wall
             position={[0, 130, 0]}
             rotation={[Math.PI / 2, 0, 0]}
-            receiveShadow
-          >
-            <planeGeometry args={[260, 300]} />
-            <meshStandardMaterial
-              color={0x2a2a2a}
-              roughness={0.5}
-              metalness={0.5}
-              depthWrite={true}
-              depthTest={true}
-            />
-          </mesh>
+            args={[260, 300]}
+            color={0x2a2a2a}
+          />
 
           {/* Ground */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[260, 300]} />
-            <meshStandardMaterial
-              color={0x1a1a1a}
-              roughness={0.6}
-              metalness={0.4}
-              depthWrite={true}
-              depthTest={true}
-            />
-          </mesh>
-
+          <Wall
+            position={[0, 0, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            args={[260, 300]}
+            color={0x1a1a1a}
+          />
           <ambientLight intensity={0.2} color="#ffffff" />
 
           {/* Boost hemisphere light */}
@@ -1062,15 +1118,27 @@ export default function Scene() {
             position={[0, 80, 0]}
           />
 
-          {/* <CylinderLight
-            position={[125, 70, -78]}
-            color={0x7fff00}
-            intensity={10}
-          /> */}
+          {/* ff0000 */}
+          {/* 0x7fff00 */}
+          {/* Cyber punk magenta FF10F0 */}
+          <CylinderLight
+            position={[125, 110, 30]}
+            color={0xff10f0}
+            length={15}
+            rotation={[0, Math.PI / 2, Math.PI / 2]}
+            intensity={4}
+          />
+          <CylinderLight
+            position={[125, 30, 30]}
+            color={0xff10f0}
+            length={15}
+            rotation={[0, Math.PI / 2, Math.PI / 2]}
+            intensity={4}
+          />
           <CylinderLight
             position={[-125, 70, -78]}
-            color={"orange"}
-            intensity={11}
+            color={0xff9500}
+            intensity={4}
           />
 
           <EffectComposer>

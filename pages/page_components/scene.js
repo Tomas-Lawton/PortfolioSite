@@ -829,10 +829,6 @@ export default function Scene() {
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
-                  <div className="tek text-green-400 text-xs mt-1">
-                    {"▓".repeat(Math.floor(progress / 5))}
-                    {"░".repeat(20 - Math.floor(progress / 5))}
-                  </div>
                 </div>
                 <div className="mt-2 tek text-orange-400">
                   <span className="text-orange-400">&gt;</span> PLEASE WAIT...

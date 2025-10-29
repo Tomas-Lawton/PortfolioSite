@@ -1052,7 +1052,7 @@ export default function Scene() {
             />
           </mesh>
 
-          <ambientLight intensity={0.7} color="#ffffff" />
+          <ambientLight intensity={0.2} color="#ffffff" />
 
           {/* Boost hemisphere light */}
           <hemisphereLight

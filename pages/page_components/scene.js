@@ -17,14 +17,16 @@ import {
   RoundedBox,
   useTexture,
   useProgress,
+  Reflector,
+  SpotLightHelper,
 } from "@react-three/drei";
 import { stagger } from "../../animations";
 import {
   EffectComposer,
   Bloom,
   ToneMapping,
+  Vignette,
 } from "@react-three/postprocessing";
-import { throttle } from "lodash";
 
 import LandingPage from "./landingpage";
 
@@ -44,7 +46,18 @@ const handleCatClick = () => {
   audio.play();
 };
 
-// Simple particles with mixed colors
+const handleCoffeeClick = () => {
+  const audio = new Audio("/slurp.mp3");
+  audio.play();
+};
+
+const handleLampClick = (setLampOn) => {
+  const audio = new Audio("/light-switch.mp3");
+  audio.play();
+  setLampOn((prev) => !prev);
+};
+
+// Cyberpunk particles with varied colors
 function Particles({ position = [0, 55, -60], spread = 40 }) {
   const count = 20;
   const { positions, colors } = useMemo(() => {
@@ -55,27 +68,34 @@ function Particles({ position = [0, 55, -60], spread = 40 }) {
       pos[i * 3 + 1] = (Math.random() - 0.5) * spread + position[1]; // Y
       pos[i * 3 + 2] = (Math.random() - 0.5) * spread + position[2]; // Z
 
-      // 60% green, 40% orange
-      if (Math.random() > 0.6) {
-        col[i * 3] = 1.0; // R
-        col[i * 3 + 1] = 0.4; // G
-        col[i * 3 + 2] = 0.0; // B (orange)
+      // Cyberpunk color palette: cyan, magenta, blue, purple
+      const colorChoice = Math.random();
+      if (colorChoice < 0.35) {
+        // Cyan
+        col[i * 3] = 0.0;
+        col[i * 3 + 1] = 0.8 + Math.random() * 0.2;
+        col[i * 3 + 2] = 1.0;
+      } else if (colorChoice < 0.65) {
+        // Magenta/Pink
+        col[i * 3] = 1.0;
+        col[i * 3 + 1] = 0.0;
+        col[i * 3 + 2] = 0.6 + Math.random() * 0.4;
+      } else if (colorChoice < 0.85) {
+        // Electric Blue
+        col[i * 3] = 0.2;
+        col[i * 3 + 1] = 0.4 + Math.random() * 0.3;
+        col[i * 3 + 2] = 1.0;
       } else {
-        col[i * 3] = 0.0; // R
-        col[i * 3 + 1] = 1.0; // G
-        col[i * 3 + 2] = 0.0; // B (green)
+        // Purple
+        col[i * 3] = 0.6 + Math.random() * 0.4;
+        col[i * 3 + 1] = 0.0;
+        col[i * 3 + 2] = 1.0;
       }
     }
     return { positions: pos, colors: col };
   }, [position, spread]);
 
   const pointsRef = useRef();
-
-  // useFrame((state) => {
-  //   if (pointsRef.current) {
-  //     pointsRef.current.rotation.y = state.clock.elapsedTime * 0.005;
-  //   }
-  // });
 
   return (
     <points ref={pointsRef}>
@@ -145,10 +165,21 @@ function Poster({ position, rotation, scale = 1 }) {
 
 function Cat({ position, rotation, scale = 1, zoomed = false, catRef }) {
   const { scene } = useGLTF("/cat.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
   return (
     <group ref={catRef} position={position} rotation={rotation} scale={scale}>
       <primitive
-        object={scene.clone()}
+        object={clonedScene}
         onClick={() => {
           if (!zoomed) {
             handleCatClick();
@@ -223,9 +254,20 @@ function NoodleSign({ position, rotation, scale = 1 }) {
 
 function SciFiDesk({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/desk.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
   return (
     <primitive
-      object={scene.clone()}
+      object={clonedScene}
       position={position}
       rotation={rotation}
       scale={scale}
@@ -233,15 +275,46 @@ function SciFiDesk({ position, rotation, scale = 1 }) {
   );
 }
 
-function LantianLamp({ position, rotation, scale = 1 }) {
+function LantianLamp({
+  position,
+  rotation,
+  scale = 1,
+  zoomed = false,
+  lampRef,
+  onClick,
+}) {
   const { scene } = useGLTF("/lamp.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
   return (
-    <primitive
-      object={scene.clone()}
-      position={position}
-      rotation={rotation}
-      scale={scale}
-    />
+    <group ref={lampRef} position={position} rotation={rotation} scale={scale}>
+      <primitive
+        object={clonedScene}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!zoomed && onClick) {
+            onClick();
+          }
+        }}
+        onPointerOver={() => {
+          if (!zoomed) {
+            document.body.style.cursor = "pointer";
+          }
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = "default";
+        }}
+      />
+    </group>
   );
 }
 
@@ -257,17 +330,17 @@ function SciFiLight({ position, rotation, scale = 1 }) {
   );
 }
 
-function HangingLED({ position, rotation, scale = 1 }) {
-  const { scene } = useGLTF("/hangingled.glb");
-  return (
-    <primitive
-      object={scene.clone()}
-      position={position}
-      rotation={rotation}
-      scale={scale}
-    />
-  );
-}
+// function HangingLED({ position, rotation, scale = 1 }) {
+//   const { scene } = useGLTF("/hangingled.glb");
+//   return (
+//     <primitive
+//       object={scene.clone()}
+//       position={position}
+//       rotation={rotation}
+//       scale={scale}
+//     />
+//   );
+// }
 
 function WallLight({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/walllight.glb");
@@ -307,9 +380,20 @@ function ModularCables({ position, rotation, scale = 1 }) {
 
 function PlantPot({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/plant.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
   return (
     <primitive
-      object={scene.clone()}
+      object={clonedScene}
       position={position}
       rotation={rotation}
       scale={scale}
@@ -319,9 +403,102 @@ function PlantPot({ position, rotation, scale = 1 }) {
 
 function Chair({ position, rotation, scale = 1 }) {
   const { scene } = useGLTF("/chair.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
   return (
     <primitive
-      object={scene.clone()}
+      object={clonedScene}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function CoffeeCup({
+  position,
+  rotation,
+  scale = 1,
+  zoomed = false,
+  coffeeRef,
+}) {
+  const { scene } = useGLTF("/coffee.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
+  return (
+    <group ref={coffeeRef}>
+      <primitive
+        object={clonedScene}
+        position={position}
+        rotation={rotation}
+        scale={scale}
+        onClick={() => {
+          if (!zoomed) {
+            handleCoffeeClick();
+          }
+        }}
+      />
+    </group>
+  );
+}
+
+function Bed({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/bed.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
+  return (
+    <primitive
+      object={clonedScene}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
+  );
+}
+
+function Table({ position, rotation, scale = 1 }) {
+  const { scene } = useGLTF("/table.glb");
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [clonedScene]);
+
+  return (
+    <primitive
+      object={clonedScene}
       position={position}
       rotation={rotation}
       scale={scale}
@@ -346,7 +523,7 @@ function Model(props) {
   const mouse = useMemo(() => new THREE.Vector2(), []);
 
   const handleMouseMove = useCallback(
-    throttle((event) => {
+    (event) => {
       if (!keyboardRef.current || !mouseRef.current || !computerMeshRef.current)
         return;
 
@@ -362,13 +539,19 @@ function Model(props) {
         if (props.catRef?.current) {
           objectsToIntersect.push(props.catRef.current);
         }
+        if (props.coffeeRef?.current) {
+          objectsToIntersect.push(props.coffeeRef.current);
+        }
+        if (props.lampRef?.current) {
+          objectsToIntersect.push(props.lampRef.current);
+        }
       }
 
       const intersects = raycaster.intersectObjects(objectsToIntersect, true);
       document.body.style.cursor =
         intersects.length > 0 ? "pointer" : "default";
-    }, 50),
-    [camera, mouse, raycaster, props.zoomed, props.catRef]
+    },
+    [camera, mouse, raycaster, props.zoomed, props.catRef, props.lampRef]
   );
 
   useEffect(() => {
@@ -498,14 +681,6 @@ function Model(props) {
           receiveShadow
         />
       </group>
-      {mouseHover && !props.zoomed && (
-        <pointLight
-          position={[0.67, -0.62, 0]}
-          color="#7fff00"
-          intensity={2}
-          distance={5}
-        />
-      )}
     </group>
   );
 }
@@ -615,25 +790,82 @@ function UpdateCameraPosition({ position }) {
 //       <planeGeometry args={args} />
 //       <meshStandardMaterial
 //         color={color}
-//         roughness={0.5}
-//         metalness={0.5}
-//         depthWrite={true}
-//         depthTest={true}
+//         roughness={3}
+//         metalness={0.4}
+//         emissive={0x0a0a0a}
+//         emissiveIntensity={0.3}
 //       />
 //     </mesh>
 //   );
 // }
 
 function Wall({ position, rotation, args, color = 0x2a2a2a }) {
+  const [colorMap, normalMap, roughnessMap] = useTexture([
+    "/textures/concrete-color.jpg",
+    "/textures/concrete-normal.jpg",
+    "/textures/concrete-roughness.jpg",
+  ]);
+
+  // Clone textures to set different repeat values per instance
+  const clonedColor = useMemo(() => colorMap.clone(), [colorMap]);
+  const clonedNormal = useMemo(() => normalMap.clone(), [normalMap]);
+  const clonedRoughness = useMemo(() => roughnessMap.clone(), [roughnessMap]);
+
+  useEffect(() => {
+    [clonedColor, clonedNormal, clonedRoughness].forEach((texture) => {
+      if (texture) {
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(4, 4); // Adjust for walls
+        texture.needsUpdate = true;
+      }
+    });
+  }, [clonedColor, clonedNormal, clonedRoughness]);
+
   return (
     <mesh position={position} rotation={rotation} receiveShadow>
       <planeGeometry args={args} />
       <meshStandardMaterial
-        color={color}
-        roughness={3}
-        metalness={0.4}
+        map={clonedColor}
+        normalMap={clonedNormal}
+        normalScale={[0.5, 0.5]}
+        roughnessMap={clonedRoughness}
+        roughness={0.8}
+        metalness={0.7}
         emissive={0x0a0a0a}
-        emissiveIntensity={0.3}
+        emissiveIntensity={0.1}
+        envMapIntensity={1}
+        color="#ffffff"
+      />
+    </mesh>
+  );
+}
+
+function ReflectiveFloor() {
+  const [colorMap, normalMap, roughnessMap] = useTexture([
+    "/textures/concrete-color.jpg",
+    "/textures/concrete-normal.jpg",
+    "/textures/concrete-roughness.jpg",
+  ]);
+
+  [colorMap, normalMap, roughnessMap].forEach((texture) => {
+    if (texture) {
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(3, 3); // Try 8, 10, 12 - lower = bigger tiles
+    }
+  });
+
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, 0.05, 0]}>
+      <planeGeometry args={[260, 300]} />
+      <meshStandardMaterial
+        map={colorMap}
+        normalMap={normalMap}
+        normalScale={[0.5, 0.5]} // Add this - controls bump intensity
+        roughnessMap={roughnessMap}
+        roughness={0.3} // Slightly more reflective
+        metalness={0.4} // Slightly more metallic for reflections
+        envMapIntensity={1.2}
+        color="#ffffff" // Add this - brightens texture
       />
     </mesh>
   );
@@ -669,11 +901,72 @@ function CylinderLight({
   );
 }
 
+function PulsingDirectionalLight({
+  position,
+  color,
+  baseIntensity = 2,
+  speed = 1.5,
+  pulseAmount = 0.3,
+  phase = 0,
+  ...props
+}) {
+  const lightRef = useRef();
+
+  useFrame((state) => {
+    if (lightRef.current) {
+      const pulse =
+        Math.sin(state.clock.elapsedTime * speed + phase) * pulseAmount + 1;
+      lightRef.current.intensity = baseIntensity * pulse;
+    }
+  });
+
+  return (
+    <directionalLight
+      ref={lightRef}
+      position={position}
+      intensity={baseIntensity}
+      color={color}
+      {...props}
+    />
+  );
+}
+
+function LampLight({ position, targetY = 0 }) {
+  const spotLightRef = useRef();
+
+  useEffect(() => {
+    if (spotLightRef.current) {
+      spotLightRef.current.target.position.set(
+        position[0],
+        targetY,
+        position[2]
+      );
+      spotLightRef.current.target.updateMatrixWorld();
+    }
+  }, [position, targetY]);
+
+  return (
+      <spotLight
+        ref={spotLightRef}
+        position={position}
+        angle={.7}
+        penumbra={0.4}
+        intensity={150}
+        distance={100}
+        decay={1.5}
+        color="#ffb366"
+        castShadow
+      />
+  );
+}
+
 export default function Scene() {
   const textOn = useRef();
   const textOne = useRef();
   const canvasRef = useRef();
   const catRef = useRef();
+  const coffeeRef = useRef();
+  const lampRef = useRef();
   const initialCameraPos = [0, 55, 70];
 
   let zoomedCameraPos = [0, 57, -50];
@@ -694,6 +987,7 @@ export default function Scene() {
   const [distance, setDistance] = useState(48);
   const [zoomed, setZoomed] = useState(false);
   const [showTerminal, setShowTerminal] = useState(true);
+  const [lampOn, setLampOn] = useState(false);
 
   const { progress } = useProgress();
   const isLoaded = progress === 100;
@@ -810,13 +1104,13 @@ export default function Scene() {
             {!isLoaded ? (
               <>
                 <div className="mt-4 tek text-green-400">
-                  <span ref={textOn} className="text-orange-400">
+                  <span ref={textOn} style={{ color: "#ff00ff" }}>
                     &gt;
                   </span>{" "}
                   INITIALIZING SYSTEM...
                 </div>
-                <div className="mt-2 tek text-cyan-400">
-                  <span className="text-orange-400">&gt;</span> LOADING 3D
+                <div className="mt-2 tek text-green-400">
+                  <span className="text-green-400">&gt;</span> LOADING 3D
                   ENVIRONMENT... {Math.round(progress)}%
                 </div>
                 <div className="mt-3 mb-3">
@@ -830,8 +1124,8 @@ export default function Scene() {
                     ></div>
                   </div>
                 </div>
-                <div className="mt-2 tek text-orange-400">
-                  <span className="text-orange-400">&gt;</span> PLEASE WAIT...
+                <div className="mt-2 tek text-green-400">
+                  <span className="text-green-400">&gt;</span> PLEASE WAIT...
                 </div>
               </>
             ) : (
@@ -841,8 +1135,8 @@ export default function Scene() {
                   LOGIN COMPLETE.
                 </div>
                 <div ref={textOne} className="text tek text-green-400 mt-3">
-                  <span className="text-orange-400">&gt;</span> Click on monitor
-                  to explore...
+                  <span style={{ color: "#ff00ff" }}>&gt;</span> Click on
+                  objects to explore...
                 </div>
                 <div className="mt-4 tek text-gray-500 text-sm">
                   Made by Tommy.
@@ -855,9 +1149,9 @@ export default function Scene() {
 
       <Canvas
         ref={canvasRef}
-        frameloop="demand" // Only render when needed
+        frameloop="always" // Continuous rendering for smooth animations
         camera={{ position: cameraPosition }}
-        shadows="basic"
+        shadows
         gl={{
           antialias: true,
           alpha: true,
@@ -869,7 +1163,8 @@ export default function Scene() {
         style={{ zIndex: 0 }}
       >
         <UpdateCameraPosition position={cameraPosition} />
-        <fog attach="fog" args={["#1a1a1a", 100, 400]} />
+        <fog attach="fog" args={["#1a1a1a", 130, 350]} />
+        <ambientLight intensity={0.2} />
 
         <Suspense fallback={null}>
           <group
@@ -877,7 +1172,13 @@ export default function Scene() {
             rotation={[Math.PI / 2, Math.PI, Math.PI]}
             position={[0, 40.5, -62]}
           >
-            <Model zoomed={zoomed} toggleZoom={toggleZoom} catRef={catRef} />
+            <Model
+              zoomed={zoomed}
+              toggleZoom={toggleZoom}
+              catRef={catRef}
+              coffeeRef={coffeeRef}
+              lampRef={lampRef}
+            />
           </group>
 
           <Particles position={[0, 55, -60]} spread={50} />
@@ -924,7 +1225,7 @@ export default function Scene() {
               />
             </mesh>
 
-            {/* Frame bars - metallic */}
+            {/* Frame bars - metallic - top and bottom */}
             <mesh position={[0, 35, 0]}>
               <boxGeometry args={[168, 4, 1]} />
               <meshStandardMaterial
@@ -941,6 +1242,8 @@ export default function Scene() {
                 roughness={0.15}
               />
             </mesh>
+
+            {/* Left and right vertical bars */}
             <mesh position={[-84, 0, 0]}>
               <boxGeometry args={[4, 74, 1]} />
               <meshStandardMaterial
@@ -951,6 +1254,24 @@ export default function Scene() {
             </mesh>
             <mesh position={[84, 0, 0]}>
               <boxGeometry args={[4, 74, 1]} />
+              <meshStandardMaterial
+                color="#2a2a2a"
+                metalness={0.95}
+                roughness={0.15}
+              />
+            </mesh>
+
+            {/* Vertical bars - evenly spaced */}
+            <mesh position={[-28, 0, 0]}>
+              <boxGeometry args={[2, 74, 1]} />
+              <meshStandardMaterial
+                color="#2a2a2a"
+                metalness={0.95}
+                roughness={0.15}
+              />
+            </mesh>
+            <mesh position={[28, 0, 0]}>
+              <boxGeometry args={[2, 74, 1]} />
               <meshStandardMaterial
                 color="#2a2a2a"
                 metalness={0.95}
@@ -982,7 +1303,11 @@ export default function Scene() {
 
           {/* NEW PROPS - Strategically placed around room */}
           {/* Door - on front wall */}
-          <Door position={[0, 0, 138]} rotation={[0, Math.PI, 0]} scale={35} />
+          <Door
+            position={[-60, 0, 138]}
+            rotation={[0, Math.PI, 0]}
+            scale={35}
+          />
 
           {/* Couch - left side of room */}
           <Couch
@@ -991,7 +1316,19 @@ export default function Scene() {
             scale={0.4}
           />
 
-          {/* Strong lights focused on couch area */}
+          {/* Table - in front of couch */}
+          <Table
+            position={[-54, 0, 35]}
+            rotation={[0, Math.PI / 2, 0]}
+            scale={5}
+          />
+
+          {/* Bed - by window against back wall */}
+          <Bed
+            position={[100, -13, 87]}
+            rotation={[0, Math.PI, 0]}
+            scale={0.5}
+          />
 
           {/* Poster - above couch on left wall */}
           <Poster position={[-128, 60, 35]} rotation={[0, 0, 0]} scale={25} />
@@ -1038,7 +1375,13 @@ export default function Scene() {
             position={[-55, 39, -48]}
             rotation={[0, (-3 * Math.PI) / 4, 0]}
             scale={45}
+            zoomed={zoomed}
+            lampRef={lampRef}
+            onClick={() => handleLampClick(setLampOn)}
           />
+
+          {/* Lamp Light - Warm spotlight cone when lamp is on */}
+          {lampOn && <LampLight position={[-28, 60, -57]} targetY={0} />}
 
           {/* Sci-Fi Lights - Higher with new ceiling */}
           <SciFiLight
@@ -1063,7 +1406,7 @@ export default function Scene() {
           />
 
           {/* 1 Hanging LED in center */}
-          <HangingLED position={[0, 113, 30]} rotation={[0, 0, 0]} scale={14} />
+          {/* <HangingLED position={[0, 113, 30]} rotation={[0, 0, 0]} scale={14} /> */}
 
           {/* 2 Wall Lights */}
           <WallLight
@@ -1079,6 +1422,15 @@ export default function Scene() {
 
           {/* Desk - 1.5x bigger, pushed to back wall */}
           <SciFiDesk position={[0, 0, -60]} rotation={[0, 0, 0]} scale={11} />
+
+          {/* Coffee Cup - On desk to right of monitor */}
+          <CoffeeCup
+            position={[30, 40.5, -60]}
+            rotation={[0, 0, 0]}
+            scale={8}
+            zoomed={zoomed}
+            coffeeRef={coffeeRef}
+          />
 
           {/* Plant - Double size */}
           <PlantPot position={[70, 0, -55]} rotation={[0, 0, 0]} scale={6} />
@@ -1097,8 +1449,8 @@ export default function Scene() {
 
           <DigitalClock />
 
-          <NeonSign position={[-100, 72, -79]} text="CHAOS" color="#ff9500" />
-          <NeonSign position={[100, 72, -79]} text="CODE" color="#7fff00" />
+          <NeonSign position={[-100, 72, -79]} text="CHAOS" color="#ff0099" />
+          <NeonSign position={[100, 72, -79]} text="CODE" color="#00ffff" />
 
           {/* Ceiling */}
           <Wall
@@ -1115,49 +1467,74 @@ export default function Scene() {
             args={[260, 300]}
             color={0x1a1a1a}
           />
-          <ambientLight intensity={0.2} color="#ffffff" />
 
-          {/* Boost hemisphere light */}
-          <hemisphereLight
-            skyColor="#006633"
-            groundColor="#002211"
-            intensity={1.0}
-            position={[0, 80, 0]}
+          <ReflectiveFloor />
+
+          {/* LIGHTS */}
+          <PulsingDirectionalLight
+            position={[130, 60, 30]}
+            baseIntensity={2.5}
+            speed={0.25}
+            pulseAmount={0.3}
+            color="#ff00aa"
+            castShadow
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-far={300}
+            shadow-camera-left={-100}
+            shadow-camera-right={100}
+            shadow-camera-top={100}
+            shadow-camera-bottom={-100}
+            shadow-bias={-0.0001}
           />
 
-          {/* ff0000 */}
-          {/* 0x7fff00 */}
-          {/* Cyber punk magenta FF10F0 */}
-          {/* Green 0x00ff41 */}
+          <PulsingDirectionalLight
+            position={[50, 80, 40]}
+            baseIntensity={0.6}
+            speed={0.3}
+            pulseAmount={0.5}
+            phase={2.3}
+            color="#00d4ff"
+            castShadow
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-far={300}
+            shadow-camera-left={-100}
+            shadow-camera-right={100}
+            shadow-camera-top={100}
+            shadow-camera-bottom={-100}
+            shadow-bias={-0.0001}
+          />
+
+          {/* Cyberpunk cyan/magenta cylinder lights */}
           <CylinderLight
             position={[125, 110, 30]}
-            color={0xff10f0}
+            color={0x00ffff}
             length={15}
             rotation={[0, Math.PI / 2, Math.PI / 2]}
-            intensity={4}
+            intensity={5}
           />
           <CylinderLight
             position={[125, 30, 30]}
-            color={0xff10f0}
+            color={0xff00ff}
             length={15}
             rotation={[0, Math.PI / 2, Math.PI / 2]}
-            intensity={4}
+            intensity={5}
           />
-          {/* Additional left wall accent */}
           <CylinderLight
             position={[-125, 110, 30]}
             rotation={[Math.PI / 2, 0, 0]}
-            color={0xff10f0}
+            color={0x9d00ff}
             length={8}
-            intensity={10}
+            intensity={12}
           />
-
           <CylinderLight
             position={[-125, 70, -78]}
-            color={0xff9500}
-            intensity={4}
+            color={0xff1493}
+            intensity={5}
           />
 
+          {/* Bloom effect */}
           <EffectComposer>
             <Bloom
               mipmapBlur
@@ -1165,6 +1542,7 @@ export default function Scene() {
               levels={6}
               intensity={1.0}
             />
+            <Vignette offset={0.3} darkness={0.5} />
             <ToneMapping mode={0} />
           </EffectComposer>
         </Suspense>

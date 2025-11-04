@@ -511,8 +511,7 @@ export default function LandingPage({ showFullWindow }) {
           </span>
         </div>
 
-        {/* <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-24"> */}
-        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative tablet:-mt-24">
+        <section className="h-full justify-center tablet:justify-start flex flex-col z-1 relative -mt-24">
           <div className="hidden mob-block  absolute bottom-24  right-0 text-white rounded-lg laptop:block border border-[#7fff00]/30 hover:border-[#7fff00]/50 transition-all duration-300 bg-black/40 backdrop-blur-sm shadow-lg shadow-[#7fff00]/5 px-3 py-2.5 tablet:px-5 tablet:py-3.5">
             <div className="text-[0.563rem] tablet:text-[0.625rem] opacity-50 mb-1 tablet:mb-1.5 font-mono tracking-widest uppercase">
               Last Updated

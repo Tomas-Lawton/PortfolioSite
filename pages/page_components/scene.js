@@ -949,11 +949,11 @@ function LampLight({ position, targetY = 0 }) {
       <spotLight
         ref={spotLightRef}
         position={position}
-        angle={.7}
+        angle={1}
         penumbra={0.4}
-        intensity={150}
+        intensity={120}
         distance={100}
-        decay={1.5}
+        decay={1.2}
         color="#ffb366"
         castShadow
       />
@@ -1164,7 +1164,7 @@ export default function Scene() {
       >
         <UpdateCameraPosition position={cameraPosition} />
         <fog attach="fog" args={["#1a1a1a", 130, 350]} />
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={0.3} />
 
         <Suspense fallback={null}>
           <group

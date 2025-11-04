@@ -617,6 +617,7 @@ function Model(props) {
         onClick={() => {
           if (!props.zoomed) {
             props.toggleZoom();
+            handleMouseClick();
           }
         }}
         onPointerOver={() => {
@@ -946,17 +947,17 @@ function LampLight({ position, targetY = 0 }) {
   }, [position, targetY]);
 
   return (
-      <spotLight
-        ref={spotLightRef}
-        position={position}
-        angle={1}
-        penumbra={0.4}
-        intensity={120}
-        distance={100}
-        decay={1.2}
-        color="#ffb366"
-        castShadow
-      />
+    <spotLight
+      ref={spotLightRef}
+      position={position}
+      angle={1}
+      penumbra={0.4}
+      intensity={120}
+      distance={100}
+      decay={1.2}
+      color="#ffb366"
+      castShadow
+    />
   );
 }
 

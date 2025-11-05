@@ -828,14 +828,14 @@ function Wall({ position, rotation, args, color = 0x2a2a2a }) {
       <meshStandardMaterial
         map={clonedColor}
         normalMap={clonedNormal}
-        normalScale={[0.5, 0.5]}
+        normalScale={[0.3, 0.3]}
         roughnessMap={clonedRoughness}
-        roughness={0.8}
-        metalness={0.7}
-        emissive={0x0a0a0a}
-        emissiveIntensity={0.1}
-        envMapIntensity={1}
-        color="#ffffff"
+        roughness={0.5}
+        metalness={0.85}
+        emissive={0x1a1a1a}
+        emissiveIntensity={0.15}
+        envMapIntensity={1.5}
+        color="#e0e0e0"
       />
     </mesh>
   );
@@ -1164,8 +1164,8 @@ export default function Scene() {
         style={{ zIndex: 0 }}
       >
         <UpdateCameraPosition position={cameraPosition} />
-        <fog attach="fog" args={["#1a1a1a", 130, 350]} />
-        <ambientLight intensity={0.3} />
+        <fog attach="fog" args={["#2a2a2a", 200, 350]} />
+        <ambientLight intensity={0.5} />
 
         <Suspense fallback={null}>
           <group
@@ -1539,11 +1539,11 @@ export default function Scene() {
           <EffectComposer>
             <Bloom
               mipmapBlur
-              luminanceThreshold={0.5}
-              levels={6}
-              intensity={1.0}
+              luminanceThreshold={0.4}
+              levels={7}
+              intensity={1.1}
             />
-            <Vignette offset={0.3} darkness={0.5} />
+            <Vignette offset={0.3} darkness={0.35} />
             <ToneMapping mode={0} />
           </EffectComposer>
         </Suspense>

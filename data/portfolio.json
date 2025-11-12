@@ -99,7 +99,7 @@
       "description": "Three.js space exploration game: procedural starfield, fight enemies, save planets, mine space-ore, upgrade and unlock new ships.",
       "imageSrc": "https://i.ibb.co/kGZ8Y4r/Screenshot-2024-11-26-at-7-12-54-PM.png",
       "hoverGif": "/gifs/spacegame.gif",
-      "url": "https://github.com/Tomas-Lawton/3DSpaceInvaders",
+      "url": "https://3dspaceinvaders.netlify.app/",
       "tags": ["Game", "Three.js"],
       "featured": false,
       "stats": "Procedural generation"
